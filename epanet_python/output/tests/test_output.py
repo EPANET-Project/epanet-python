@@ -11,6 +11,11 @@ DATA_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'data')
 OUTPUT_FILE_EXAMPLE1 = os.path.join(DATA_PATH, 'net1.out')
 
 
+def test_open():
+    filepath = OUTPUT_FILE_EXAMPLE1
+    _handle = oapi.init()
+    oapi.open(_handle, filepath)
+
 @pytest.fixture()
 def handle(request):
     _handle = oapi.init()
