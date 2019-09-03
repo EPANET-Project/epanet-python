@@ -4,8 +4,13 @@
 #  setup.py
 #
 #  Created on  Aug 30, 2016
+#  Modified on Sept 3, 2019
+#
 #  Author:     Michael E. Tryby
 #              US EPA - ORD/NRMRL
+#
+#  Build:
+#    \>python setup.py bdist_wheel
 #
 ''' Setup up script for nrtest_epanet package. '''
 
@@ -32,7 +37,7 @@ setup(
     url='https://github.com/USEPA',
 
     packages=['nrtest_epanet',],
-    scripts=['scripts/report_diff',],
+    scripts=['scripts/report-diff',],
 
     entry_points=entry_points,
 
@@ -44,7 +49,6 @@ setup(
     ],
     keywords='nrtest_epanet',
     classifiers=[
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3'
     ],
 )
