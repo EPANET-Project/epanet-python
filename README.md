@@ -1,3 +1,9 @@
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/michaeltryby/epanet-image/master/src/logo.png"/>
+</p> 
+
+
 # epanet-python
 Is home for Python packages related to the EPANET engine.
 
