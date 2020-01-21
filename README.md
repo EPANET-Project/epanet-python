@@ -8,12 +8,6 @@
 Is home for Python packages related to the EPANET engine.
 
 
-## Build Status
-[![Build status](https://ci.appveyor.com/api/projects/status/lrm84lry4p9obwl6/branch/dev?svg=true)](https://ci.appveyor.com/project/michaeltryby/epanet-python/branch/dev)
-
-[![Coverage Status](https://coveralls.io/repos/github/michaeltryby/epanet-python/badge.svg?branch=dev)](https://coveralls.io/github/michaeltryby/epanet-python?branch=dev)
-
-
 ## Contents
 * epanet-module - A ctypes based wrapper for the EPANET Toolkit (with support for reading EPANET binary output files).
 * epanet-python - SWIG based wrappers for the EPANET Toolkit and Output libraries.
