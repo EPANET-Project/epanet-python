@@ -56,6 +56,9 @@ docs/_build/
 # PyBuilder
 target/
 
+# PyCharm
+.idea/
+
 # Eclipse
 .settings/
 .project
@@ -78,3 +81,9 @@ output.py
 output_wrap.c
 toolkit.py
 toolkit_wrap.c
+MANIFEST
+owa-epanet/dist/
+owa-epanet/_skbuild/
+
+*.so
+*.dylib
