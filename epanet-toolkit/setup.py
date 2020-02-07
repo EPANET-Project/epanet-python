@@ -19,7 +19,7 @@ from skbuild import setup
 
 setup(
     name = 'epanet-toolkit',
-    version = '0.4.0',
+    version = '0.5.0',
 
     package_dir={"":"epanet"},
     packages=['epanet.solver', 'epanet.output'],

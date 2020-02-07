@@ -21,6 +21,11 @@ SWIG_ADD_LIBRARY(output
         output.i
     )
 
+set_property(TARGET output
+    PROPERTY
+        SWIG_COMPILE_DEFINITIONS EXPORT_OUT_API
+    )
+
 target_link_libraries(output
     PUBLIC
         Python::Python

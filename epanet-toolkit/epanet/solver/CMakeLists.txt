@@ -24,7 +24,7 @@ SWIG_ADD_LIBRARY(solver
 target_link_libraries(solver
     PUBLIC
         Python::Python
-        epanet
+        epanet2
     )
 
 install(
@@ -37,7 +37,7 @@ install(
 
 install(
     TARGETS
-        epanet RUNTIME
+        epanet2 RUNTIME
     DESTINATION
         "epanet/solver"
 )

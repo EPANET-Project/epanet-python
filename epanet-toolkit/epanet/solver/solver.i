@@ -2,6 +2,8 @@
  *  solver.i - SWIG interface description file for EPANET toolkit
  *
  *  Created:    11/27/2017
+ *  Modified:   2/7/2020
+ *
  *  Author:     Michael E. Tryby
  *              US EPA - ORD/NRMRL
  *
@@ -10,7 +12,7 @@
  *
 */
 
-%module(package="epanet") toolkit
+%module(package="epanet") solver
 
 
 %include "typemaps.i"
@@ -18,38 +20,168 @@
 
 
 %{
-#include "epanet_py.h"
-
 #define SWIG_FILE_WITH_INIT
+#include "epanet2_2.h"
 %}
 
 
-// Opaque pointer to project
-typedef void *Handle;
+// RENAME FUNCTIONS ACCORDING TO PEP8
+%rename(proj_create)              EN_createproject;
+%rename(proj_delete)              EN_deleteproject;
+%rename(proj_run)                 EN_runproject;
+%rename(proj_init)                EN_init;
+%rename(proj_open)                EN_open;
+%rename(proj_get_title)           EN_gettitle;
+%rename(proj_set_title)           EN_settitle;
+%rename(proj_get_comment)         EN_getcomment;
+%rename(proj_set_comment)         EN_setcomment;
+%rename(proj_get_count)           EN_getcount;
+%rename(proj_save_file)           EN_saveinpfile;
+%rename(proj_close)               EN_close;
+
+%rename(hydr_solve)               EN_solveH;
+%rename(hydr_save)                EN_saveH;
+%rename(hydr_open)                EN_openH;
+%rename(hydr_init)                EN_initH;
+%rename(hydr_run)                 EN_runH;
+%rename(hydr_next)                EN_nextH;
+%rename(hydr_close)               EN_closeH;
+%rename(hydr_save_file)           EN_savehydfile;
+%rename(hydr_use_file)            EN_usehydfile;
+
+%rename(qual_solve)               EN_solveQ;
+%rename(qual_open)                EN_openQ;
+%rename(qual_init)                EN_initQ;
+%rename(qual_run)                 EN_runQ;
+%rename(qual_next)                EN_nextQ;
+%rename(qual_step)                EN_stepQ;
+%rename(qual_close)               EN_closeQ;
+
+%rename(rprt_write_line)          EN_writeline;
+%rename(rprt_write_results)       EN_report;
+%rename(rprt_copy)                EN_copyreport;
+%rename(rprt_clear)               EN_clearreport;
+%rename(rprt_reset)               EN_resetreport;
+%rename(rprt_set)                 EN_setreport;
+%rename(rprt_set_level)           EN_setstatusreport;
+%rename(rprt_anlys_stats)         EN_getstatistic;
+%rename(rprt_get_result_index)    EN_getresultindex;
+
+%rename(anlys_get_option)         EN_getoption;
+%rename(anlys_set_option)         EN_setoption;
+%rename(anlys_get_flow_units)     EN_getflowunits;
+%rename(anlys_set_flow_units)     EN_setflowunits;
+%rename(anlys_get_time_param)     EN_gettimeparam;
+%rename(anlys_set_time_param)     EN_settimeparam;
+%rename(anlys_get_qual_info)      EN_getqualinfo;
+%rename(anlys_get_qual_type)      EN_getqualtype;
+%rename(anlys_set_qual_type)      EN_setqualtype;
+
+%rename(node_add)                 EN_addnode;
+%rename(node_delete)              EN_deletenode;
+%rename(node_get_index)           EN_getnodeindex;
+%rename(node_get_id)              EN_getnodeid;
+%rename(node_set_id)              EN_setnodeid;
+%rename(node_get_type)            EN_getnodetype;
+%rename(node_get_value)           EN_getnodevalue;
+%rename(node_set_value)           EN_setnodevalue;
+%rename(node_set_junc_data)       EN_setjuncdata;
+%rename(node_set_tank_data)       EN_settankdata;
+%rename(node_get_coord)           EN_getcoord;
+%rename(node_set_coord)           EN_setcoord;
+
+%rename(dmnd_get_model)           EN_getdemandmodel;
+%rename(dmnd_set_model)           EN_setdemandmodel;
+%rename(dmnd_add)                 EN_adddemand;
+%rename(dmnd_delete)              EN_deletedemand;
+%rename(demd_get_index)           EN_getdemandindex;
+%rename(dmnd_get_count)           EN_getnumdemands;
+%rename(dmnd_get_base)            EN_getbasedemand;
+%rename(dmnd_set_base)            EN_setbasedemand;
+%rename(dmnd_get_pattern)         EN_getdemandpattern;
+%rename(dmnd_set_pattern)         EN_setdemandpattern;
+%rename(dmnd_get_name)            EN_getdemandname;
+%rename(dmnd_set_name)            EN_setdemandname;
+
+%rename(link_add)                 EN_addlink;
+%rename(link_delete)              EN_deletelink;
+%rename(link_get_index)           EN_getlinkindex;
+%rename(link_get_id)              EN_getlinkid;
+%rename(link_set_id)              EN_setlinkid;
+%rename(link_get_type)            EN_getlinktype;
+%rename(link_set_type)            EN_setlinktype;
+%rename(link_get_nodes)           EN_getlinknodes;
+%rename(link_set_nodes)           EN_setlinknodes;
+%rename(link_get_value)           EN_getlinkvalue;
+%rename(link_set_value)           EN_setlinkvalue;
+%rename(link_set_pipe_data)       EN_setpipedata;
+%rename(link_get_vertex_count)    EN_getvertexcount;
+%rename(link_get_vertex)          EN_getvertex;
+%rename(link_set_vertices)        EN_setvertices;
+
+%rename(pump_get_type)            EN_getpumptype;
+%rename(pump_get_curve_index)     EN_getheadcurveindex;
+%rename(pump_set_curve_index)     EN_setheadcurveindex;
+
+%rename(ptrn_add)                 EN_addpattern;
+%rename(ptrn_delete)              EN_deletepattern;
+%rename(ptrn_get_index)           EN_getpatternindex;
+%rename(ptrn_get_id)              EN_getpatternid;
+%rename(ptrn_set_id)              EN_setpatternid;
+%rename(ptrn_get_length)          EN_getpatternlen;
+%rename(ptrn_get_value)           EN_getpatternvalue;
+%rename(ptrn_set_value)           EN_setpatternvalue;
+%rename(ptrn_get_avg_value)       EN_getaveragepatternvalue;
+%rename(ptrn_set)                 EN_setpattern;
+
+%rename(curv_add)                 EN_addcurve;
+%rename(curv_delete)              EN_deletecurve;
+%rename(curv_get_index)           EN_getcurveindex;
+%rename(curv_get_id)              EN_getcurveid;
+%rename(curve_set_id)             EN_setcurveid;
+%rename(curv_get_length)          EN_getcurvelen;
+%rename(curv_get_type)            EN_getcurvetype;
+%rename(curv_get_value)           EN_getcurvevalue;
+%rename(curv_set_value)           EN_setcurvevalue;
+%rename(curv_get)                 EN_getcurve;
+%rename(curv_set)                 EN_setcurve;
+
+%rename(scntl_add)                EN_addcontrol;
+%rename(scntl_delete)             EN_deletecontrol;
+%rename(scntl_get)                EN_getcontrol;
+%rename(scntl_set)                EN_setcontrol;
+
+%rename(rcntl_add)                EN_addrule;
+%rename(rcntl_delete)             EN_deleterule;
+%rename(rcntl_get)                EN_getrule;
+%rename(rcntl_get_id)             EN_getruleID;
+%rename(rcntl_get_premise)        EN_getpremise;
+%rename(rcntl_set_premise)        EN_setpremise;
+%rename(rcntl_set_premise_index)  EN_setpremiseindex;
+%rename(rcntl_set_premise_status) EN_setpremisestatus;
+%rename(rcntl_set_premise_value)  EN_setpremisevalue;
+%rename(rcntl_get_then_action)    EN_getthenaction;
+%rename(rcntl_set_then_action)    EN_setthenaction;
+%rename(rcntl_get_else_action)    EN_getelseaction;
+%rename(rcntl_set_else_action)    EN_setelseaction;
+%rename(rcntl_set_rule_priority)  EN_setrulepriority;
+
+%rename(solver_get_error)         EN_getrerror;
+%rename(solver_get_version)       EN_getversion;
 
 
-%include "epanet2_enums.h"
+/* DECLARE EPANET PROJECT POINTER */
+typedef struct Project *EN_Project;
 
 
-/* TYPEMAPS FOR OPAQUE POINTER */
-/* Used for functions that output a new opaque pointer */
-%typemap(in, numinputs=0) Handle *ph_out (Handle retval) {
- /* OUTPUT in */
-    retval = NULL;
-    $1 = &retval;
+/* TYPEMAPS FOR PROJECT POINTER */
+%typemap(in,numinputs=0) EN_Project* (EN_Project temp) {
+    $1 = &temp;
 }
-/* used for functions that take in an opaque pointer (or NULL)
-and return a (possibly) different pointer */
-%typemap(argout) Handle *ph_out, Handle *ph_inout {
- /* OUTPUT argout */
-    %append_output(SWIG_NewPointerObj(SWIG_as_voidptr(retval$argnum), $1_descriptor, 0));
+
+%typemap(argout) EN_Project* {
+  %append_output(SWIG_NewPointerObj(*$1, SWIGTYPE_p_Project, SWIG_POINTER_NEW));
 }
-%typemap(in) Handle *ph_inout (Handle retval) {
-   /* INOUT in */
-   SWIG_ConvertPtr(obj0,SWIG_as_voidptrptr(&retval), 0, 0);
-    $1 = &retval;
-}
-/* No need for special IN typemap for opaque pointers, it works anyway */
 
 
 /* TYPEMAP FOR IGNORING INT ERROR CODE RETURN VALUE */
@@ -80,6 +212,78 @@ and return a (possibly) different pointer */
     EN_RuleOperator, EN_RuleStatus, EN_StatusReport};
 
 
+/* APPLY MACROS FOR OUTPUT VARIABLES */
+%apply int *OUTPUT {
+    int *count,
+    int *version,
+    int *units,
+    int *qualType,
+    int *traceNode,
+    int *index,
+    int *nodeType,
+    int *type,
+    int *demandIndex,
+    int *numDemands,
+    int *patIndex,
+    int *linkType,
+    int *node1,
+    int *node2,
+    int *pumpType,
+    int *curveIndex,
+    int *len,
+    int *nPoints,
+    int *nodeIndex,
+    int *linkIndex,
+    int *nPremises,
+    int *nThenActions,
+    int *nElseActions,
+    int *logop,
+    int *object,
+    int *objIndex,
+    int *variable,
+    int *relop,
+    int *status
+};
+
+%apply double *OUTPUT {
+    double *value,
+    double *x,
+    double *y,
+    double *baseDemand,
+    double *pmin,
+    double *preq,
+    double *pexp,
+    double *setting,
+    double *level,
+    double *priority
+};
+
+%apply long *OUTPUT {
+    long *value,
+    long *currentTime,
+    long *tStep,
+    long *timeLeft
+};
+
+%cstring_bounded_output(char *OUTCHAR, EN_MAXMSG);
+
+%apply char *OUTCHAR {
+    char *out_line1,
+    char *out_line2,
+    char *out_line3,
+    char *out_comment,
+    char *out_errmsg,
+    char *out_chemName,
+    char *out_chemUnits,
+    char *out_id,
+    char *out_demandName
+};
+
+%apply int *INOUT {
+    int *inout_index
+}
+
+
 /* MARK FUNCTIONS AS ALLOCATING AND DEALLOCATING MEMORY */
 %newobject proj_create;
 %delobject proj_delete;
@@ -89,184 +293,34 @@ and return a (possibly) different pointer */
 %feature("autodoc", "2");
 
 
-/* MACRO FOR RETURNING A BOUNDED LENGTH STRING */
-%cstring_bounded_output(char *id_out, EN_MAXID);
-%cstring_bounded_output(char *msg_out, EN_MAXMSG);
-
-
 /* INSERTS CUSTOM EXCEPTION HANDLING IN WRAPPER */
 %exception
 {
-    int err_code;
-    char* err_msg;
-
-    err_clear(arg1);
-
     $function
 
-    err_code = err_check(arg1, &err_msg);
-    if ( err_code > 10)
+    if ( result > 10)
     {
-        PyErr_SetString(PyExc_Exception, err_msg);
-        toolkit_free((void **)&err_msg);
-        SWIG_fail;
+        char errmsg[EN_MAXMSG];
+        EN_geterror(result, errmsg, EN_MAXMSG);
+        PyErr_SetString(PyExc_Exception, errmsg);
     }
-    else if (err_code > 0)
+    else if (result > 0)
     {
-        PyErr_WarnEx(PyExc_Warning, err_msg, 2);
-        toolkit_free((void **)&err_msg);
+        char errmsg[EN_MAXMSG];
+        EN_geterror(result, errmsg, EN_MAXMSG);
+        PyErr_WarnEx(PyExc_Warning, errmsg, 2);
     }
 }
 
-
 /* INSERT EXCEPTION HANDLING FOR THESE FUNCTIONS */
 
-int proj_run(Handle ph, const char *input_path, const char *report_path, const char *output_path);
-int proj_init(Handle ph, const char *rptFile, const char *outFile, EN_FlowUnits unitsType, EN_HeadLossType headLossType);
-int proj_open(Handle ph, const char *inpFile, const char *rptFile, const char *binOutFile);
-//int proj_gettitle(Handle ph, char *line1, char *line2, char *line3);
-//int proj_settitle(Handle ph, const char *line1, const char *line2, const char *line3);
-int proj_getcount(Handle ph, EN_CountType code, int *OUTPUT);
-int proj_savefile(Handle ph, const char *filename);
-int proj_close(Handle ph);
-
-
-int hydr_solve(Handle ph);
-int hydr_save(Handle ph);
-int hydr_open(Handle ph);
-int hydr_init(Handle ph, EN_InitHydOption saveFlag);
-int hydr_run(Handle ph, long *OUTPUT);
-int hydr_next(Handle ph, long *OUTPUT);
-int hydr_close(Handle ph);
-int hydr_savefile(Handle ph, char *filename);
-int hydr_usefile(Handle ph, char *filename);
-
-
-int qual_solve(Handle ph);
-int qual_open(Handle ph);
-int qual_init(Handle ph, EN_InitHydOption saveFlag);
-int qual_run(Handle ph, long *OUTPUT);
-int qual_next(Handle ph, long *OUTPUT);
-int qual_step(Handle ph, long *OUTPUT);
-int qual_close(Handle ph);
-
-
-int rprt_writeline(Handle ph, char *line);
-int rprt_writeresults(Handle ph);
-int rprt_reset(Handle ph);
-int rprt_set(Handle ph, char *reportCommand);
-int rprt_setlevel(Handle ph, EN_StatusReport code);
-int rprt_anlysstats(Handle ph, EN_AnalysisStatistic code, double *OUTPUT );
-
-
-int anlys_getoption(Handle ph, EN_Option code, double *OUTPUT);
-int anlys_setoption(Handle ph, EN_Option code, double value);
-int anlys_getflowunits(Handle ph, int *OUTPUT);
-int anlys_setflowunits(Handle ph, EN_FlowUnits code);
-int anlys_gettimeparam(Handle ph, EN_TimeParameter code, long *OUTPUT);
-int anlys_settimeparam(Handle ph, EN_TimeParameter code, long value);
-int anlys_getqualinfo(Handle ph, int *OUTPUT, char *id_out, char *id_out, int *OUTPUT);
-int anlys_getqualtype(Handle ph, int *OUTPUT, int *OUTPUT);
-int anlys_setqualtype(Handle ph, EN_QualityType qualcode, char *chemname, char *chemunits, char *tracenode);
-
-
-int node_add(Handle ph, char *id, EN_NodeType nodeType);
-int node_delete(Handle ph, int index, int actionCode);
-int node_getindex(Handle ph, char *id, int *OUTPUT);
-int node_getid(Handle ph, int index, char *id_out);
-int node_setid(Handle ph, int index, char *newid);
-int node_gettype(Handle ph, int index, int *OUTPUT);
-int node_getvalue(Handle ph, int index, EN_NodeProperty code, double *OUTPUT);
-int node_setvalue(Handle ph, int index, EN_NodeProperty code, double value);
-int node_getcoord(Handle ph, int index, double *OUTPUT, double *OUTPUT);
-int node_setcoord(Handle ph, int index, double x, double y);
-
-
-int dmnd_getmodel(Handle ph, int *OUTPUT, double *OUTPUT, double *OUTPUT, double *OUTPUT);
-int dmnd_setmodel(Handle ph, int type, double pmin, double preq, double pexp);
-int dmnd_getcount(Handle ph, int nodeIndex, int *OUTPUT);
-int dmnd_getbase(Handle ph, int nodeIndex, int demandIndex, double *OUTPUT);
-int dmnd_setbase(Handle ph, int nodeIndex, int demandIndex, double baseDemand);
-int dmnd_getpattern(Handle ph, int nodeIndex, int demandIndex, int *OUTPUT);
-int dmnd_setpattern(Handle ph, int nodeIndex, int demandIndex, int patIndex);
-int dmnd_getname(Handle ph, int nodeIndex, int demandIdx, char *msg_out);
-int dmnd_setname(Handle ph, int nodeIndex, int demandIdx, char *demandName);
-
-
-int link_add(Handle ph, char *id, EN_LinkType linkType, char *fromNode, char *toNode);
-int link_delete(Handle ph, int index, int actionCode);
-int link_getindex(Handle ph, char *id, int *OUTPUT);
-int link_getid(Handle ph, int index, char *id_out);
-int link_setid(Handle ph, int index, char *newid);
-int link_gettype(Handle ph, int index, int *OUTPUT);
-int link_settype(Handle ph, int *index, EN_LinkType type, int actionCode);
-int link_getnodes(Handle ph, int index, int *OUTPUT, int *OUTPUT);
-int link_setnodes(Handle ph, int index, int node1, int node2);
-int link_getvalue(Handle ph, int index, EN_LinkProperty code, double *OUTPUT);
-int link_setvalue(Handle ph, int index, int code, double value);
-
-
-int pump_gettype(Handle ph, int linkIndex, int *OUTPUT);
-int pump_getheadcurveindex(Handle ph, int pumpIndex, int *OUTPUT);
-int pump_setheadcurveindex(Handle ph, int pumpIndex, int curveIndex);
-
-
-int ptrn_add(Handle ph, char *id);
-int ptrn_getindex(Handle ph, char *id, int *OUTPUT);
-int ptrn_getid(Handle ph, int index, char *id);
-int ptrn_getlength(Handle ph, int index, int *OUTPUT);
-int ptrn_getvalue(Handle ph, int index, int period, double *OUTPUT);
-int ptrn_setvalue(Handle ph, int index, int period, double value);
-int ptrn_getavgvalue(Handle ph, int index, double *OUTPUT);
-int ptrn_set(Handle ph, int index, double *values, int len);
-
-
-int curv_add(Handle ph, char *id);
-int curv_getindex(Handle ph, char *id, int *OUTPUT);
-int curv_getid(Handle ph, int index, char *id);
-int curv_getlength(Handle ph, int index, int *OUTPUT);
-int curv_gettype(Handle ph, int curveIndex, int *OUTPUT);
-int curv_getvalue(Handle ph, int curveIndex, int pointIndex, double *OUTPUT, double *OUTPUT);
-int curv_setvalue(Handle ph, int curveIndex, int pointIndex, double x, double y);
-int curv_get(Handle ph, int curveIndex, char* id, int *nValues, double **xValues, double **yValues);
-int curv_set(Handle ph, int index, double *x, double *y, int len);
-
-
-int scntl_add(Handle ph, int type, int linkIndex, double setting, int nodeIndex, double level, int *index);
-int scntl_delete(Handle ph, int index);
-int scntl_get(Handle ph, int controlIndex, int *OUTPUT, int *OUTPUT, double *OUTPUT, int *OUTPUT, double *OUTPUT);
-int scntl_set(Handle ph, int cindex, int ctype, int lindex, double setting, int nindex, double level);
-
-
-int rcntl_add(Handle ph, char *rule);
-int rcntl_delete(Handle ph, int index);
-int rcntl_get(Handle ph, int index, int *nPremises, int *nThenActions, int *nElseActions, double *priority);
-int rcntl_getid(Handle ph, int index, char* id);
-int rcntl_getpremise(Handle ph, int ruleIndex, int premiseIndex, int *logop, int *object, int *objIndex, int *variable, int *relop, int *status, double *value);
-int rcntl_setpremise(Handle ph, int ruleIndex, int premiseIndex, int logop, int object, int objIndex, int variable, int relop, int status, double value);
-int rcntl_setpremiseindex(Handle ph, int ruleIndex, int premiseIndex, int objIndex);
-int rcntl_setpremisestatus(Handle ph, int ruleIndex, int premiseIndex, int status);
-int rcntl_setpremisevalue(Handle ph, int ruleIndex, int premiseIndex, double value);
-int rcntl_getthenaction(Handle ph, int ruleIndex, int actionIndex, int *linkIndex, int *status, double *setting);
-int rcntl_setthenaction(Handle ph, int ruleIndex, int actionIndex, int linkIndex, int status, double setting);
-int rcntl_getelseaction(Handle ph, int ruleIndex, int actionIndex, int *linkIndex, int *status, double *setting);
-int rcntl_setelseaction(Handle ph, int ruleIndex, int actionIndex, int linkIndex, int status, double setting);
-int rcntl_setrulepriority(Handle ph, int index, double priority);
-
-
-int toolkit_getversion(int *int_out);
-
+%include "epanet2_2.h"
 
 %exception;
 
-/* NO EXCEPTION HANDLING FOR THESE FUNCTIONS */
 
-int  proj_create(Handle *ph_out);
-int  proj_delete(Handle *ph_inout);
-
-void err_clear(Handle ph);
-int  err_check(Handle ph, char** msg_buffer);
-void toolkit_free(void **memory);
+/* DEFINE ENUM TYPES */
+%include "epanet2_enums.h"
 
 
 /* CODE ADDED DIRECTLY TO SWIGGED INTERFACE MODULE */

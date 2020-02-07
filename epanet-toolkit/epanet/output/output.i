@@ -7,125 +7,58 @@
  *              US EPA - ORD/NRMRL
  *
 */
-%module(package="epanet") output
-%{
-#include "epanet_output.h"
 
-#define SWIG_FILE_WITH_INIT
-%}
+
+%module(package="epanet") output
+
 
 %include "typemaps.i"
 
+
+%{
+#define SWIG_FILE_WITH_INIT
+#include "epanet_output.h"
+%}
+
+
+// RENAME FUNCTIONS ACCORDING TO PEP8
+%rename(create_handle)      ENR_createHandle;
+%rename(delete_handle)      ENR_deleteHandle;
+%rename(close_file)         ENR_closeFile;
+%rename(open_file)          ENR_openFile;
+
+%rename(get_version)        ENR_getVersion;
+%rename(get_net_size)       ENR_getNetSize;
+%rename(get_units)          ENR_getUnits;
+%rename(get_times)          ENR_getTimes;
+//%rename(get_chem_data)    ENR_getChemData;
+%rename(get_elem_name)      ENR_getElementName;
+%rename(get_energy_usage)   ENR_getEnergyUsage;
+%rename(get_net_reacts)     ENR_getNetReacts;
+
+%rename(node_get_series)    ENR_getNodeSeries;
+%rename(link_get_series)    ENR_getLinkSeries;
+
+%rename(node_get_attribute) ENR_getNodeAttribute;
+%rename(link_get_attribute) ENR_getLinkAttribute;
+
+%rename(node_get_result)    ENR_getNodeResult;
+%rename(link_get_result)    ENR_getLinkResult;
+
+%rename(output_free)        ENR_freeMemory;
+
+
 /* DEFINE AND TYPEDEF MUST BE INCLUDED */
+//typedef struct Handle *ENR_Handle;
 
-typedef void* ENR_Handle;
 
-typedef enum {
-    ENR_node        = 1,
-    ENR_link        = 2
-} ENR_ElementType;
-
-typedef enum {
-    ENR_flowUnits   = 1,
-    ENR_pressUnits  = 2,
-    ENR_qualUnits   = 3
-} ENR_Units;
-
-typedef enum {
-    ENR_CFS         = 0,
-    ENR_GPM         = 1,
-    ENR_MGD         = 2,
-    ENR_IMGD        = 3,
-    ENR_AFD         = 4,
-    ENR_LPS         = 5,
-    ENR_LPM         = 6,
-    ENR_MLD         = 7,
-    ENR_CMH         = 8,
-    ENR_CMD         = 9
-} ENR_FlowUnits;
-
-typedef enum {
-    ENR_PSI         = 0,
-    ENR_MTR         = 1,
-    ENR_KPA         = 2
-} ENR_PressUnits;
-
-typedef enum {
-    ENR_NONE        = 0,
-    ENR_MGL         = 1,
-    ENR_UGL         = 2,
-    ENR_HOURS       = 3,
-    ENR_PRCNT       = 4
-} ENR_QualUnits;
-
-/*
-typedef enum {
-    ENR_nodeCount   = 1,
-    ENR_tankCount   = 2,
-    ENR_linkCount   = 3,
-    ENR_pumpCount   = 4,
-    ENR_valveCount  = 5
-} ENR_ElementCount;
-*/
-
-typedef enum {
-    ENR_reportStart = 1,
-    ENR_reportStep  = 2,
-    ENR_simDuration = 3,
-    ENR_numPeriods  = 4
-}ENR_Time;
-
-typedef enum {
-    ENR_demand      = 1,
-    ENR_head        = 2,
-    ENR_pressure    = 3,
-    ENR_quality     = 4
-} ENR_NodeAttribute;
-
-typedef enum {
-    ENR_flow        = 1,
-    ENR_velocity    = 2,
-    ENR_headloss    = 3,
-    ENR_avgQuality  = 4,
-    ENR_status      = 5,
-    ENR_setting     = 6,
-    ENR_rxRate      = 7,
-    ENR_frctnFctr   = 8
-} ENR_LinkAttribute;
-
-#ifdef WINDOWS
-  #ifdef __cplusplus
-  #define DLLEXPORT __declspec(dllexport) __cdecl
-  #else
-  #define DLLEXPORT __declspec(dllexport) __stdcall
-  #endif
-#else
-  #define DLLEXPORT
-#endif
-
-/* TYPEMAPS FOR OPAQUE POINTER */
-/* Used for functions that output a new opaque pointer */
-%typemap(in, numinputs=0) ENR_Handle* p_handle_out (ENR_Handle retval)
-{
- /* OUTPUT in */
-    retval = NULL;
-    $1 = &retval;
+%typemap(in,numinputs=0) ENR_Handle* (EN_Project temp) {
+    $1 = &temp;
 }
-/* used for functions that take in an opaque pointer (or NULL)
-and return a (possibly) different pointer */
-%typemap(argout) ENR_Handle* p_handle_out
-{
- /* OUTPUT argout */
-    %append_output(SWIG_NewPointerObj(SWIG_as_voidptr(retval$argnum), $1_descriptor, 0));
-}
-%typemap(in) ENR_Handle* p_handle_inout (ENR_Handle retval)
-{
-   /* INOUT in */
-   SWIG_ConvertPtr(obj0,SWIG_as_voidptrptr(&retval), 0, 0);
-    $1 = &retval;
-}
-/* No need for special IN typemap for opaque pointers, it works anyway */
 
+%typemap(argout) ENR_Handle* {
+  %append_output(SWIG_NewPointerObj(*$1, SWIGTYPE_p_Project, SWIG_POINTER_NEW));
+}
 
 
 /* TYPEMAP FOR IGNORING INT ERROR CODE RETURN VALUE */
@@ -134,13 +67,12 @@ and return a (possibly) different pointer */
     Py_INCREF($result);
 }
 
-/* TYPEMAPS FOR INT ARGUMENT AS RETURN VALUE */
-%typemap(in, numinputs=0) int* int_out (int temp) {
-    $1 = &temp;
-}
-%typemap(argout) int* int_out {
-    %append_output(PyInt_FromLong(*$1));
-}
+%apply int *OUTPUT{
+    int *version,
+    int *flag,
+    int *value
+};
+
 
 /* TYPEMAP FOR MEMORY MANAGEMENT AND ENCODING OF STRINGS */
 %typemap(in, numinputs=0)char** string_out (char* temp), int* slen (int temp){
@@ -155,6 +87,11 @@ and return a (possibly) different pointer */
         free(*$1);
     }
 }
+
+%apply (char **string_out, int *slen) {
+    (char **name, int *length)
+};
+
 
 /* TYPEMAPS FOR MEMORY MANAGEMNET OF FLOAT ARRAYS */
 %typemap(in, numinputs=0)float** float_out (float* temp), int* int_dim (int temp){
@@ -173,6 +110,12 @@ and return a (possibly) different pointer */
     }
 }
 
+%apply (float **float_out, int *int_dim) {
+    (float **values, int *size),
+    (float **series, int *length)
+};
+
+
 /* TYPEMAPS FOR MEMORY MANAGEMENT OF INT ARRAYS */
 %typemap(in, numinputs=0)int** int_out (long* temp), int* int_dim (int temp){
    $1 = &temp;
@@ -190,6 +133,11 @@ and return a (possibly) different pointer */
     }
 }
 
+%apply (int **int_out, int *int_dim) {
+    (int **count, int *size)
+};
+
+
 /* TYPEMAP FOR ENUMERATED TYPES */
 %typemap(in) EnumeratedType (int val, int ecode = 0) {
     if (PyObject_HasAttrString($input,"value")) {
@@ -206,8 +154,6 @@ and return a (possibly) different pointer */
 %apply EnumeratedType {ENR_ElementType, ENR_Units, ENR_Time, ENR_NodeAttribute, ENR_LinkAttribute}
 
 
-/* RENAME FUNCTIONS PYTHON STYLE */
-%rename("%(regex:/^\w+_([a-zA-Z]+)/\L\\1/)s") "";
 
 /* GENERATES DOCUMENTATION */
 %feature("autodoc", "2");
@@ -216,53 +162,17 @@ and return a (possibly) different pointer */
 /* INSERTS CUSTOM EXCEPTION HANDLING IN WRAPPER */
 %exception
 {
-	char* err_msg;
-	ENR_clearError(arg1);
     $function
-    if (ENR_checkError(arg1, &err_msg))
-    {
-        PyErr_SetString(PyExc_Exception, err_msg);
-    	SWIG_fail;
-    }
 }
 /* INSERT EXCEPTION HANDLING FOR THESE FUNCTIONS */
-int DLLEXPORT ENR_open(ENR_Handle p_handle, const char* path);
 
-int DLLEXPORT ENR_getVersion(ENR_Handle p_handle, int* int_out);
-int DLLEXPORT ENR_getNetSize(ENR_Handle p_handle, int** int_out, int* int_dim);
-int DLLEXPORT ENR_getUnits(ENR_Handle p_handle, ENR_Units t_enum, int* int_out);
-int DLLEXPORT ENR_getTimes(ENR_Handle p_handle, ENR_Time t_enum, int* int_out);
-int DLLEXPORT ENR_getElementName(ENR_Handle p_handle, ENR_ElementType t_enum,
-		int elementIndex, char** string_out, int* slen);
-int DLLEXPORT ENR_getEnergyUsage(ENR_Handle p_handle, int pumpIndex,
-		int* int_out, float** float_out, int* int_dim);
-int DLLEXPORT ENR_getNetReacts(ENR_Handle p_handle, float** float_out, int* int_dim);
-
-int DLLEXPORT ENR_getNodeSeries(ENR_Handle p_handle_in, int nodeIndex, ENR_NodeAttribute t_enum,
-    int startPeriod, int endPeriod, float** float_out, int* int_dim);
-int DLLEXPORT ENR_getLinkSeries(ENR_Handle p_handle_in, int linkIndex, ENR_LinkAttribute t_enum,
-    int startPeriod, int endPeriod, float** float_out, int* int_dim);
-
-int DLLEXPORT ENR_getNodeAttribute(ENR_Handle p_handle, int periodIndex,
-    ENR_NodeAttribute t_enum, float** float_out, int* int_dim);
-int DLLEXPORT ENR_getLinkAttribute(ENR_Handle p_handle, int periodIndex,
-    ENR_LinkAttribute t_enum, float** float_out, int* int_dim);
-
-int DLLEXPORT ENR_getNodeResult(ENR_Handle p_handle_in, int periodIndex,
-    int nodeIndex, float** float_out, int* int_dim);
-int DLLEXPORT ENR_getLinkResult(ENR_Handle p_handle_in, int periodIndex,
-    int linkIndex, float** float_out, int* int_dim);
+%include "epanet_output.h"
 
 %exception;
 
-/* NO EXCEPTION HANDLING FOR THESE FUNCTIONS */
-int DLLEXPORT ENR_init(ENR_Handle* p_handle_out);
-int DLLEXPORT ENR_close(ENR_Handle* p_handle_inout);
-void DLLEXPORT ENR_free(void** array);
 
-void DLLEXPORT ENR_clearError(ENR_Handle p_handle);
-int DLLEXPORT ENR_checkError(ENR_Handle p_handle, char** msg_buffer);
-
+/* DEFINE ENUM TYPES */
+%include "epanet_output_enums.h"
 
 /* CODE ADDED DIRECTLY TO SWIGGED INTERFACE MODULE */
 %pythoncode%{
