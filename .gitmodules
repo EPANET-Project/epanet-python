@@ -1,4 +1,3 @@
-[submodule "owa-epanet/EPANET"]
-	path = owa-epanet/EPANET
-	url = https://github.com/OpenWaterAnalytics/EPANET.git
-	branch = dev
+[submodule "epanet-toolkit/epanet-solver"]
+	path = epanet-toolkit/epanet-solver
+	url = https://github.com/USEPA/epanet-solver.git
