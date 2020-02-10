@@ -26,10 +26,11 @@ __maintainer__ = "Michael Tryby"
 __email__ = "tryby.michael@epa.gov"
 __status  = "Development"
 
+__all__ = ["output"]
 
 from enum import Enum, auto
 
-from epanet.output import output as oapi
+from epanet.output import output
 
 
 class Units(Enum):
@@ -63,19 +64,19 @@ class OutputMetadata():
         RxUnits.MGH:          "mg/hr",
         RxUnits.UGH:          "ug/hr",
 
-        oapi.FlowUnits.CFS:   "cu ft/s",
-        oapi.FlowUnits.GPM:   "gal/min",
-        oapi.FlowUnits.MGD:   "M gal/day",
-        oapi.FlowUnits.IMGD:  "M Imp gal/day",
-        oapi.FlowUnits.AFD:   "ac ft/day",
+        output.FlowUnits.CFS:   "cu ft/s",
+        output.FlowUnits.GPM:   "gal/min",
+        output.FlowUnits.MGD:   "M gal/day",
+        output.FlowUnits.IMGD:  "M Imp gal/day",
+        output.FlowUnits.AFD:   "ac ft/day",
 
-        oapi.PressUnits.PSI:  "psi",
+        output.PressUnits.PSI:  "psi",
 
-        oapi.QualUnits.NONE:  "",
-        oapi.QualUnits.MGL:   "mg/L",
-        oapi.QualUnits.UGL:   "ug/L",
-        oapi.QualUnits.HOURS: "hrs",
-        oapi.QualUnits.PRCNT: "%"}
+        output.QualUnits.NONE:  "",
+        output.QualUnits.MGL:   "mg/L",
+        output.QualUnits.UGL:   "ug/L",
+        output.QualUnits.HOURS: "hrs",
+        output.QualUnits.PRCNT: "%"}
 
     _unit_labels_si_ = {
         Units.HYD_HEAD:       "m",
@@ -87,20 +88,20 @@ class OutputMetadata():
         RxUnits.MGH:          "mg/hr",
         RxUnits.UGH:          "ug/hr",
 
-        oapi.FlowUnits.LPS:   "L/sec",
-        oapi.FlowUnits.LPM:   "L/min",
-        oapi.FlowUnits.MLD:   "M L/day",
-        oapi.FlowUnits.CMH:   "cu m/hr",
-        oapi.FlowUnits.CMD:   "cu m/day",
+        output.FlowUnits.LPS:   "L/sec",
+        output.FlowUnits.LPM:   "L/min",
+        output.FlowUnits.MLD:   "M L/day",
+        output.FlowUnits.CMH:   "cu m/hr",
+        output.FlowUnits.CMD:   "cu m/day",
 
-        oapi.PressUnits.MTR:  "meters",
-        oapi.PressUnits.KPA:  "kPa",
+        output.PressUnits.MTR:  "meters",
+        output.PressUnits.KPA:  "kPa",
 
-        oapi.QualUnits.NONE:  "",
-        oapi.QualUnits.MGL:   "mg/L",
-        oapi.QualUnits.UGL:   "ug/L",
-        oapi.QualUnits.HOURS: "hrs",
-        oapi.QualUnits.PRCNT: "%"}
+        output.QualUnits.NONE:  "",
+        output.QualUnits.MGL:   "mg/L",
+        output.QualUnits.UGL:   "ug/L",
+        output.QualUnits.HOURS: "hrs",
+        output.QualUnits.PRCNT: "%"}
 
 
     def __init__(self, output_handle):
@@ -108,48 +109,48 @@ class OutputMetadata():
         self.units = list()
         # If outputhandle not initialized use default settings
         if output_handle == None:
-            self.units = [oapi.FlowUnits.GPM.value,
-                          oapi.PressUnits.PSI.value,
-                          oapi.QualUnits.NONE.value]
+            self.units = [output.FlowUnits.GPM.value,
+                          output.PressUnits.PSI.value,
+                          output.QualUnits.NONE.value]
         # Else quary the output api for unit settings
         else:
-            for u in oapi.Units:
-                self.units.append(oapi.getunits(output_handle, u))
+            for u in output.Units:
+                self.units.append(output.getunits(output_handle, u))
 
         # Convert unit settings to enums
-        self._flow = oapi.FlowUnits(self.units[0])
-        self._press = oapi.PressUnits(self.units[1])
-        self._qual = oapi.QualUnits(self.units[2])
+        self._flow = output.FlowUnits(self.units[0])
+        self._press = output.PressUnits(self.units[1])
+        self._qual = output.QualUnits(self.units[2])
 
         # Determine unit system from flow setting
-        if self._flow.value <= oapi.FlowUnits.AFD.value:
+        if self._flow.value <= output.FlowUnits.AFD.value:
             self._unit_labels = type(self)._unit_labels_us_
         else:
             self._unit_labels = type(self)._unit_labels_si_
 
         # Determine mass units from quality settings
-        if self._qual == oapi.QualUnits.MGL:
+        if self._qual == output.QualUnits.MGL:
             self._rx_rate = RxUnits.MGH
-        elif self._qual == oapi.QualUnits.UGL:
+        elif self._qual == output.QualUnits.UGL:
             self._rx_rate = RxUnits.UGH
         else:
             self._rx_rate = Units.NONE
 
 
         self._metadata = {
-            oapi.NodeAttribute.DEMAND:      ("Demand",          self._unit_labels[self._flow]),
-            oapi.NodeAttribute.HEAD:        ("Head",            self._unit_labels[Units.HYD_HEAD]),
-            oapi.NodeAttribute.PRESSURE:    ("Pressure",        self._unit_labels[self._press]),
-            oapi.NodeAttribute.QUALITY:     ("Quality",         self._unit_labels[self._qual]),
+            output.NodeAttribute.DEMAND:      ("Demand",          self._unit_labels[self._flow]),
+            output.NodeAttribute.HEAD:        ("Head",            self._unit_labels[Units.HYD_HEAD]),
+            output.NodeAttribute.PRESSURE:    ("Pressure",        self._unit_labels[self._press]),
+            output.NodeAttribute.QUALITY:     ("Quality",         self._unit_labels[self._qual]),
 
-            oapi.LinkAttribute.FLOW:        ("Flow",            self._unit_labels[self._flow]),
-            oapi.LinkAttribute.VELOCITY:    ("Velocity",        self._unit_labels[Units.VELOCITY]),
-            oapi.LinkAttribute.HEADLOSS:    ("Unit Headloss",   self._unit_labels[Units.HEADLOSS]),
-            oapi.LinkAttribute.AVG_QUALITY: ("Quality",         self._unit_labels[self._qual]),
-            oapi.LinkAttribute.STATUS:      ("Status",          self._unit_labels[Units.NONE]),
-            oapi.LinkAttribute.SETTING:     ("Setting",         self._unit_labels[Units.NONE]),
-            oapi.LinkAttribute.RX_RATE:     ("Reaction Rate",   self._unit_labels[self._rx_rate]),
-            oapi.LinkAttribute.FRCTN_FCTR:  ("Friction Factor", self._unit_labels[Units.UNITLESS])
+            output.LinkAttribute.FLOW:        ("Flow",            self._unit_labels[self._flow]),
+            output.LinkAttribute.VELOCITY:    ("Velocity",        self._unit_labels[Units.VELOCITY]),
+            output.LinkAttribute.HEADLOSS:    ("Unit Headloss",   self._unit_labels[Units.HEADLOSS]),
+            output.LinkAttribute.AVG_QUALITY: ("Quality",         self._unit_labels[self._qual]),
+            output.LinkAttribute.STATUS:      ("Status",          self._unit_labels[Units.NONE]),
+            output.LinkAttribute.SETTING:     ("Setting",         self._unit_labels[Units.NONE]),
+            output.LinkAttribute.RX_RATE:     ("Reaction Rate",   self._unit_labels[self._rx_rate]),
+            output.LinkAttribute.FRCTN_FCTR:  ("Friction Factor", self._unit_labels[Units.UNITLESS])
         }
 
 

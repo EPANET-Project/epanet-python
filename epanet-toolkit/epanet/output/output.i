@@ -52,12 +52,12 @@
 //typedef struct Handle *ENR_Handle;
 
 
-%typemap(in,numinputs=0) ENR_Handle* (EN_Project temp) {
+%typemap(in,numinputs=0) ENR_Handle* (ENR_Handle temp) {
     $1 = &temp;
 }
 
 %typemap(argout) ENR_Handle* {
-  %append_output(SWIG_NewPointerObj(*$1, SWIGTYPE_p_Project, SWIG_POINTER_NEW));
+  %append_output(SWIG_NewPointerObj(*$1, SWIGTYPE_p_Handle, SWIG_POINTER_NEW));
 }
 
 

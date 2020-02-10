@@ -21,12 +21,15 @@ setup(
     name = 'epanet-toolkit',
     version = '0.5.0',
 
-    package_dir={"":"epanet"},
-    packages=['epanet.solver', 'epanet.output'],
-    py_modules = ['solver', 'output'],
+#    description='',
+#    long_description='',
 
-    package_data = {'epanet.solver':['*solver.*', '*.dylib', '*.dll', '*.so'],
-                    'epanet.output':['*output.*', '*.dylib', '*.dll', '*.so']},
+    cmake_args=['-GVisual Studio 14 2015 Win64'],
+
+    packages=['epanet', 'epanet.output', 'epanet.solver'],
+
+    package_data = {'epanet.output':['*output.*', '*.dylib', '*.dll', '*.so'],
+                    'epanet.solver':['*solver.*', '*.dylib', '*.dll', '*.so']},
 
     zip_safe=False
 )

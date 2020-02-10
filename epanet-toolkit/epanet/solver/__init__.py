@@ -1,2 +1,2 @@
 
-from epanet.solver import solver
+__all__ = ["solver"]

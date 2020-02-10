@@ -6,10 +6,10 @@
 !.gitignore
 !.gitmodules
 
-*.py[ocd]
+*.pyc
 
 _skbuild/
-build/
+# build/
 
 dist/
 .pytest_cache/

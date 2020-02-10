@@ -4,7 +4,7 @@ import pytest
 import numpy as np
 
 from epanet.output import OutputMetadata
-from epanet.output import output as oapi
+import epanet.output as oapi
 
 
 DATA_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'data')

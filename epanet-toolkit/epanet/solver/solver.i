@@ -171,7 +171,7 @@
 
 
 /* DECLARE EPANET PROJECT POINTER */
-typedef struct Project *EN_Project;
+//typedef struct Project *EN_Project;
 
 
 /* TYPEMAPS FOR PROJECT POINTER */
@@ -477,19 +477,29 @@ class DemandModel(enum.Enum):
 
 
 class Option(enum.Enum):
-    TRIALS       = EN_TRIALS
-    ACCURACY     = EN_ACCURACY
-    TOLERANCE    = EN_TOLERANCE
-    EMITEXPON    = EN_EMITEXPON
-    DEMANDMULT   = EN_DEMANDMULT
-    HEADERROR    = EN_HEADERROR
-    FLOWCHANGE   = EN_FLOWCHANGE
-    DEFDEMANDPAT = EN_DEFDEMANDPAT
-    HEADLOSSFORM = EN_HEADLOSSFORM
-    GLOBALEFFIC  = EN_GLOBALEFFIC
-    GLOBALPRICE  = EN_GLOBALPRICE
-    GLOBALPATTERN = EN_GLOBALPATTERN
-    DEMANDCHARGE = EN_DEMANDCHARGE
+    TRIALS         = 0
+    ACCURACY       = 1
+    TOLERANCE      = 2
+    EMITEXPON      = 3
+    DEMANDMULT     = 4
+    HEADERROR      = 5
+    FLOWCHANGE     = 6
+    HEADLOSSFORM   = 7
+    GLOBALEFFIC    = 8
+    GLOBALPRICE    = 9
+    GLOBALPATTERN  = 10
+    DEMANDCHARGE   = 11
+    SP_GRAVITY     = 12
+    SP_VISCOS      = 13
+    UNBALANCED     = 14
+    CHECKFREQ      = 15
+    MAXCHECK       = 16
+    DAMPLIMIT      = 17
+    SP_DIFFUS      = 18
+    BULKORDER      = 19
+    WALLORDER      = 20
+    TANKORDER      = 21
+    CONCENLIMIT    = 22
 
 
 class ControlType(enum.Enum):
