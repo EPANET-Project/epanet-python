@@ -9,7 +9,7 @@
 *.pyc
 
 _skbuild/
-# build/
+_cmake_test_compile
 
 dist/
 .pytest_cache/

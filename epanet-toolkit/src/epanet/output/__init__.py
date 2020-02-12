@@ -26,7 +26,6 @@ __maintainer__ = "Michael Tryby"
 __email__ = "tryby.michael@epa.gov"
 __status  = "Development"
 
-__all__ = ["output"]
 
 from enum import Enum, auto
 
@@ -115,7 +114,7 @@ class OutputMetadata():
         # Else quary the output api for unit settings
         else:
             for u in output.Units:
-                self.units.append(output.getunits(output_handle, u))
+                self.units.append(output.get_units(output_handle, u))
 
         # Convert unit settings to enums
         self._flow = output.FlowUnits(self.units[0])

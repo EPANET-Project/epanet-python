@@ -9,12 +9,13 @@
 # Author:     Michael E. Tryby
 #             US EPA - ORD/NRMRL
 #
-# Usage:
+# Suggested Usage:
 #   python setup.py build -- -G"Visual Studio 15 2017 Win64" ..
 #
 
 
 from skbuild import setup
+#from setuptools import setup
 
 
 setup(
@@ -24,9 +25,10 @@ setup(
 #    description='',
 #    long_description='',
 
-    cmake_args=['-GVisual Studio 14 2015 Win64'],
+    cmake_args = ['-GVisual Studio 14 2015 Win64'],
 
-    packages=['epanet', 'epanet.output', 'epanet.solver'],
+    package_dir = {'': 'src'},
+    packages = ['epanet.output', 'epanet.solver'],
 
     package_data = {'epanet.output':['*output.*', '*.dylib', '*.dll', '*.so'],
                     'epanet.solver':['*solver.*', '*.dylib', '*.dll', '*.so']},

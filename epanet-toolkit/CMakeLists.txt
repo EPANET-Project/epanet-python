@@ -25,6 +25,6 @@ include(${SWIG_USE_FILE})
 add_subdirectory(epanet-solver)
 
 
-add_subdirectory(epanet/output)
+add_subdirectory(src/epanet/output)
 
-add_subdirectory(epanet/solver)
+add_subdirectory(src/epanet/solver)

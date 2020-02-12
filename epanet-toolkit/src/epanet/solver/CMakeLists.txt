@@ -29,6 +29,7 @@ target_link_libraries(solver
 
 install(
     FILES
+        "__init__.py"
         "$<TARGET_FILE:solver>"
         "${CMAKE_CURRENT_BINARY_DIR}/solver.py"
     DESTINATION
