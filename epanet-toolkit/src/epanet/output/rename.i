@@ -1,4 +1,12 @@
-
+/*
+ *  rename.i - SWIG interface description file for EPANET Output API
+ *
+ *  Created:    2/12/2020
+ *
+ *  Author:     Michael E. Tryby
+ *              US EPA - ORD/CESER
+ *
+*/
 
 
 // RENAME FUNCTIONS ACCORDING TO PEP8
