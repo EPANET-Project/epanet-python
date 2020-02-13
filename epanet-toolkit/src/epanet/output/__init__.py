@@ -3,7 +3,8 @@
 #
 #  __init__.py - EPANET output package
 #
-#  Date Created: August 15, 2018
+#  Created: August 15, 2018
+#  Updated: February 13, 2020
 #
 #  Author:     Michael E. Tryby
 #              US EPA - ORD/NRMRL
@@ -27,25 +28,25 @@ __email__ = "tryby.michael@epa.gov"
 __status  = "Development"
 
 
-from enum import Enum, auto
+from aenum import Enum
 
 from epanet.output import output
 
 
-class Units(Enum):
-    FLOW_RATE = auto()
-    HYD_HEAD  = auto()
-    PRESSURE  = auto()
-    CONCEN    = auto()
-    VELOCITY  = auto()
-    HEADLOSS  = auto()
-    RX_RATE   = auto()
-    UNITLESS  = auto()
-    NONE      = auto()
+class Units(Enum, start = 1):
+    FLOW_RATE
+    HYD_HEAD
+    PRESSURE
+    CONCEN
+    VELOCITY
+    HEADLOSS
+    RX_RATE
+    UNITLESS
+    NONE
 
-class RxUnits(Enum):
-    MGH       = auto()
-    UGH       = auto()
+class RxUnits(Enum, start = 1):
+    MGH
+    UGH
 
 
 class OutputMetadata():
@@ -54,14 +55,11 @@ class OutputMetadata():
     '''
 
     _unit_labels_us_ = {
-        Units.HYD_HEAD:       "ft",
-        Units.VELOCITY:       "ft/sec",
-        Units.HEADLOSS:       "ft/1000ft",
-        Units.UNITLESS:       "unitless",
-        Units.NONE:           "",
-
-        RxUnits.MGH:          "mg/hr",
-        RxUnits.UGH:          "ug/hr",
+        Units.HYD_HEAD:         "ft",
+        Units.VELOCITY:         "ft/sec",
+        Units.HEADLOSS:         "ft/1000ft",
+        Units.UNITLESS:         "unitless",
+        Units.NONE:             "",
 
         output.FlowUnits.CFS:   "cu ft/s",
         output.FlowUnits.GPM:   "gal/min",
@@ -69,23 +67,15 @@ class OutputMetadata():
         output.FlowUnits.IMGD:  "M Imp gal/day",
         output.FlowUnits.AFD:   "ac ft/day",
 
-        output.PressUnits.PSI:  "psi",
-
-        output.QualUnits.NONE:  "",
-        output.QualUnits.MGL:   "mg/L",
-        output.QualUnits.UGL:   "ug/L",
-        output.QualUnits.HOURS: "hrs",
-        output.QualUnits.PRCNT: "%"}
+        output.PressUnits.PSI:  "psi"
+    }
 
     _unit_labels_si_ = {
-        Units.HYD_HEAD:       "m",
-        Units.VELOCITY:       "m/sec",
-        Units.HEADLOSS:       "m/Km",
-        Units.UNITLESS:       "unitless",
-        Units.NONE:           "",
-
-        RxUnits.MGH:          "mg/hr",
-        RxUnits.UGH:          "ug/hr",
+        Units.HYD_HEAD:         "m",
+        Units.VELOCITY:         "m/sec",
+        Units.HEADLOSS:         "m/Km",
+        Units.UNITLESS:         "unitless",
+        Units.NONE:             "",
 
         output.FlowUnits.LPS:   "L/sec",
         output.FlowUnits.LPM:   "L/min",
@@ -94,13 +84,19 @@ class OutputMetadata():
         output.FlowUnits.CMD:   "cu m/day",
 
         output.PressUnits.MTR:  "meters",
-        output.PressUnits.KPA:  "kPa",
+        output.PressUnits.KPA:  "kPa"
+    }
+
+    _unit_labels_quality_ = {
+        RxUnits.MGH:            "mg/hr",
+        RxUnits.UGH:            "ug/hr",
 
         output.QualUnits.NONE:  "",
         output.QualUnits.MGL:   "mg/L",
         output.QualUnits.UGL:   "ug/L",
         output.QualUnits.HOURS: "hrs",
-        output.QualUnits.PRCNT: "%"}
+        output.QualUnits.PRCNT: "%"
+    }
 
 
     def __init__(self, output_handle):
@@ -126,6 +122,7 @@ class OutputMetadata():
             self._unit_labels = type(self)._unit_labels_us_
         else:
             self._unit_labels = type(self)._unit_labels_si_
+        self._unit_labels.update(type(self)._unit_labels_quality_)
 
         # Determine mass units from quality settings
         if self._qual == output.QualUnits.MGL:
