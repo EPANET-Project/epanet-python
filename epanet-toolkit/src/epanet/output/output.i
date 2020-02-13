@@ -2,7 +2,6 @@
  *  epanet_output.i - SWIG interface description file for EPANET Output API
  *
  *  Created:    9/20/2017
- *  Modified:   2/12/2020
  *
  *  Author:     Michael E. Tryby
  *              US EPA - ORD/NRMRL
@@ -103,6 +102,21 @@ and return a (possibly) different pointer */
     }
 }
 
+/* TYPEMAP FOR ENUMERATED TYPES */
+%typemap(in) EnumeratedType (int val, int ecode = 0) {
+    if (PyObject_HasAttrString($input,"value")) {
+        PyObject* o;
+        o = PyObject_GetAttrString($input, "value");
+        ecode = SWIG_AsVal_int(o, &val);
+    }
+    else {
+        SWIG_exception_fail(SWIG_ArgError(ecode), "in method '" "$symname" "', argument " "$argnum"" of type '" "$ltype""'");
+    }
+
+    $1 = ($1_type)(val);
+}
+%apply EnumeratedType {ENR_ElementType, ENR_Units, ENR_Time, ENR_NodeAttribute, ENR_LinkAttribute}
+
 
 /* TYPEMAP FOR STRING ALLOCATED IN EPANET AND RETURNED AS char ** */
 %cstring_output_allocate(char **msg_buffer, ENR_freeMemory(*$1));
@@ -140,23 +154,23 @@ and return a (possibly) different pointer */
 
 int ENR_getVersion(ENR_Handle p_handle, int* int_out);
 int ENR_getNetSize(ENR_Handle p_handle, int** int_out, int* int_dim);
-int ENR_getUnits(ENR_Handle p_handle, int units, int* int_out);
-int ENR_getTimes(ENR_Handle p_handle, int time, int* int_out);
-int ENR_getElementName(ENR_Handle p_handle, int elementType,
+int ENR_getUnits(ENR_Handle p_handle, ENR_Units t_enum, int* int_out);
+int ENR_getTimes(ENR_Handle p_handle, ENR_Time t_enum, int* int_out);
+int ENR_getElementName(ENR_Handle p_handle, ENR_ElementType t_enum,
 		int elementIndex, char** string_out, int* slen);
 int ENR_getEnergyUsage(ENR_Handle p_handle, int pumpIndex,
 		int* int_out, float** float_out, int* int_dim);
 int ENR_getNetReacts(ENR_Handle p_handle, float** float_out, int* int_dim);
 
-int ENR_getNodeSeries(ENR_Handle p_handle_in, int nodeIndex, int nodeAttr,
+int ENR_getNodeSeries(ENR_Handle p_handle_in, int nodeIndex, ENR_NodeAttribute t_enum,
     int startPeriod, int endPeriod, float** float_out, int* int_dim);
-int ENR_getLinkSeries(ENR_Handle p_handle_in, int linkIndex, int linkAttr,
+int ENR_getLinkSeries(ENR_Handle p_handle_in, int linkIndex, ENR_LinkAttribute t_enum,
     int startPeriod, int endPeriod, float** float_out, int* int_dim);
 
 int ENR_getNodeAttribute(ENR_Handle p_handle, int periodIndex,
-    int nodeAttr, float** float_out, int* int_dim);
+    ENR_NodeAttribute t_enum, float** float_out, int* int_dim);
 int ENR_getLinkAttribute(ENR_Handle p_handle, int periodIndex,
-    int linkAttr, float** float_out, int* int_dim);
+    ENR_LinkAttribute t_enum, float** float_out, int* int_dim);
 
 int ENR_getNodeResult(ENR_Handle p_handle_in, int periodIndex,
     int nodeIndex, float** float_out, int* int_dim);
@@ -181,18 +195,18 @@ int ENR_checkError(ENR_Handle p_handle, char **msg_buffer);
 /* CODE ADDED DIRECTLY TO SWIGGED INTERFACE MODULE */
 %pythoncode%{
 
-from aenum import IntEnum
+from aenum import Enum
 
-class ElementType(IntEnum, start = 1):
+class ElementType(Enum, start = 1):
     NODE
     LINK
 
-class Units(IntEnum, start = 1):
+class Units(Enum, start = 1):
     FLOW
     PRESS
     QUAL
 
-class FlowUnits(IntEnum, start = 0):
+class FlowUnits(Enum, start = 0):
     CFS
     GPM
     MGD
@@ -204,31 +218,31 @@ class FlowUnits(IntEnum, start = 0):
     CMH
     CMD
 
-class PressUnits(IntEnum, start = 0):
+class PressUnits(Enum, start = 0):
     PSI
     MTR
     KPA
 
-class QualUnits(IntEnum, start = 0):
+class QualUnits(Enum, start = 0):
     NONE
     MGL
     UGL
     HOURS
     PRCNT
 
-class Time(IntEnum, start = 1):
+class Time(Enum, start = 1):
     REPORT_START
     REPORT_STEP
     SIM_DURATION
     NUM_PERIODS
 
-class NodeAttribute(IntEnum, start = 1):
+class NodeAttribute(Enum, start = 1):
     DEMAND
     HEAD
     PRESSURE
     QUALITY
 
-class LinkAttribute(IntEnum, start = 1):
+class LinkAttribute(Enum, start = 1):
     FLOW
     VELOCITY
     HEADLOSS
