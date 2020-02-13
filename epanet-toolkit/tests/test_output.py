@@ -83,6 +83,14 @@ def test_getnetsize(handle):
     assert np.array_equal(netsize_list, ref_array)
 
 
+def test_getelementname(handle):
+    ref_index = 1
+    ref_name = "10"
+
+    name = output.get_elem_name(handle, output.ElementType.NODE, ref_index)
+    assert name == ref_name
+
+
 def test_getnodeSeries(handle):
 
     ref_array = np.array(
