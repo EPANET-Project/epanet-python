@@ -52,7 +52,8 @@ and return a (possibly) different pointer */
 
 
 /* TYPEMAP FOR MEMORY MANAGEMENT AND ENCODING OF STRINGS */
-%cstring_output_allocate_size(char **string_out, int *slen, ENR_freeMemory(*$1))
+%cstring_output_allocate_size(char **string_out, int *slen, ENR_freeMemory(*$1));
+%cstring_output_allocate(char **msg_buffer, ENR_freeMemory(*$1));
 
 
 /* TYPEMAPS FOR MEMORY MANAGEMNET OF FLOAT ARRAYS */
@@ -72,6 +73,7 @@ and return a (possibly) different pointer */
     }
 }
 
+
 /* TYPEMAPS FOR MEMORY MANAGEMENT OF INT ARRAYS */
 %typemap(in, numinputs=0)int **int_out (long *temp), int *int_dim (int temp){
    $1 = &temp;
@@ -88,6 +90,7 @@ and return a (possibly) different pointer */
       free(*$1);
     }
 }
+
 
 /* TYPEMAP FOR ENUMERATED TYPES */
 %typemap(in) EnumeratedType (int val, int ecode = 0) {
@@ -109,10 +112,6 @@ and return a (possibly) different pointer */
     ENR_NodeAttribute,
     ENR_LinkAttribute
 }
-
-
-/* TYPEMAP FOR STRING ALLOCATED IN EPANET AND RETURNED AS char ** */
-%cstring_output_allocate(char **msg_buffer, ENR_freeMemory(*$1));
 
 
 /* RENAME FUNCTIONS PYTHON STYLE */
