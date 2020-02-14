@@ -22,14 +22,13 @@ def test_open_close():
     output.close_file(_handle)
     output.delete_handle(_handle)
 
-def test_clear_check():
-    _handle = output.create_handle()
-
-    output.clear_error(_handle)
-    output.open_file(_handle, OUTPUT_FILE_FAIL)
-    message = output.check_error(_handle)
-
-    output.delete_handle(_handle)
+def test_error_handling():
+#    with pytest.raises(Exception):
+        try:
+            _handle = output.create_handle()
+            output.open_file(_handle, OUTPUT_FILE_FAIL)
+        finally:
+            output.delete_handle(_handle)
 
 
 @pytest.fixture()

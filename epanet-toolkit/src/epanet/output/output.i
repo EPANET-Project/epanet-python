@@ -16,17 +16,12 @@
 
 %module(package="epanet") output
 %{
-
 #define SWIG_FILE_WITH_INIT
 
 #include "epanet_output_enums.h"
 #include "epanet_output.h"
-
 %}
 
-
-/* DECLARE HANDLE */
-typedef struct Handle *ENR_Handle;
 
 /* MARK FUNCTIONS FOR ALLOCATING AND DEALLOCATING HANDLES */
 %newobject ENR_createHandle;
@@ -123,70 +118,49 @@ and return a (possibly) different pointer */
 
 
 /* INSERTS CUSTOM EXCEPTION HANDLING IN WRAPPER */
+%exception ENR_createHandle
+{
+    char *err_msg = NULL;
+    $function
+    ENR_getError(result, &err_msg);
+    if (err_msg)
+        PyErr_SetString(PyExc_Exception, err_msg);
+    ENR_freeMemory(err_msg);
+}
+
+%exception ENR_deleteHandle
+{
+    char *err_msg = NULL;
+    $function
+    ENR_getError(result, &err_msg);
+    if (err_msg)
+        PyErr_SetString(PyExc_Exception, err_msg);
+    ENR_freeMemory(err_msg);
+}
+
 %exception
 {
-    char *err_msg;
+    char *err_msg = NULL;
 
-    ENR_clearError(arg1);
     $function
-    if (ENR_checkError(arg1, &err_msg))
-    {
+
+    ENR_getError(result, &err_msg);
+
+    if (result > 10)
         PyErr_SetString(PyExc_Exception, err_msg);
-        ENR_freeMemory(err_msg);
-    	SWIG_fail;
-    }
+    else if (result > 0)
+        PyErr_WarnEx(PyExc_Warning, err_msg, 2);
+
+    ENR_freeMemory(err_msg);
 }
 /* INSERT EXCEPTION HANDLING FOR THESE FUNCTIONS */
-int ENR_getVersion(ENR_Handle p_handle, int *OUTPUT);
 
-int ENR_getNetSize(ENR_Handle p_handle, int **int_out, int *int_dim);
+%ignore ENR_getError;
+%ignore ENR_freeMemory;
 
-int ENR_getUnits(ENR_Handle p_handle, ENR_Units t_enum, int *OUTPUT);
-
-int ENR_getTimes(ENR_Handle p_handle, ENR_Time t_enum, int *OUTPUT);
-
-int ENR_getElementName(ENR_Handle p_handle, ENR_ElementType t_enum,
-		int elementIndex, char **string_out, int *slen);
-
-int ENR_getEnergyUsage(ENR_Handle p_handle, int pumpIndex,
-		int *OUTPUT, float **float_out, int *int_dim);
-
-int ENR_getNetReacts(ENR_Handle p_handle, float **float_out, int *int_dim);
-
-int ENR_getNodeSeries(ENR_Handle p_handle_in, int nodeIndex, ENR_NodeAttribute t_enum,
-    int startPeriod, int endPeriod, float **float_out, int *int_dim);
-
-int ENR_getLinkSeries(ENR_Handle p_handle_in, int linkIndex, ENR_LinkAttribute t_enum,
-    int startPeriod, int endPeriod, float **float_out, int *int_dim);
-
-int ENR_getNodeAttribute(ENR_Handle p_handle, int periodIndex,
-    ENR_NodeAttribute t_enum, float **float_out, int *int_dim);
-
-int ENR_getLinkAttribute(ENR_Handle p_handle, int periodIndex,
-    ENR_LinkAttribute t_enum, float **float_out, int *int_dim);
-
-int ENR_getNodeResult(ENR_Handle p_handle_in, int periodIndex,
-    int nodeIndex, float **float_out, int *int_dim);
-
-int ENR_getLinkResult(ENR_Handle p_handle_in, int periodIndex,
-    int linkIndex, float **float_out, int *int_dim);
+%include "epanet_output.h"
 
 %exception;
-
-/* NO EXCEPTION HANDLING FOR THESE FUNCTIONS */
-int ENR_createHandle(ENR_Handle *p_handle_out);
-
-int ENR_openFile(ENR_Handle p_handle, const char *path);
-
-int ENR_closeFile(ENR_Handle p_handle);
-
-int ENR_deleteHandle(ENR_Handle p_handle);
-
-void ENR_freeMemory(void *memory);
-
-void ENR_clearError(ENR_Handle p_handle);
-
-int ENR_checkError(ENR_Handle p_handle, char **msg_buffer);
 
 
 /* CODE ADDED DIRECTLY TO SWIGGED INTERFACE MODULE */

@@ -32,7 +32,3 @@
 
 %rename(get_node_result)    ENR_getNodeResult;
 %rename(get_link_result)    ENR_getLinkResult;
-
-%rename(output_free)        ENR_freeMemory;
-%rename(clear_error)        ENR_clearError;
-%rename(check_error)        ENR_checkError;
