@@ -28,25 +28,7 @@ __email__ = "tryby.michael@epa.gov"
 __status  = "Development"
 
 
-from aenum import Enum
-
-from epanet.output import output
-
-
-class Units(Enum, start = 1):
-    FLOW_RATE
-    HYD_HEAD
-    PRESSURE
-    CONCEN
-    VELOCITY
-    HEADLOSS
-    RX_RATE
-    UNITLESS
-    NONE
-
-class RxUnits(Enum, start = 1):
-    MGH
-    UGH
+from epanet.output import output, output_enum
 
 
 class OutputMetadata():
@@ -55,98 +37,108 @@ class OutputMetadata():
     '''
 
     _unit_labels_us_ = {
-        Units.HYD_HEAD:         "ft",
-        Units.VELOCITY:         "ft/sec",
-        Units.HEADLOSS:         "ft/1000ft",
-        Units.UNITLESS:         "unitless",
-        Units.NONE:             "",
+        output_enum.BaseUnits.HYD_HEAD: "ft",
+        output_enum.BaseUnits.VELOCITY: "ft/sec",
+        output_enum.BaseUnits.HEADLOSS: "ft/1000ft",
+        output_enum.BaseUnits.UNITLESS: "unitless",
+        output_enum.BaseUnits.NONE:     "",
 
-        output.FlowUnits.CFS:   "cu ft/s",
-        output.FlowUnits.GPM:   "gal/min",
-        output.FlowUnits.MGD:   "M gal/day",
-        output.FlowUnits.IMGD:  "M Imp gal/day",
-        output.FlowUnits.AFD:   "ac ft/day",
+        output_enum.FlowUnits.CFS:      "cu ft/s",
+        output_enum.FlowUnits.GPM:      "gal/min",
+        output_enum.FlowUnits.MGD:      "M gal/day",
+        output_enum.FlowUnits.IMGD:     "M Imp gal/day",
+        output_enum.FlowUnits.AFD:      "ac ft/day",
 
-        output.PressUnits.PSI:  "psi"
+        output_enum.PresUnits.PSI:      "psi"
     }
 
     _unit_labels_si_ = {
-        Units.HYD_HEAD:         "m",
-        Units.VELOCITY:         "m/sec",
-        Units.HEADLOSS:         "m/Km",
-        Units.UNITLESS:         "unitless",
-        Units.NONE:             "",
+        output_enum.BaseUnits.HYD_HEAD: "m",
+        output_enum.BaseUnits.VELOCITY: "m/sec",
+        output_enum.BaseUnits.HEADLOSS: "m/Km",
+        output_enum.BaseUnits.UNITLESS: "unitless",
+        output_enum.BaseUnits.NONE:     "",
 
-        output.FlowUnits.LPS:   "L/sec",
-        output.FlowUnits.LPM:   "L/min",
-        output.FlowUnits.MLD:   "M L/day",
-        output.FlowUnits.CMH:   "cu m/hr",
-        output.FlowUnits.CMD:   "cu m/day",
+        output_enum.FlowUnits.LPS:      "L/sec",
+        output_enum.FlowUnits.LPM:      "L/min",
+        output_enum.FlowUnits.MLD:      "M L/day",
+        output_enum.FlowUnits.CMH:      "cu m/hr",
+        output_enum.FlowUnits.CMD:      "cu m/day",
 
-        output.PressUnits.MTR:  "meters",
-        output.PressUnits.KPA:  "kPa"
+        output_enum.PresUnits.MTR:      "meters",
+        output_enum.PresUnits.KPA:      "kPa"
     }
 
     _unit_labels_quality_ = {
-        RxUnits.MGH:            "mg/hr",
-        RxUnits.UGH:            "ug/hr",
+        output_enum.RxUnits.MGH:        "mg/hr",
+        output_enum.RxUnits.UGH:        "ug/hr",
 
-        output.QualUnits.NONE:  "",
-        output.QualUnits.MGL:   "mg/L",
-        output.QualUnits.UGL:   "ug/L",
-        output.QualUnits.HOURS: "hrs",
-        output.QualUnits.PRCNT: "%"
+        output_enum.QualUnits.NONE:     "",
+        output_enum.QualUnits.MGL:      "mg/L",
+        output_enum.QualUnits.UGL:      "ug/L",
+        output_enum.QualUnits.HOURS:    "hrs",
+        output_enum.QualUnits.PRCNT:    "%"
     }
 
 
     def __init__(self, output_handle):
 
-        self.units = list()
+        self._units = dict()
         # If outputhandle not initialized use default settings
         if output_handle == None:
-            self.units = [output.FlowUnits.GPM.value,
-                          output.PressUnits.PSI.value,
-                          output.QualUnits.NONE.value]
+            self._units = {
+                output_enum.UnitTypes.FLOW: output_enum.FlowUnits.GPM,
+                output_enum.UnitTypes.PRES: output_enum.PresUnits.PSI,
+                output_enum.UnitTypes.QUAL: output_enum.QualUnits.NONE
+            }
         # Else quary the output api for unit settings
         else:
-            for u in output.Units:
-                self.units.append(output.get_units(output_handle, u))
-
-        # Convert unit settings to enums
-        self._flow = output.FlowUnits(self.units[0])
-        self._press = output.PressUnits(self.units[1])
-        self._qual = output.QualUnits(self.units[2])
+            for u in output_enum.UnitTypes:
+                self._units[u] = output.get_units(output_handle, u)
 
         # Determine unit system from flow setting
-        if self._flow.value <= output.FlowUnits.AFD.value:
+        if self._units[output_enum.UnitTypes.FLOW] <= output_enum.FlowUnits.AFD:
             self._unit_labels = type(self)._unit_labels_us_
         else:
             self._unit_labels = type(self)._unit_labels_si_
+
         self._unit_labels.update(type(self)._unit_labels_quality_)
 
         # Determine mass units from quality settings
-        if self._qual == output.QualUnits.MGL:
-            self._rx_rate = RxUnits.MGH
-        elif self._qual == output.QualUnits.UGL:
-            self._rx_rate = RxUnits.UGH
+        if self._units[output_enum.UnitTypes.QUAL] == output_enum.QualUnits.MGL:
+            self._rx_rate = output_enum.RxUnits.MGH
+        elif self._units[output_enum.UnitTypes.QUAL] == output_enum.QualUnits.UGL:
+            self._rx_rate = output_enum.RxUnits.UGH
         else:
-            self._rx_rate = Units.NONE
+            self._rx_rate = output_enum.BaseUnits.NONE
 
 
         self._metadata = {
-            output.NodeAttribute.DEMAND:      ("Demand",          self._unit_labels[self._flow]),
-            output.NodeAttribute.HEAD:        ("Head",            self._unit_labels[Units.HYD_HEAD]),
-            output.NodeAttribute.PRESSURE:    ("Pressure",        self._unit_labels[self._press]),
-            output.NodeAttribute.QUALITY:     ("Quality",         self._unit_labels[self._qual]),
+            output_enum.NodeAttribute.DEMAND:
+                ("Demand", self._unit_labels[self._units[output_enum.UnitTypes.FLOW]]),
+            output_enum.NodeAttribute.HEAD:
+                ("Head", self._unit_labels[output_enum.BaseUnits.HYD_HEAD]),
+            output_enum.NodeAttribute.PRESSURE:
+                ("Pressure", self._unit_labels[self._units[output_enum.UnitTypes.PRES]]),
+            output_enum.NodeAttribute.QUALITY:
+                ("Quality", self._unit_labels[self._units[output_enum.UnitTypes.QUAL]]),
 
-            output.LinkAttribute.FLOW:        ("Flow",            self._unit_labels[self._flow]),
-            output.LinkAttribute.VELOCITY:    ("Velocity",        self._unit_labels[Units.VELOCITY]),
-            output.LinkAttribute.HEADLOSS:    ("Unit Headloss",   self._unit_labels[Units.HEADLOSS]),
-            output.LinkAttribute.AVG_QUALITY: ("Quality",         self._unit_labels[self._qual]),
-            output.LinkAttribute.STATUS:      ("Status",          self._unit_labels[Units.NONE]),
-            output.LinkAttribute.SETTING:     ("Setting",         self._unit_labels[Units.NONE]),
-            output.LinkAttribute.RX_RATE:     ("Reaction Rate",   self._unit_labels[self._rx_rate]),
-            output.LinkAttribute.FRCTN_FCTR:  ("Friction Factor", self._unit_labels[Units.UNITLESS])
+            output_enum.LinkAttribute.FLOW:
+                ("Flow", self._unit_labels[self._units[output_enum.UnitTypes.FLOW]]),
+            output_enum.LinkAttribute.VELOCITY:
+                ("Velocity", self._unit_labels[output_enum.BaseUnits.VELOCITY]),
+            output_enum.LinkAttribute.HEADLOSS:
+                ("Unit Headloss", self._unit_labels[output_enum.BaseUnits.HEADLOSS]),
+            output_enum.LinkAttribute.AVG_QUALITY:
+                ("Quality", self._unit_labels[self._units[output_enum.UnitTypes.QUAL]]),
+            output_enum.LinkAttribute.STATUS:
+                ("Status", self._unit_labels[output_enum.BaseUnits.NONE]),
+            output_enum.LinkAttribute.SETTING:
+                ("Setting", self._unit_labels[output_enum.BaseUnits.NONE]),
+            output_enum.LinkAttribute.RX_RATE:
+                ("Reaction Rate", self._unit_labels[self._rx_rate]),
+            output_enum.LinkAttribute.FRCTN_FCTR:
+                ("Friction Factor", self._unit_labels[output_enum.BaseUnits.UNITLESS])
         }
 
 

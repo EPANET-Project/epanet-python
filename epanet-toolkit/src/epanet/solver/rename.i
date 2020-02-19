@@ -9,7 +9,7 @@
 */
 
 
-// RENAME FUNCTIONS ACCORDING TO PEP8
+// GROUP AND RENAME FUNCTIONS ACCORDING TO PEP8
 %rename(proj_create)              EN_createproject;
 %rename(proj_delete)              EN_deleteproject;
 %rename(proj_run)                 EN_runproject;

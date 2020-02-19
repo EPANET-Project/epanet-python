@@ -35,6 +35,7 @@ target_link_libraries(output
 install(
     FILES
         "__init__.py"
+        "output_enum.py"
         "$<TARGET_FILE:output>"
         "${CMAKE_CURRENT_BINARY_DIR}/output.py"
     DESTINATION

@@ -29,12 +29,12 @@
 
 /* TYPEMAPS FOR HANDLE POINTER */
 /* Used for functions that output a new opaque pointer */
-%typemap(in,numinputs=0) ENR_Handle *p_handle_out (ENR_Handle temp) {
+%typemap(in,numinputs=0) ENR_Handle *p_handle (ENR_Handle temp) {
     $1 = &temp;
 }
 /* used for functions that take in an opaque pointer (or NULL)
 and return a (possibly) different pointer */
-%typemap(argout) ENR_Handle *p_handle_out {
+%typemap(argout) ENR_Handle *p_handle {
     %append_output(SWIG_NewPointerObj(*$1, SWIGTYPE_p_Handle, SWIG_POINTER_NEW));
 }
 
@@ -76,8 +76,10 @@ and return a (possibly) different pointer */
 %typemap(argout) (int **int_out, int *int_dim) {
     if (*$1) {
       PyObject *o = PyList_New(*$2);
+
       int i;
-      long* temp = *$1;
+      long *temp = *$1;
+
       for(i=0; i<*$2; i++) {
         PyList_SetItem(o, i, PyInt_FromLong(temp[i]));
       }
@@ -102,10 +104,40 @@ and return a (possibly) different pointer */
 }
 %apply EnumeratedType {
     ENR_ElementType,
-    ENR_Units,
+    ENR_UnitTypes,
     ENR_Time,
     ENR_NodeAttribute,
     ENR_LinkAttribute
+}
+
+
+%typemap(in, numinputs=0) int *enum_out (int temp) {
+    $1 = &temp;
+}
+%typemap(argout) int *enum_out {
+    char *units;
+
+    PyObject *module = PyImport_ImportModule("epanet.output.output_enum");
+
+    if (arg2 == ENR_flowUnits)     units = "FlowUnits";
+    else if(arg2 == ENR_presUnits) units = "PresUnits";
+    else if(arg2 == ENR_qualUnits) units = "QualUnits";
+    else units = NULL;
+
+    PyObject *function = PyDict_GetItemString(PyModule_GetDict(module), units);
+
+    if (PyCallable_Check(function)) {
+        PyObject *units = PyObject_CallFunction(function, "i", *$1);
+
+        %append_output(units);
+    }
+}
+
+
+/* TYPEMAP FOR INTEGER OUTPUT */
+%apply int *OUTPUT {
+    int *version,
+    int *link_index
 }
 
 
@@ -161,65 +193,3 @@ and return a (possibly) different pointer */
 %include "epanet_output.h"
 
 %exception;
-
-
-/* CODE ADDED DIRECTLY TO SWIGGED INTERFACE MODULE */
-%pythoncode%{
-
-from aenum import Enum
-
-class ElementType(Enum, start = 1):
-    NODE
-    LINK
-
-class Units(Enum, start = 1):
-    FLOW
-    PRESS
-    QUAL
-
-class FlowUnits(Enum, start = 0):
-    CFS
-    GPM
-    MGD
-    IMGD
-    AFD
-    LPS
-    LPM
-    MLD
-    CMH
-    CMD
-
-class PressUnits(Enum, start = 0):
-    PSI
-    MTR
-    KPA
-
-class QualUnits(Enum, start = 0):
-    NONE
-    MGL
-    UGL
-    HOURS
-    PRCNT
-
-class Time(Enum, start = 1):
-    REPORT_START
-    REPORT_STEP
-    SIM_DURATION
-    NUM_PERIODS
-
-class NodeAttribute(Enum, start = 1):
-    DEMAND
-    HEAD
-    PRESSURE
-    QUALITY
-
-class LinkAttribute(Enum, start = 1):
-    FLOW
-    VELOCITY
-    HEADLOSS
-    AVG_QUALITY
-    STATUS
-    SETTING
-    RX_RATE
-    FRCTN_FCTR
-%}
