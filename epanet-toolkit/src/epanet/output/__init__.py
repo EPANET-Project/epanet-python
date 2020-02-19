@@ -21,7 +21,7 @@ __credits__ = "Maurizio Cingi"
 __license__ = "CC0 1.0 Universal"
 
 __version__ = "0.3.0"
-__date__ = "February 13, 2020"
+__date__ = "February 19, 2020"
 
 __maintainer__ = "Michael Tryby"
 __email__ = "tryby.michael@epa.gov"
