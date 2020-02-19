@@ -135,7 +135,7 @@ def test_analysis(handle):
         test_value.append(solver.anlys_get_option(handle, code))
 
     funits = solver.anlys_get_flow_units(handle)
-    assert solver_enum.FlowUnits(funits) == solver_enum.FlowUnits.GPM
+    assert funits == solver_enum.FlowUnits.GPM
 
     test_value.clear()
     ref_value = [86400, 3600, 300, 7200, 0, 3600, 0, 360, 0, 0, 0, 0, 0, 0, 3600, 0]
@@ -144,7 +144,7 @@ def test_analysis(handle):
     assert test_value == ref_value
 
     qualinfo = solver.anlys_get_qual_info(handle)
-    assert qualinfo == [1, 'Chlorine' ,'mg/L', 0]
+    assert qualinfo == [solver_enum.QualityType.CHEM, 'Chlorine' ,'mg/L', 0]
 
 
 
@@ -156,7 +156,7 @@ def test_node(handle):
     assert id == '10'
 
     type = solver.node_get_type(handle, index)
-    assert solver_enum.NodeType(type) == solver_enum.NodeType.JUNCTION
+    assert type == solver_enum.NodeType.JUNCTION
 
     coord = solver.node_get_coord(handle, index)
     assert coord == [20.0, 70.0]
@@ -168,7 +168,7 @@ def test_demand(handle):
     assert count == 1
 
     model = solver.dmnd_get_model(handle)
-    assert model == [0, 0.0, 0.1, 0.5]
+    assert model == [solver_enum.DemandModel.DDA, 0.0, 0.1, 0.5]
 
     base = solver.dmnd_get_base(handle, index, count)
     assert base == 200.0
@@ -189,7 +189,7 @@ def test_link(handle):
     assert id == '10'
 
     type = solver.link_get_type(handle, index)
-    assert solver_enum.LinkType(type) == solver_enum.LinkType.PIPE
+    assert type == solver_enum.LinkType.PIPE
 
     nodes = solver.link_get_nodes(handle, index)
     assert nodes == [1, 2]
@@ -237,7 +237,7 @@ def test_curve(handle):
     assert length == 1
 
     type = solver.curv_get_type(handle, index)
-    assert solver_enum.CurveType(type) == solver_enum.CurveType.PUMP_CURVE
+    assert type == solver_enum.CurveType.PUMP_CURVE
 
     value = solver.curv_get_value(handle, index, length)
     assert value == [1500.0, 250.0]
@@ -246,11 +246,11 @@ def test_curve(handle):
 def test_simple_control(handle):
 
     value = solver.scntl_get(handle, 1)
-    assert value == [0, 13, 1.0, 11, 110.0]
+    assert value == [solver_enum.ControlType.LOWLEVEL, 13, 1.0, 11, 110.0]
 
     value.clear()
     value = solver.scntl_get(handle, 2)
-    assert value == [1, 13, 0.0, 11, 140.0]
+    assert value == [solver_enum.ControlType.HILEVEL, 13, 0.0, 11, 140.0]
 
 
 WARNING_TEST_INP = os.path.join(DATA_PATH, 'test_warnings.inp')
