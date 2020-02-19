@@ -30,8 +30,10 @@ setup(
     package_dir = {'': 'src'},
     packages = ['epanet.output', 'epanet.solver'],
 
-    package_data = {'epanet.output':['*output.*', '*.dylib', '*.dll', '*.so'],
-                    'epanet.solver':['*solver.*', '*.dylib', '*.dll', '*.so']},
+    package_data = {
+        'epanet.output':['*output*', '*.dylib', '*.dll', '*.so'],
+        'epanet.solver':['*solver.*', '*.dylib', '*.dll', '*.so']
+    },
 
     zip_safe=False
 )

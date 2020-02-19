@@ -233,7 +233,7 @@ class MixingModel(Enum, start = 0):
     LIFO
 
 
-class InitHydOption(Enum):
+class SaveInitOptions(Enum):
     NOSAVE        = 0
     SAVE          = 1
     INITFLOW      = 10

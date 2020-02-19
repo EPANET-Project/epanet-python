@@ -48,27 +48,27 @@
 }
 
 
-/* TYPEMAP FOR ENUMERATED TYPES */
-%typemap(in) EnumeratedType (int val, int ecode = 0) {
-    if (PyObject_HasAttrString($input,"value")) {
-        PyObject* o;
-        o = PyObject_GetAttrString($input, "value");
-        ecode = SWIG_AsVal_int(o, &val);
+/* TYPEMAP FOR ENUMERATED TYPE INPUT ARGUMENTS */
+%typemap(in) EnumTypeIn {
+    int value = 0;
+    if (PyObject_HasAttrString($input, "value")) {
+        PyObject *o = PyObject_GetAttrString($input, "value");
+        SWIG_AsVal_int(o, &value);
     }
-    else {
-        SWIG_exception_fail(SWIG_ArgError(ecode), "in method '" "$symname" "', argument " "$argnum"" of type '" "$ltype""'");
-    }
-
-    $1 = ($1_type)(val);
+    $1 = ($1_basetype)(value);
 }
-%apply EnumeratedType {
+%apply EnumTypeIn {
+    EN_SizeLimits,
     EN_NodeProperty,
     EN_LinkProperty,
     EN_TimeParameter,
     EN_AnalysisStatistic,
+    EN_ObjectType,
     EN_CountType,
     EN_NodeType,
     EN_LinkType,
+    EN_LinkStatusType,
+    EN_PumpStateType,
     EN_QualityType,
     EN_SourceType,
     EN_HeadLossType,
@@ -78,17 +78,65 @@
     EN_ControlType,
     EN_StatisticType,
     EN_MixingModel,
-    EN_InitHydOption,
+    EN_SaveInitOptions,
     EN_PumpType,
     EN_CurveType,
     EN_ActionCodeType,
+    EN_StatusReport,
     EN_RuleObject,
     EN_RuleVariable,
     EN_RuleOperator,
-    EN_RuleStatus,
-    EN_StatusReport
-};
+    EN_RuleStatus
+}
 
+/* TYPEMAPS FOR ENUMERATED TYPE OUTPUT ARGUMENTS */
+%typemap(in, numinputs=0) EnumTypeOut * (int temp) {
+    $1 = ($1_type)&temp;
+}
+%typemap(argout) EnumTypeOut * {
+    char *temp = "$1_basetype";
+    char *class = temp + 3;
+
+    PyObject *module = PyImport_ImportModule("epanet.solver.solver_enum");
+    PyObject *function = PyDict_GetItemString(PyModule_GetDict(module), class);
+
+    if (PyCallable_Check(function)) {
+        PyObject *enum_out = PyObject_CallFunction(function, "i", *$1);
+
+        %append_output(enum_out);
+    }
+}
+%apply EnumTypeOut * {
+    EN_SizeLimits *,
+    EN_NodeProperty *,
+    EN_LinkProperty *,
+    EN_TimeParameter *,
+    EN_AnalysisStatistic *,
+    EN_ObjectType *,
+    EN_CountType *,
+    EN_NodeType *,
+    EN_LinkType *,
+    EN_LinkStatusType *,
+    EN_PumpStateType *,
+    EN_QualityType *,
+    EN_SourceType *,
+    EN_HeadLossType *,
+    EN_FlowUnits *,
+    EN_DemandModel *,
+    EN_Option *,
+    EN_ControlType *,
+    EN_StatisticType *,
+    EN_MixingModel *,
+    EN_SaveInitOptions *,
+    EN_PumpType *,
+    EN_CurveType *,
+    EN_ActionCodeType *,
+    EN_StatusReport *,
+    EN_RuleObject *,
+    EN_RuleVariable *,
+    EN_RuleOperator *,
+    EN_RuleStatus *
+}
 
 /* APPLY MACROS FOR OUTPUT VARIABLES */
 %apply int *OUTPUT {
