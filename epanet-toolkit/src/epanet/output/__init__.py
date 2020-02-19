@@ -4,7 +4,7 @@
 #  __init__.py - EPANET output package
 #
 #  Created: August 15, 2018
-#  Updated: February 13, 2020
+#  Updated: February 19, 2020
 #
 #  Author:     Michael E. Tryby
 #              US EPA - ORD/NRMRL
@@ -82,8 +82,6 @@ class OutputMetadata():
 
 
     def __init__(self, output_handle):
-
-        self._units = dict()
         # If outputhandle not initialized use default settings
         if output_handle == None:
             self._units = {
@@ -93,6 +91,7 @@ class OutputMetadata():
             }
         # Else quary the output api for unit settings
         else:
+            self._units = {}
             for u in output_enum.UnitTypes:
                 self._units[u] = output.get_units(output_handle, u)
 
