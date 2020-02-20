@@ -1,9 +1,17 @@
+#
+#  test_output.py
+#
+#  Created:    October 19, 2018
+#  Author:     Michael E. Tryby
+#              US EPA - ORD/NRMRL
+#
+
 import os
 
 import pytest
 import numpy as np
 
-from epanet.output import OutputMetadata, output, output_enum
+from epanet.toolkit import output, output_enum, output_metadata
 
 
 DATA_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'data')
@@ -44,8 +52,7 @@ def handle(request):
 
 
 def test_output_metadata(handle):
-
-    om = OutputMetadata(handle)
+    om = output_metadata.OutputMetadata(handle)
 
     ref = {
         output_enum.NodeAttribute.DEMAND:      ("Demand",          "gal/min"),
@@ -124,8 +131,18 @@ def test_getlinkseries(handle):
     pass
 
 def test_getnodeattribute(handle):
-    ref_array = np.array([ 1., 0.44407997, 0.43766347, 0.42827705, 0.41342604,
-        0.42804748, 0.44152543, 0.40502965, 0.38635802, 1., 0.96745253])
+    ref_array = np.array([
+        1.,
+        0.44407997,
+        0.43766347,
+        0.42827705,
+        0.41342604,
+        0.42804748,
+        0.44152543,
+        0.40502965,
+        0.38635802,
+        1.,
+        0.96745253])
 
     array = output.get_node_attribute(handle, 1, output_enum.NodeAttribute.QUALITY)
     assert len(array) == 11
@@ -133,9 +150,20 @@ def test_getnodeattribute(handle):
 
 
 def test_getlinkattribute(handle):
-    ref_array = np.array([ 1848.58117676, 1220.42736816, 130.11161804,
-        187.68930054, 119.88839722, 40.46448898, -748.58111572, 478.15377808,
-        191.73458862, 30.11160851, 140.4644928, 59.53551483, 1848.58117676])
+    ref_array = np.array([
+        1848.58117676,
+        1220.42736816,
+        130.11161804,
+        187.68930054,
+        119.88839722,
+        40.46448898,
+        -748.58111572,
+        478.15377808,
+        191.73458862,
+        30.11160851,
+        140.4644928,
+        59.53551483,
+        1848.58117676])
 
     array = output.get_link_attribute(handle, 1, output_enum.LinkAttribute.FLOW)
     assert len(array) == 13

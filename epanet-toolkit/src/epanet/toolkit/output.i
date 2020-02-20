@@ -14,7 +14,7 @@
 %include "cstring.i"
 
 
-%module(package="epanet") output
+%module(package="epanet.toolkit") output
 %{
 #define SWIG_FILE_WITH_INIT
 
@@ -57,52 +57,44 @@ and return a (possibly) different pointer */
 }
 %typemap(argout) (float **float_out, int *int_dim) {
     if (*$1) {
-      PyObject *o = PyList_New(*$2);
-      int i;
-      float *temp = *$1;
-      for(i=0; i<*$2; i++) {
-        PyList_SetItem(o, i, PyFloat_FromDouble((double)temp[i]));
-      }
-      $result = SWIG_Python_AppendOutput($result, o);
-      free(*$1);
+        float *temp = *$1;
+        PyObject *o = PyList_New(*$2);
+        for(int i=0; i<*$2; i++) {
+            PyList_SetItem(o, i, PyFloat_FromDouble((double)temp[i]));
+        }
+        $result = SWIG_Python_AppendOutput($result, o);
+        free(*$1);
     }
 }
 
 
 /* TYPEMAPS FOR MEMORY MANAGEMENT OF INT ARRAYS */
 %typemap(in, numinputs=0)int **int_out (long *temp), int *int_dim (int temp){
-   $1 = &temp;
+    $1 = &temp;
 }
 %typemap(argout) (int **int_out, int *int_dim) {
     if (*$1) {
-      PyObject *o = PyList_New(*$2);
-
-      int i;
-      long *temp = *$1;
-
-      for(i=0; i<*$2; i++) {
-        PyList_SetItem(o, i, PyInt_FromLong(temp[i]));
-      }
-      $result = SWIG_Python_AppendOutput($result, o);
-      free(*$1);
+        long *temp = *$1;
+        PyObject *o = PyList_New(*$2);
+        for(int i=0; i<*$2; i++) {
+            PyList_SetItem(o, i, PyInt_FromLong(temp[i]));
+        }
+        $result = SWIG_Python_AppendOutput($result, o);
+        free(*$1);
     }
 }
 
 
 /* TYPEMAP FOR ENUMERATED TYPES */
-%typemap(in) EnumeratedType (int val, int ecode = 0) {
-    if (PyObject_HasAttrString($input,"value")) {
-        PyObject *o;
-        o = PyObject_GetAttrString($input, "value");
-        ecode = SWIG_AsVal_int(o, &val);
+%typemap(in) EnumTypeIn {
+    int value = 0;
+    if (PyObject_HasAttrString($input, "value")) {
+        PyObject *o = PyObject_GetAttrString($input, "value");
+        SWIG_AsVal_int(o, &value);
     }
-    else {
-        SWIG_exception_fail(SWIG_ArgError(ecode), "in method '" "$symname" "', argument " "$argnum"" of type '" "$ltype""'");
-    }
-
-    $1 = ($1_type)(val);
+    $1 = ($1_basetype)(value);
 }
-%apply EnumeratedType {
+%apply EnumTypeIn {
     ENR_ElementType,
     ENR_UnitTypes,
     ENR_Time,
@@ -116,19 +108,14 @@ and return a (possibly) different pointer */
 }
 %typemap(argout) int *enum_out {
     char *units;
-
-    PyObject *module = PyImport_ImportModule("epanet.output.output_enum");
-
+    PyObject *module = PyImport_ImportModule("epanet.toolkit.output_enum");
     if (arg2 == ENR_flowUnits)     units = "FlowUnits";
     else if(arg2 == ENR_presUnits) units = "PresUnits";
     else if(arg2 == ENR_qualUnits) units = "QualUnits";
     else units = NULL;
-
     PyObject *function = PyDict_GetItemString(PyModule_GetDict(module), units);
-
     if (PyCallable_Check(function)) {
         PyObject *units = PyObject_CallFunction(function, "i", *$1);
-
         %append_output(units);
     }
 }
@@ -143,7 +130,7 @@ and return a (possibly) different pointer */
 
 /* RENAME FUNCTIONS PYTHON STYLE */
 //%rename("%(regex:/^\w+_([a-zA-Z]+)/\L\\1/)s") "";
-%include "rename.i"
+%include "output_rename.i"
 
 /* GENERATES DOCUMENTATION */
 %feature("autodoc", "2");
@@ -173,16 +160,12 @@ and return a (possibly) different pointer */
 %exception
 {
     char *err_msg = NULL;
-
     $function
-
     ENR_getError(result, &err_msg);
-
     if (result > 10)
         PyErr_SetString(PyExc_Exception, err_msg);
     else if (result > 0)
         PyErr_WarnEx(PyExc_Warning, err_msg, 2);
-
     ENR_freeMemory(err_msg);
 }
 /* INSERT EXCEPTION HANDLING FOR THESE FUNCTIONS */

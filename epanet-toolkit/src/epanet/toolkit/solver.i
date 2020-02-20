@@ -2,7 +2,7 @@
  *  solver.i - SWIG interface description file for EPANET toolkit
  *
  *  Created:    11/27/2017
- *  Modified:   2/12/2020
+ *  Modified:   2/20/2020
  *
  *  Author:     Michael E. Tryby
  *              US EPA - ORD/NRMRL
@@ -17,7 +17,7 @@
 %include "cstring.i"
 
 
-%module(package="epanet") solver
+%module(package="epanet.toolkit") solver
 %{
 
 #define SWIG_FILE_WITH_INIT
@@ -95,14 +95,10 @@
 }
 %typemap(argout) EnumTypeOut * {
     char *temp = "$1_basetype";
-    char *class = temp + 3;
-
-    PyObject *module = PyImport_ImportModule("epanet.solver.solver_enum");
-    PyObject *function = PyDict_GetItemString(PyModule_GetDict(module), class);
-
+    PyObject *module = PyImport_ImportModule("epanet.toolkit.solver_enum");
+    PyObject *function = PyDict_GetItemString(PyModule_GetDict(module), (temp + 3));
     if (PyCallable_Check(function)) {
         PyObject *enum_out = PyObject_CallFunction(function, "i", *$1);
-
         %append_output(enum_out);
     }
 }
@@ -137,6 +133,7 @@
     EN_RuleOperator *,
     EN_RuleStatus *
 }
+
 
 /* APPLY MACROS FOR OUTPUT VARIABLES */
 %apply int *OUTPUT {
@@ -210,7 +207,7 @@
 }
 
 
-%include "rename.i"
+%include "solver_rename.i"
 
 
 /* GENERATES DOCUMENTATION */
@@ -221,16 +218,12 @@
 %exception
 {
     $function
-
-    if ( result > 10)
-    {
+    if ( result > 10) {
         char errmsg[EN_MAXMSG];
         EN_geterror(result, errmsg, EN_MAXMSG);
         PyErr_SetString(PyExc_Exception, errmsg);
-
     }
-    else if (result > 0)
-    {
+    else if (result > 0) {
         char errmsg[EN_MAXMSG];
         EN_geterror(result, errmsg, EN_MAXMSG);
         PyErr_WarnEx(PyExc_Warning, errmsg, 2);
@@ -238,6 +231,8 @@
 }
 
 /* INSERT EXCEPTION HANDLING FOR THESE FUNCTIONS */
+
+%ignore EN_geterror;
 
 %include "epanet2_2.h"
 

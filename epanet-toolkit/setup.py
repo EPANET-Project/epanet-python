@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
-
 #
 # setup.py - Setup script for epanet-toolkit python package
 #
 # Created:    7/2/2018
-# Modified:   2/6/2020
+# Modified:   2/20/2020
 #
 # Author:     Michael E. Tryby
 #             US EPA - ORD/NRMRL
@@ -15,7 +13,6 @@
 
 
 from skbuild import setup
-#from setuptools import setup
 
 
 setup(
@@ -28,11 +25,10 @@ setup(
     cmake_args = ['-GVisual Studio 14 2015 Win64'],
 
     package_dir = {'': 'src'},
-    packages = ['epanet.output', 'epanet.solver'],
+    packages = ['epanet.toolkit'],
 
     package_data = {
-        'epanet.output':['*output*', '*.dylib', '*.dll', '*.so'],
-        'epanet.solver':['*solver.*', '*.dylib', '*.dll', '*.so']
+        'epanet.toolkit':['*output*', '*solver*', '*.dylib', '*.dll', '*.so']
     },
 
     zip_safe=False

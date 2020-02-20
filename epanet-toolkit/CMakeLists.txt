@@ -2,7 +2,7 @@
 # CMakeLists.txt - CMake configuration file for epanet-toolkit python package
 #
 # Created:   Feb 6, 2020
-# Modified:
+# Modified:  Feb 20, 2020
 #
 # Author: Michael E. Tryby
 #         US EPA ORD/CESER
@@ -25,6 +25,4 @@ include(${SWIG_USE_FILE})
 add_subdirectory(epanet-solver)
 
 
-add_subdirectory(src/epanet/output)
-
-add_subdirectory(src/epanet/solver)
+add_subdirectory(src/epanet/toolkit)

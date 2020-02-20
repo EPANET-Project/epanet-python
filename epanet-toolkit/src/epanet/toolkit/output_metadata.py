@@ -1,34 +1,15 @@
-# -*- coding: utf-8 -*-
-
 #
-#  __init__.py - EPANET output package
+#  output_metadata.py -
 #
-#  Created: August 15, 2018
-#  Updated: February 19, 2020
+#  Created: February 20, 2020
+#  Updated:
 #
 #  Author:     Michael E. Tryby
-#              US EPA - ORD/NRMRL
+#              US EPA - ORD/CESER
 #
 
-'''
-A low level pythonic API for the epanet-output dll using SWIG.
-'''
 
-
-__author__ = "Michael Tryby"
-__copyright__ = "None"
-__credits__ = "Maurizio Cingi"
-__license__ = "CC0 1.0 Universal"
-
-__version__ = "0.3.0"
-__date__ = "February 19, 2020"
-
-__maintainer__ = "Michael Tryby"
-__email__ = "tryby.michael@epa.gov"
-__status  = "Development"
-
-
-from epanet.output import output, output_enum
+from epanet.toolkit import output, output_enum
 
 
 class OutputMetadata():

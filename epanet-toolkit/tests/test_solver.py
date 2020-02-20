@@ -1,5 +1,3 @@
-
-
 #
 #  test_solver.py
 #
@@ -13,7 +11,7 @@ import os
 import pytest
 import os.path as osp
 
-from epanet.solver import solver, solver_enum
+from epanet.toolkit import solver, solver_enum
 
 
 DATA_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'data')
@@ -139,6 +137,7 @@ def test_analysis(handle):
 
     test_value.clear()
     ref_value = [86400, 3600, 300, 7200, 0, 3600, 0, 360, 0, 0, 0, 0, 0, 0, 3600, 0]
+
     for code in solver_enum.TimeParameter:
         test_value.append(solver.anlys_get_time_param(handle, code))
     assert test_value == ref_value
