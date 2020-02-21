@@ -1,5 +1,5 @@
 /*
- *  rename.i - SWIG interface description file for EPANET Output API
+ *  output_rename.i - rename mapping for epanet-output
  *
  *  Created:    2/12/2020
  *

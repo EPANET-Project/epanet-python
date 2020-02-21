@@ -85,7 +85,7 @@ and return a (possibly) different pointer */
 }
 
 
-/* TYPEMAP FOR ENUMERATED TYPES */
+/* TYPEMAP FOR ENUMERATED TYPE INPUT ARGUMENTS */
 %typemap(in) EnumTypeIn {
     int value = 0;
     if (PyObject_HasAttrString($input, "value")) {
@@ -103,6 +103,7 @@ and return a (possibly) different pointer */
 }
 
 
+/* TYPEMAP SPECIFICALLY FOR ENR_getUnits */
 %typemap(in, numinputs=0) int *enum_out (int temp) {
     $1 = &temp;
 }
