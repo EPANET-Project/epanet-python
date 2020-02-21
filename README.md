@@ -10,7 +10,7 @@ The home for Python packages related to the EPANET engine.
 
 ## Contents
 * epanet-toolkit - SWIG based wrappers for the EPANET solver and output libraries.
-* nrtest-epanet  - A nrtest plugin for repression testing EPANET solver. 
+* nrtest-epanet  - nrtest plugin for regression testing EPANET solver. 
 
 
 ## Motivation
