@@ -63,7 +63,7 @@ and return a (possibly) different pointer */
             PyList_SetItem(o, i, PyFloat_FromDouble((double)temp[i]));
         }
         $result = SWIG_Python_AppendOutput($result, o);
-        free(*$1);
+        ENR_freeMemory(*$1);
     }
 }
 
@@ -80,7 +80,7 @@ and return a (possibly) different pointer */
             PyList_SetItem(o, i, PyInt_FromLong(temp[i]));
         }
         $result = SWIG_Python_AppendOutput($result, o);
-        free(*$1);
+        ENR_freeMemory(*$1);
     }
 }
 
