@@ -6,13 +6,15 @@
 
 ## Features
 
-`epanet-toolkit` makes EPANET a fully fledged Python extension. 
+`epanet-toolkit` makes EPANET a fully fledged Python extension with:  
 
- - Full access to the epanet-solver and epanet-output library APIs
+ - full access to the epanet-solver and epanet-output library APIs
  - Python integration at the speed of C
- - Pythonic warnings and exceptions
- - Enhanced support for enumerated types 
+ - EPANET warning and error codes thrown as Python exceptions
+ - Pythonic naming and return value handling
+ - enhanced support for enumerated types 
  
+
 ## Installation
 
 
@@ -23,8 +25,7 @@ from epanet.toolkit import solver
 
 handle = solver.proj_create()
 
-solver.proj_open(handle, 'input_file.inp', `report_file.rpt`, `output_file.out`)
-solver.proj_close(handle)
+solver.proj_run(handle,  'input_file.inp', `report_file.rpt`, `output_file.out`, None)
 
 solver.proj_delete(handle)
 ```
