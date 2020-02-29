@@ -2,7 +2,7 @@
 
 
 # epanet-python
-The home for Python packages related to the EPANET.
+The home for Python packages related to EPANET.
 
 
 ## Contents
