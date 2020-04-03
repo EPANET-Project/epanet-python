@@ -12,7 +12,24 @@
 #
 
 
+import platform
+
 from skbuild import setup
+
+
+# Determine platform
+platform_system = platform.system()
+
+
+# Set platform specific cmake args here
+if platform_system == "Windows":
+    cmake_args = ["-GVisual Studio 14 2015 Win64"]
+
+elif platform_system == "Darwin":
+    cmake_args = ["-DCMAKE_OSX_DEPLOYMENT_TARGET:STRING=10.10"]
+
+else:
+    cmake_args = ["-GNinja"]
 
 
 setup(
@@ -22,7 +39,7 @@ setup(
 #    description='',
 #    long_description='',
 
-    cmake_args = ['-GVisual Studio 14 2015 Win64'],
+    cmake_args=cmake_args,
 
     package_dir = {'': 'src'},
     packages = ['epanet.toolkit'],
