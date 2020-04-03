@@ -94,5 +94,5 @@ install(
 )
 
 
-set(CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION "epanet/toolkit")
+set(CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION "src/epanet/toolkit")
 include(InstallRequiredSystemLibraries)
