@@ -26,7 +26,7 @@ if platform_system == "Windows":
     cmake_args = ["-GVisual Studio 14 2015 Win64"]
 
 elif platform_system == "Darwin":
-    cmake_args = ["-DCMAKE_OSX_DEPLOYMENT_TARGET:STRING=10.10"]
+    cmake_args = ["-DCMAKE_OSX_DEPLOYMENT_TARGET:STRING=10.10"] #python v3.7
 
 else:
     cmake_args = ["-GNinja"]
@@ -39,14 +39,12 @@ setup(
 #    description='',
 #    long_description='',
 
-    cmake_args=cmake_args,
+    cmake_args = cmake_args,
 
     package_dir = {'': 'src'},
     packages = ['epanet.toolkit'],
 
-    package_data = {
-        'epanet.toolkit':['*output*', '*solver*', '*.dylib', '*.dll', '*.so']
-    },
+    include_package_data = True,
 
-    zip_safe=False
+    zip_safe = False
 )

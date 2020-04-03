@@ -9,6 +9,8 @@
 #
 
 
+set(CMAKE_SWIG_FLAGS -py3)
+
 
 #######   OUTPUT TARGET   #######
 
@@ -43,14 +45,14 @@ install(
         "$<TARGET_FILE:output>"
         "${CMAKE_CURRENT_BINARY_DIR}/output.py"
     DESTINATION
-        "epanet/toolkit"
+        "src/epanet/toolkit"
 )
 
 install(
     TARGETS
-        epanet-output RUNTIME
+        epanet-output LIBRARY
     DESTINATION
-        "epanet/toolkit"
+        "src/epanet/toolkit"
 )
 
 
@@ -81,14 +83,14 @@ install(
         "$<TARGET_FILE:solver>"
         "${CMAKE_CURRENT_BINARY_DIR}/solver.py"
     DESTINATION
-        "epanet/toolkit"
+        "src/epanet/toolkit"
 )
 
 install(
     TARGETS
-        epanet2 RUNTIME
+        epanet2 LIBRARY
     DESTINATION
-        "epanet/toolkit"
+        "src/epanet/toolkit"
 )
 
 

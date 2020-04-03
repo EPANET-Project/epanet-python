@@ -69,12 +69,12 @@ and return a (possibly) different pointer */
 
 
 /* TYPEMAPS FOR MEMORY MANAGEMENT OF INT ARRAYS */
-%typemap(in, numinputs=0)int **int_out (long *temp), int *int_dim (int temp){
+%typemap(in, numinputs=0)int **int_out (int *temp), int *int_dim (int temp){
     $1 = &temp;
 }
 %typemap(argout) (int **int_out, int *int_dim) {
     if (*$1) {
-        long *temp = *$1;
+        long *temp = (long *)*$1;
         PyObject *o = PyList_New(*$2);
         for(int i=0; i<*$2; i++) {
             PyList_SetItem(o, i, PyInt_FromLong(temp[i]));
