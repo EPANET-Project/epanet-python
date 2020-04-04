@@ -2,7 +2,7 @@
 # CMakeLists.txt - CMake configuration file for epanet.toolkit python package
 #
 # Created:   Feb 20, 2020
-# Modified:
+# Modified:  Apr 3, 2020
 #
 # Author: Michael E. Tryby
 #         US EPA ORD/CESER
@@ -26,9 +26,10 @@ SWIG_ADD_LIBRARY(output
         output.i
     )
 
-set_property(TARGET output
-    PROPERTY
+set_target_properties(output
+    PROPERTIES
         SWIG_COMPILE_DEFINITIONS EXPORT_OUT_API
+        INSTALL_RPATH "$<IF:$<BOOL:APPLE>, @loader_path, $ORIGIN>"
     )
 
 target_link_libraries(output
@@ -70,6 +71,10 @@ SWIG_ADD_LIBRARY(solver
     SOURCES
         solver.i
     )
+
+set_target_properties(solver
+    PROPERTIES INSTALL_RPATH "$<IF:$<BOOL:APPLE>, @loader_path, $ORIGIN>"
+)
 
 target_link_libraries(solver
     PUBLIC
