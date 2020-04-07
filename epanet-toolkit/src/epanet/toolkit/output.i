@@ -74,10 +74,10 @@ and return a (possibly) different pointer */
 }
 %typemap(argout) (int **int_out, int *int_dim) {
     if (*$1) {
-        long *temp = (long *)*$1;
+        int *temp = *$1;
         PyObject *o = PyList_New(*$2);
         for(int i=0; i<*$2; i++) {
-            PyList_SetItem(o, i, PyInt_FromLong(temp[i]));
+            PyList_SetItem(o, i, PyInt_FromLong((long)temp[i]));
         }
         $result = SWIG_Python_AppendOutput($result, o);
         ENR_freeMemory(*$1);
