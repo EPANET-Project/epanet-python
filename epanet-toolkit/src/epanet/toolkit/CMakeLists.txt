@@ -17,31 +17,31 @@ set(CMAKE_SWIG_FLAGS -py3)
 set_property(SOURCE output.i
     PROPERTY
         USE_TARGET_INCLUDE_DIRECTORIES ON
-    )
+)
 
 SWIG_ADD_LIBRARY(output
     LANGUAGE
         python
     SOURCES
         output.i
-    )
+)
 
 set_target_properties(output
     PROPERTIES
         SWIG_COMPILE_DEFINITIONS EXPORT_OUT_API
 #        INSTALL_RPATH "$<IF:$<BOOL:APPLE>, @loader_path, $ORIGIN>"
-    )
+)
 
 target_link_options(output
     PUBLIC
         $<$<BOOL:APPLE>:-undefineddynamic_lookup>
-    )
+)
 
 target_link_libraries(output
     PUBLIC
         Python::Module
         epanet-output
-    )
+)
 
 install(
     FILES
