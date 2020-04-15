@@ -19,17 +19,13 @@ set_property(SOURCE output.i
         USE_TARGET_INCLUDE_DIRECTORIES ON
 )
 
-SWIG_ADD_LIBRARY(output
+swig_add_library(output
+    TYPE
+        MODULE
     LANGUAGE
         python
     SOURCES
         output.i
-)
-
-set_target_properties(output
-    PROPERTIES
-        SWIG_COMPILE_DEFINITIONS EXPORT_OUT_API
-#        INSTALL_RPATH "$<IF:$<BOOL:APPLE>, @loader_path, $ORIGIN>"
 )
 
 target_link_options(output
@@ -43,13 +39,29 @@ target_link_libraries(output
         epanet-output
 )
 
+set_target_properties(output
+    PROPERTIES
+        SWIG_COMPILE_DEFINITIONS EXPORT_OUT_API
+        MACOSX_RPATH TRUE
+        SKIP_BUILD_RPATH FALSE
+        BUILD_WITH_INSTALL_RPATH FALSE
+        INSTALL_RPATH "@loader_path/../../../.."
+        INSTALL_RPATH_USE_LINK_PATH TRUE
+)
+
 install(
     FILES
         "__init__.py"
         "output_enum.py"
         "output_metadata.py"
-        "$<TARGET_FILE:output>"
         "${CMAKE_CURRENT_BINARY_DIR}/output.py"
+    DESTINATION
+        "src/epanet/toolkit"
+)
+
+install(
+    TARGETS
+        output
     DESTINATION
         "src/epanet/toolkit"
 )
@@ -92,11 +104,27 @@ target_link_libraries(solver
         epanet2
 )
 
+set_target_properties(solver
+    PROPERTIES
+        SWIG_COMPILE_DEFINITIONS EXPORT_OUT_API
+        MACOSX_RPATH TRUE
+        SKIP_BUILD_RPATH FALSE
+        BUILD_WITH_INSTALL_RPATH FALSE
+        INSTALL_RPATH "@loader_path/../../../.."
+        INSTALL_RPATH_USE_LINK_PATH TRUE
+)
+
 install(
     FILES
         "solver_enum.py"
-        "$<TARGET_FILE:solver>"
         "${CMAKE_CURRENT_BINARY_DIR}/solver.py"
+    DESTINATION
+        "src/epanet/toolkit"
+)
+
+install(
+    TARGETS
+        solver
     DESTINATION
         "src/epanet/toolkit"
 )
