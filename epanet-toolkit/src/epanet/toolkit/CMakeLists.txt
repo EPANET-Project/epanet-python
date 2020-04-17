@@ -2,7 +2,7 @@
 # CMakeLists.txt - CMake configuration file for epanet.toolkit python package
 #
 # Created:   Feb 20, 2020
-# Modified:  Apr 3, 2020
+# Modified:  Apr 17, 2020
 #
 # Author: Michael E. Tryby
 #         US EPA ORD/CESER
@@ -39,6 +39,13 @@ target_link_libraries(output
         epanet-output
 )
 
+# Location of package at runtime
+# /usr/local/anaconda3/lib/python3.7/site-packages/epanet/toolkit
+# Location of package libraries at runtime
+# /usr/local/anaconda3/lib
+# Rpath from _output.so to libepanet-output.dylib
+# @loader_path/../../../..
+
 set_target_properties(output
     PROPERTIES
         SWIG_COMPILE_DEFINITIONS EXPORT_OUT_API
@@ -65,14 +72,6 @@ install(
     DESTINATION
         "src/epanet/toolkit"
 )
-
-install(
-    TARGETS
-        epanet-output LIBRARY
-    DESTINATION
-        "src/epanet/toolkit"
-)
-
 
 
 #######   SOLVER TARGET   #######
@@ -125,13 +124,6 @@ install(
 install(
     TARGETS
         solver
-    DESTINATION
-        "src/epanet/toolkit"
-)
-
-install(
-    TARGETS
-        epanet2 LIBRARY
     DESTINATION
         "src/epanet/toolkit"
 )
