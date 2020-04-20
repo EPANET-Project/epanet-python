@@ -24,7 +24,7 @@ platform_system = platform.system()
 
 
 class CleanCommand(Command):
-    ''' Custom command tidies up build tree '''
+    ''' Custom command tidies up project tree '''
     user_options = []
     def initialize_options(self):
         pass
@@ -33,7 +33,7 @@ class CleanCommand(Command):
     def run(self):
         if platform_system == "Darwin":
             cmd = ['setopt extended_glob nullglob; rm -vrf _skbuild dist .pytest_cache \
-            **/__pycache__ **/epanet_toolkit.egg-info **/data/(^test_*).* .DS_Store']
+            **/__pycache__ **/*.egg-info **/data/(^test_*).* .DS_Store MANIFEST']
             subprocess.Popen(cmd, shell=True, executable='/bin/zsh')
 
 
