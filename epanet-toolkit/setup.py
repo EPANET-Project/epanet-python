@@ -34,7 +34,7 @@ class CleanCommand(Command):
     def run(self):
         if platform_system == "Darwin":
             cmd = ['setopt extended_glob nullglob; rm -vrf _skbuild dist .pytest_cache \
-            **/__pycache__ **/*.egg-info **/data/(^test_*).* .DS_Store MANIFEST']
+            **/__pycache__ **/*.egg-info **/data/(^test_*).* **/data/en* **/.DS_Store MANIFEST']
             subprocess.Popen(cmd, shell=True, executable='/bin/zsh')
 
 
@@ -60,8 +60,6 @@ setup(
 
     package_dir = {"": "src"},
     packages = ["epanet.toolkit"],
-
-    include_package_data = True,
 
     zip_safe = False,
 
