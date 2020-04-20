@@ -13,9 +13,8 @@
 #   python setup.py clean
 #
 
-
-import subprocess
 import platform
+import subprocess
 
 from skbuild import setup
 from setuptools import Command
