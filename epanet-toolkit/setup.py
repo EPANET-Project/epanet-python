@@ -33,7 +33,7 @@ class CleanCommand(Command):
         pass
     def run(self):
         if platform_system == "Darwin":
-            cmd = ['setopt extended_glob nullglob; rm -vrf _skbuild dist .pytest_cache \
+            cmd = ['setopt extended_glob nullglob; rm -vrf _skbuild dist **/build .pytest_cache \
             **/__pycache__ **/*.egg-info **/data/(^test_*).* **/data/en* **/.DS_Store MANIFEST']
             subprocess.Popen(cmd, shell=True, executable='/bin/zsh')
 
