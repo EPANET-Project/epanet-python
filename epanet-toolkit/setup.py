@@ -19,12 +19,13 @@ import subprocess
 from skbuild import setup
 from setuptools import Command
 
+
 # Determine platform
 platform_system = platform.system()
 
 
 class CleanCommand(Command):
-    ''' Custom command tidies up project tree '''
+    ''' Cleans project tree '''
     user_options = []
     def initialize_options(self):
         pass
