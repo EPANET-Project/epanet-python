@@ -12,8 +12,11 @@ _skbuild/
 _cmake_test_compile
 
 dist/
+MANIFEST
 .pytest_cache/
+__pycache__/
 *.egg-info/
 
 
 epanet-toolkit/tests/data/*
+!test_*.*

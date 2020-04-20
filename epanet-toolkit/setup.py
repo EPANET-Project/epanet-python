@@ -13,13 +13,28 @@
 #
 
 
+import subprocess
 import platform
 
 from skbuild import setup
-
+from setuptools import Command
 
 # Determine platform
 platform_system = platform.system()
+
+
+class CleanCommand(Command):
+    ''' Custom command tidies up build tree '''
+    user_options = []
+    def initialize_options(self):
+        pass
+    def finalize_options(self):
+        pass
+    def run(self):
+        if platform_system == "Darwin":
+            cmd = ['setopt extended_glob nullglob; rm -vrf _skbuild dist .pytest_cache \
+            **/__pycache__ **/epanet_toolkit.egg-info **/data/(^test_*).* .DS_Store']
+            subprocess.Popen(cmd, shell=True, executable='/bin/zsh')
 
 
 # Set platform specific cmake args here
@@ -49,7 +64,7 @@ setup(
 
     zip_safe = False,
 
-    install_requires=[
-        "aenum"
-    ]
+    install_requires = ["aenum"],
+
+    cmdclass = {"clean": CleanCommand}
 )

@@ -15,9 +15,9 @@ from epanet.toolkit import solver, solver_enum
 
 
 DATA_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'data')
-INPUT_FILE_NET_1 = os.path.join(DATA_PATH, 'Net1.inp')
-REPORT_FILE_TEST = os.path.join(DATA_PATH, 'test.rpt')
-OUTPUT_FILE_TEST = os.path.join(DATA_PATH, 'test.out')
+INPUT_FILE_NET_1 = os.path.join(DATA_PATH, 'test_Net1.inp')
+REPORT_FILE_TEST = os.path.join(DATA_PATH, 'Net1.rpt')
+OUTPUT_FILE_TEST = os.path.join(DATA_PATH, 'Net1.out')
 
 
 def test_createdelete():
@@ -48,7 +48,7 @@ def test_openrclose():
 
 
 def test_savereopen():
-    input_file_reopen = os.path.join(DATA_PATH, 'test_reopen.inp')
+    input_file_reopen = os.path.join(DATA_PATH, 'reopen.inp')
 
     _handle = solver.proj_create()
 
@@ -253,8 +253,8 @@ def test_simple_control(handle):
 
 
 WARNING_TEST_INP = os.path.join(DATA_PATH, 'test_warnings.inp')
-WARNING_TEST_RPT = os.path.join(DATA_PATH, 'test_warnings.rpt')
-WARNING_TEST_OUT = os.path.join(DATA_PATH, 'test_warnings.out')
+WARNING_TEST_RPT = os.path.join(DATA_PATH, 'warnings.rpt')
+WARNING_TEST_OUT = os.path.join(DATA_PATH, 'warnings.out')
 
 @pytest.fixture()
 def handle_warn(request):

@@ -1,0 +1,6 @@
+graft epanet-solver
+graft src
+graft tests
+include CMakeLists.txt
+include README.md
+include setup.py
