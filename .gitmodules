@@ -1,3 +1,0 @@
-[submodule "epanet-toolkit/epanet-solver"]
-	path = epanet-toolkit/epanet-solver
-	url = https://github.com/USEPA/epanet-solver.git
