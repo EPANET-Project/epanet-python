@@ -1,8 +1,8 @@
 #
 # setup.py - Setup script for epanet-toolkit python package
 #
-# Created:    7/2/2018
-# Modified:   2/20/2020
+# Created:    Jul 2, 2018
+# Modified:   May 4, 2020
 #
 # Author:     Michael E. Tryby
 #             US EPA - ORD/NRMRL
@@ -38,7 +38,12 @@ class CleanCommand(Command):
             'src\\epanet\\toolkit\\epanet_toolkit.egg-info', 'tests\\__pycache__']
             exe = "C:\\Windows\\System32\\cmd.exe"
 
-        if platform_system == "Darwin":
+        else if platform_system == "Linux":
+            cmd = ["rm -vrf _skbuild/ dist/ **/build .pytest_cache/ **/__pycache__  \
+            **/*.egg-info **/data/temp_*.* **/data/en* **/.DS_Store MANIFEST"]
+            exe = "/bin/bash"
+
+        else if platform_system == "Darwin":
             cmd = ['setopt extended_glob nullglob; rm -vrf _skbuild dist **/build .pytest_cache \
             **/__pycache__ **/*.egg-info **/data/(^test_*).* **/data/en* **/.DS_Store MANIFEST']
             exe = '/bin/zsh'
@@ -55,7 +60,7 @@ elif platform_system == "Darwin":
     cmake_args = ["-DCMAKE_OSX_DEPLOYMENT_TARGET:STRING=10.10"] #python v3.7
 
 else:
-    cmake_args = ["-GNinja"]
+    cmake_args = ["-Unix Makefiles"]
 
 
 setup(

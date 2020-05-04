@@ -2,7 +2,7 @@
 # CMakeLists.txt - CMake configuration file for epanet.toolkit python package
 #
 # Created:   Feb 20, 2020
-# Modified:  Apr 17, 2020
+# Modified:  May 4, 2020
 #
 # Author: Michael E. Tryby
 #         US EPA ORD/CESER
