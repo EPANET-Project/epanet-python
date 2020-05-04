@@ -23,4 +23,4 @@ __date__ = "February 20, 2020"
 
 __maintainer__ = "Michael E. Tryby"
 __email__ = "tryby.michael@epa.gov"
-__status  = "Development"
+__status__ = "Development"

@@ -33,6 +33,7 @@ class OutputMetadata():
         output_enum.PresUnits.PSI:      "psi"
     }
 
+
     _unit_labels_si_ = {
         output_enum.BaseUnits.HYD_HEAD: "m",
         output_enum.BaseUnits.VELOCITY: "m/sec",
@@ -64,7 +65,7 @@ class OutputMetadata():
 
     def __init__(self, output_handle):
         # If outputhandle not initialized use default settings
-        if output_handle == None:
+        if output_handle is None:
             self._units = {
                 output_enum.UnitTypes.FLOW: output_enum.FlowUnits.GPM,
                 output_enum.UnitTypes.PRES: output_enum.PresUnits.PSI,

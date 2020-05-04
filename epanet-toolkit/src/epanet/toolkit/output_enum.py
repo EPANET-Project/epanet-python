@@ -12,16 +12,18 @@
 from aenum import Enum, OrderedEnum
 
 
-class ElementType(Enum, start = 1):
+class ElementType(Enum, start=1):
     NODE
     LINK
 
-class UnitTypes(Enum, start = 1):
+
+class UnitTypes(Enum, start=1):
     FLOW
     PRES
     QUAL
 
-class FlowUnits(OrderedEnum, start = 0):
+
+class FlowUnits(OrderedEnum, start=0):
     CFS
     GPM
     MGD
@@ -33,31 +35,36 @@ class FlowUnits(OrderedEnum, start = 0):
     CMH
     CMD
 
-class PresUnits(Enum, start = 0):
+
+class PresUnits(Enum, start=0):
     PSI
     MTR
     KPA
 
-class QualUnits(Enum, start = 0):
+
+class QualUnits(Enum, start=0):
     NONE
     MGL
     UGL
     HOURS
     PRCNT
 
-class Time(Enum, start = 1):
+
+class Time(Enum, start=1):
     REPORT_START
     REPORT_STEP
     SIM_DURATION
     NUM_PERIODS
 
-class NodeAttribute(Enum, start = 1):
+
+class NodeAttribute(Enum, start=1):
     DEMAND
     HEAD
     PRESSURE
     QUALITY
 
-class LinkAttribute(Enum, start = 1):
+
+class LinkAttribute(Enum, start=1):
     FLOW
     VELOCITY
     HEADLOSS
@@ -67,7 +74,8 @@ class LinkAttribute(Enum, start = 1):
     RX_RATE
     FRCTN_FCTR
 
-class BaseUnits(Enum, start = 1):
+
+class BaseUnits(Enum, start=1):
     FLOW_RATE
     HYD_HEAD
     PRESSURE
@@ -78,6 +86,7 @@ class BaseUnits(Enum, start = 1):
     UNITLESS
     NONE
 
-class RxUnits(Enum, start = 1):
+
+class RxUnits(Enum, start=1):
     MGH
     UGH

@@ -16,7 +16,7 @@ from epanet.toolkit import output, output_enum, output_metadata
 
 DATA_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'data')
 OUTPUT_FILE_EXAMPLE1 = os.path.join(DATA_PATH, 'test_Net1.out')
-OUTPUT_FILE_FAIL = os.path.join(DATA_PATH, 'nodata.out')
+OUTPUT_FILE_FAIL = os.path.join(DATA_PATH, 'temp_nodata.out')
 
 
 def test_create_delete():

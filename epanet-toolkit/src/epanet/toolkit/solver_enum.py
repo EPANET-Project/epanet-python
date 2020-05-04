@@ -12,7 +12,7 @@
 from aenum import Enum
 
 
-class NodeProperty(Enum, start = 0):
+class NodeProperty(Enum, start=0):
     ELEVATION
     BASEDEMAND
     PATTERN
@@ -41,7 +41,7 @@ class NodeProperty(Enum, start = 0):
     MAXVOLUME
 
 
-class LinkProperty(Enum, start = 0):
+class LinkProperty(Enum, start=0):
     DIAMETER
     LENGTH
     ROUGHNESS
@@ -67,7 +67,7 @@ class LinkProperty(Enum, start = 0):
     PUMP_EPAT
 
 
-class TimeParameter(Enum, start = 0):
+class TimeParameter(Enum, start=0):
     DURATION
     HYDSTEP
     QUALSTEP
@@ -86,7 +86,7 @@ class TimeParameter(Enum, start = 0):
     NEXTEVENTTANK
 
 
-class AnalysisStatistic(Enum, start = 0):
+class AnalysisStatistic(Enum, start=0):
     ITERATIONS
     RELATIVEERROR
     MAXHEADERROR
@@ -96,7 +96,7 @@ class AnalysisStatistic(Enum, start = 0):
     DEMANDREDUCTION
 
 
-class ObjectType(Enum, start = 0):
+class ObjectType(Enum, start=0):
     NODE
     LINK
     TIMEPAT
@@ -105,7 +105,7 @@ class ObjectType(Enum, start = 0):
     RULE
 
 
-class CountType(Enum, start = 0):
+class CountType(Enum, start=0):
     NODECOUNT
     TANKCOUNT
     LINKCOUNT
@@ -115,13 +115,13 @@ class CountType(Enum, start = 0):
     RULECOUNT
 
 
-class NodeType(Enum, start = 0):
+class NodeType(Enum, start=0):
     JUNCTION
     RESERVOIR
     TANK
 
 
-class LinkType(Enum, start = 0):
+class LinkType(Enum, start=0):
     CVPIPE
     PIPE
     PUMP
@@ -133,39 +133,39 @@ class LinkType(Enum, start = 0):
     GPV
 
 
-class LinkStatusType(Enum, start = 0):
+class LinkStatusType(Enum, start=0):
     CLOSED
     OPEN
 
 
 class PumpStatusType(Enum):
-    PUMP_XHEAD      = 0
-    PUMP_CLOSED     = 2
-    PUMP_OPEN       = 3
-    PUMP_XFLOW      = 5
+    PUMP_XHEAD = 0
+    PUMP_CLOSED = 2
+    PUMP_OPEN = 3
+    PUMP_XFLOW = 5
 
 
-class QualityType(Enum, start = 0):
+class QualityType(Enum, start=0):
     NONE
     CHEM
     AGE
     TRACE
 
 
-class SourceType(Enum, start = 0):
+class SourceType(Enum, start=0):
     CONCEN
     MASS
     SETPOINT
     FLOWPACED
 
 
-class HeadLossType(Enum, start = 0):
+class HeadLossType(Enum, start=0):
     HW
     DW
     CM
 
 
-class FlowUnits(Enum, start = 0):
+class FlowUnits(Enum, start=0):
     CFS
     GPM
     MGD
@@ -178,12 +178,12 @@ class FlowUnits(Enum, start = 0):
     CMD
 
 
-class DemandModel(Enum, start = 0):
+class DemandModel(Enum, start=0):
     DDA
     PDA
 
 
-class Option(Enum, start = 0):
+class Option(Enum, start=0):
     TRIALS
     ACCURACY
     TOLERANCE
@@ -209,14 +209,14 @@ class Option(Enum, start = 0):
     CONCENLIMIT
 
 
-class ControlType(Enum, start = 0):
+class ControlType(Enum, start=0):
     LOWLEVEL
     HILEVEL
     TIMER
     TIMEOFDAY
 
 
-class StatisticType(Enum, start = 0):
+class StatisticType(Enum, start=0):
     SERIES
     AVERAGE
     MINIMUM
@@ -224,7 +224,7 @@ class StatisticType(Enum, start = 0):
     RANGE
 
 
-class MixingModel(Enum, start = 0):
+class MixingModel(Enum, start=0):
     MIX1
     MIX2
     FIFO
@@ -232,20 +232,20 @@ class MixingModel(Enum, start = 0):
 
 
 class SaveInitOptions(Enum):
-    NOSAVE        = 0
-    SAVE          = 1
-    INITFLOW      = 10
+    NOSAVE = 0
+    SAVE = 1
+    INITFLOW = 10
     SAVE_AND_INIT = 11
 
 
-class PumpType(Enum, start = 0):
+class PumpType(Enum, start=0):
     CONST_HP
     POWER_FUNC
     CUSTOM
     NOCURVE
 
 
-class CurveType(Enum, start = 0):
+class CurveType(Enum, start=0):
     VOLUME_CURVE
     PUMP_CURVE
     EFFIC_CURVE
@@ -253,24 +253,24 @@ class CurveType(Enum, start = 0):
     GENERIC_CURVE
 
 
-class ActionCodeType(Enum, start = 0):
+class ActionCodeType(Enum, start=0):
     UNCONDITIONAL
     CONDITIONAL
 
 
-class StatusReport(Enum, start = 0):
+class StatusReport(Enum, start=0):
     NO_REPORT
     NORMAL_REPORT
     FULL_REPORT
 
 
 class RuleObject(Enum):
-    R_NODE      = 6
-    R_LINK      = 7
-    R_SYSTEM    = 8
+    R_NODE = 6
+    R_LINK = 7
+    R_SYSTEM = 8
 
 
-class RuleVariable(Enum, start = 0):
+class RuleVariable(Enum, start=0):
     R_DEMAND
     R_HEAD
     R_GRADE
@@ -286,7 +286,7 @@ class RuleVariable(Enum, start = 0):
     R_DRAINTIME
 
 
-class RuleOperator(Enum, start = 0):
+class RuleOperator(Enum, start=0):
     R_EQ
     R_NE
     R_LE
@@ -299,7 +299,7 @@ class RuleOperator(Enum, start = 0):
     R_ABOVE
 
 
-class RuleStatus(Enum, start = 1):
+class RuleStatus(Enum, start=1):
     R_IS_OPEN
     R_IS_CLOSED
     R_IS_ACTIVE
