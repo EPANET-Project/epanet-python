@@ -38,12 +38,12 @@ class CleanCommand(Command):
             'src\\epanet\\toolkit\\epanet_toolkit.egg-info', 'tests\\__pycache__']
             exe = "C:\\Windows\\System32\\cmd.exe"
 
-        else if platform_system == "Linux":
+        elif platform_system == "Linux":
             cmd = ["rm -vrf _skbuild/ dist/ **/build .pytest_cache/ **/__pycache__  \
             **/*.egg-info **/data/temp_*.* **/data/en* **/.DS_Store MANIFEST"]
             exe = "/bin/bash"
 
-        else if platform_system == "Darwin":
+        elif platform_system == "Darwin":
             cmd = ['setopt extended_glob nullglob; rm -vrf _skbuild dist **/build .pytest_cache \
             **/__pycache__ **/*.egg-info **/data/(^test_*).* **/data/en* **/.DS_Store MANIFEST']
             exe = '/bin/zsh'
@@ -63,18 +63,27 @@ else:
     cmake_args = ["-GUnix Makefiles"]
 
 
+def exclude_files(cmake_manifest):
+    print("INFO: processing cmake manifest")
+    exclude_pats = ('runepanet', '.cmake', '.exe', '.h', '.lib', '.bas', \
+    '.def', '.pas', '.vb', '.md')
+    return list(filter(lambda name: not (name.endswith(exclude_pats)), cmake_manifest))
+
+
 setup(
     name = "epanet-toolkit",
     version = "0.5.0",
 
     cmake_args = cmake_args,
 
-    package_dir = {"": "src"},
     packages = ["epanet.toolkit"],
+    package_dir = {"": "src"},
 
     zip_safe = False,
 
     install_requires = ["aenum"],
 
-    cmdclass = {"clean": CleanCommand}
+    cmdclass = {"clean": CleanCommand},
+
+    cmake_process_manifest_hook = exclude_files
 )
