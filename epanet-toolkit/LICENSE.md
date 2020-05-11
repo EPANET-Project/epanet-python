@@ -166,7 +166,7 @@ Government for which domestic copyright protection is not available under 17
 USC § 105.
 
 
-Public Domain
+### Public Domain
 
 Material original to EPANET v2.0.12 No Copyright Restrictions
 
@@ -179,7 +179,7 @@ This project contains material from https://github.com/OpenWaterAnalytics/
 EPANET. All material created by the AUTHORS is released under the MIT License.
 
 
-MIT License
+### MIT License
 
 Copyright (c) 2016 - 2019 see AUTHORS, excluding material in the public
 domain.
@@ -203,30 +203,30 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
-# EPANET Authors ordered by first contribution.
+### Authors ordered by first contribution.
 
 Authors with Contributions in the Public Domain:
 
-Lewis Rossman <LRossman@cinci.rr.com>
-Michael Tryby <tryby.michael@epa.gov>
+- Lewis Rossman <LRossman@cinci.rr.com>
+- Michael Tryby <tryby.michael@epa.gov>
 
 Authors with Contributions Subject to Copyright (see LICENSE):
 
-Sam Hatchett <samhatchett@gmail.com>
-Feng Shang <fshang>
-James Uber <jim@citilogics.com>
-Tom Taxon <tntaxon@anl.gov>
-Hyoungmin Woo <hyoungmin.woo@gmail.com>
-Jinduan Chen <jinduan.uc@gmail.com>
-Yunier Soad <yunier.soad@gmail.com>
-Mike Kane <muke195@gmail.com>
-Demetrios Eliades <eldemet@gmail.com>
-Will Furnass <will@thearete.co.uk>
-Steffen Macke <sdteffen@sdteffen.de>
-Marios Kyriakou <mariosmsk@gmail.com>
-Elad Salomons <selad@optiwater.com>
-Maurizio Cingi <mrzcng2@gmail.com>
-Bryant McDonnell <bemcdonnell@gmail.com>
-Angela Marchi <angela.marchi@adelaide.edu.au>
-Markus Sunela <markus.sunela@fluidit.fi>
-Milad Ghiami <milad-ghiami@users.noreply.github.com>
+- Sam Hatchett <samhatchett@gmail.com>
+- Feng Shang <fshang>
+- James Uber <jim@citilogics.com>
+- Tom Taxon <tntaxon@anl.gov>
+- Hyoungmin Woo <hyoungmin.woo@gmail.com>
+- Jinduan Chen <jinduan.uc@gmail.com>
+- Yunier Soad <yunier.soad@gmail.com>
+- Mike Kane <muke195@gmail.com>
+- Demetrios Eliades <eldemet@gmail.com>
+- Will Furnass <will@thearete.co.uk>
+- Steffen Macke <sdteffen@sdteffen.de>
+- Marios Kyriakou <mariosmsk@gmail.com>
+- Elad Salomons <selad@optiwater.com>
+- Maurizio Cingi <mrzcng2@gmail.com>
+- Bryant McDonnell <bemcdonnell@gmail.com>
+- Angela Marchi <angela.marchi@adelaide.edu.au>
+- Markus Sunela <markus.sunela@fluidit.fi>
+- Milad Ghiami <milad-ghiami@users.noreply.github.com>
