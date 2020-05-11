@@ -24,13 +24,17 @@ from setuptools import Command
 platform_system = platform.system()
 
 
+# Cleans project tree (useful to run prior to sdist)
 class CleanCommand(Command):
     ''' Cleans project tree '''
     user_options = []
+
     def initialize_options(self):
         pass
+
     def finalize_options(self):
         pass
+
     def run(self):
         if platform_system == "Windows":
             cmd = ['del' '/Q', 'tests\\data\\temp_*.*' '&&' \
@@ -63,10 +67,11 @@ else:
     cmake_args = ["-GUnix Makefiles"]
 
 
+# Removes extraneous files from wheel
 def exclude_files(cmake_manifest):
     print("INFO: processing cmake manifest")
     exclude_pats = ('runepanet', '.cmake', '.exe', '.h', '.lib', '.bas', \
-    '.def', '.pas', '.vb', '.md')
+    '.def', '.pas', '.vb', '.md', 'AUTHORS', 'LICENSE.txt')
     return list(filter(lambda name: not (name.endswith(exclude_pats)), cmake_manifest))
 
 
