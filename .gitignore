@@ -5,6 +5,7 @@
 .*
 !.gitignore
 !.gitmodules
+.DS_Store
 
 *.pyc
 
@@ -17,6 +18,7 @@ MANIFEST
 __pycache__/
 *.egg-info/
 
+epanet-toolkit/docs/_build
 
 epanet-toolkit/tests/data/*
 !test_*.*
