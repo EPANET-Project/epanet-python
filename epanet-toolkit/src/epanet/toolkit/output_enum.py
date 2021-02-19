@@ -12,81 +12,81 @@
 from aenum import Enum, OrderedEnum
 
 
-class ElementType(Enum, start=1):
-    NODE
-    LINK
+class ElementType(Enum):
+    NODE = 1
+    LINK = 2
 
 
-class UnitTypes(Enum, start=1):
-    FLOW
-    PRES
-    QUAL
+class UnitTypes(Enum):
+    FLOW = 1
+    PRES = 2
+    QUAL = 3
 
 
-class FlowUnits(OrderedEnum, start=0):
-    CFS
-    GPM
-    MGD
-    IMGD
-    AFD
-    LPS
-    LPM
-    MLD
-    CMH
-    CMD
+class FlowUnits(OrderedEnum):
+    CFS  = 0
+    GPM  = 1
+    MGD  = 2 
+    IMGD = 3
+    AFD  = 4
+    LPS  = 5
+    LPM  = 6
+    MLD  = 7
+    CMH  = 8
+    CMD  = 9
 
 
-class PresUnits(Enum, start=0):
-    PSI
-    MTR
-    KPA
+class PresUnits(Enum):
+    PSI = 0
+    MTR = 1
+    KPA = 2
 
 
-class QualUnits(Enum, start=0):
-    NONE
-    MGL
-    UGL
-    HOURS
-    PRCNT
+class QualUnits(Enum):
+    NONE  = 0
+    MGL   = 1
+    UGL   = 2
+    HOURS = 3
+    PRCNT = 4
 
 
-class Time(Enum, start=1):
-    REPORT_START
-    REPORT_STEP
-    SIM_DURATION
-    NUM_PERIODS
+class Time(Enum):
+    REPORT_START = 1
+    REPORT_STEP  = 2
+    SIM_DURATION = 3
+    NUM_PERIODS  = 4
 
 
-class NodeAttribute(Enum, start=1):
-    DEMAND
-    HEAD
-    PRESSURE
-    QUALITY
+class NodeAttribute(Enum):
+    DEMAND   = 1
+    HEAD     = 2
+    PRESSURE = 3
+    QUALITY  = 4
 
 
-class LinkAttribute(Enum, start=1):
-    FLOW
-    VELOCITY
-    HEADLOSS
-    AVG_QUALITY
-    STATUS
-    SETTING
-    RX_RATE
-    FRCTN_FCTR
+class LinkAttribute(Enum):
+    FLOW        = 1
+    VELOCITY    = 2
+    HEADLOSS    = 3
+    AVG_QUALITY = 4
+    STATUS      = 5
+    SETTING     = 6
+    RX_RATE     = 7
+    FRCTN_FCTR  = 8
 
 
 class BaseUnits(Enum, start=1):
-    FLOW_RATE
-    HYD_HEAD
-    PRESSURE
-    CONCEN
-    VELOCITY
-    HEADLOSS
-    RX_RATE
-    UNITLESS
-    NONE
+    FLOW_RATE = 1
+    HYD_HEAD  = 2
+    PRESSURE  = 3
+    CONCEN    = 4
+    VELOCITY  = 5
+    HEADLOSS  = 6
+    RX_RATE   = 7
+    UNITLESS  = 8
+    NONE      = 9
 
 
-class RxUnits(Enum, start=1):
-    MGH
-    UGH
+class RxUnits(Enum):
+    MGH = 1
+    UGH = 2

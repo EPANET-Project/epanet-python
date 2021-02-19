@@ -12,294 +12,294 @@
 from aenum import Enum
 
 
-class NodeProperty(Enum, start=0):
-    ELEVATION
-    BASEDEMAND
-    PATTERN
-    EMITTER
-    INITQUAL
-    SOURCEQUAL
-    SOURCEPAT
-    SOURCETYPE
-    TANKLEVEL
-    DEMAND
-    HEAD
-    PRESSURE
-    QUALITY
-    SOURCEMASS
-    INITVOLUME
-    MIXMODEL
-    MIXZONEVOL
-    TANKDIAM
-    MINVOLUME
-    VOLCURVE
-    MINLEVEL
-    MAXLEVEL
-    MIXFRACTION
-    TANK_KBULK
-    TANKVOLUME
-    MAXVOLUME
+class NodeProperty(Enum):
+    ELEVATION   = 0
+    BASEDEMAND  = 1
+    PATTERN     = 2
+    EMITTER     = 3
+    INITQUAL    = 4
+    SOURCEQUAL  = 5
+    SOURCEPAT   = 6
+    SOURCETYPE  = 7
+    TANKLEVEL   = 8
+    DEMAND      = 9
+    HEAD        = 10
+    PRESSURE    = 11
+    QUALITY     = 12
+    SOURCEMASS  = 13
+    INITVOLUME  = 14
+    MIXMODEL    = 15
+    MIXZONEVOL  = 16
+    TANKDIAM    = 17
+    MINVOLUME   = 18
+    VOLCURVE    = 19
+    MINLEVEL    = 20
+    MAXLEVEL    = 21
+    MIXFRACTION = 22
+    TANK_KBULK  = 23
+    TANKVOLUME  = 24
+    MAXVOLUME   = 25
 
 
-class LinkProperty(Enum, start=0):
-    DIAMETER
-    LENGTH
-    ROUGHNESS
-    MINORLOSS
-    INITSTATUS
-    INITSETTING
-    KBULK
-    KWALL
-    FLOW
-    VELOCITY
-    HEADLOSS
-    STATUS
-    SETTING
-    ENERGY
-    LINKQUAL
-    LINKPATTERN
-    PUMP_STATE
-    PUMP_EFFIC
-    PUMP_POWER
-    PUMP_HCURVE
-    PUMP_ECURVE
-    PUMP_ECOST
-    PUMP_EPAT
+class LinkProperty(Enum):
+    DIAMETER    = 0
+    LENGTH      = 1
+    ROUGHNESS   = 2
+    MINORLOSS   = 3
+    INITSTATUS  = 4
+    INITSETTING = 5
+    KBULK       = 6
+    KWALL       = 7
+    FLOW        = 8
+    VELOCITY    = 9
+    HEADLOSS    = 10
+    STATUS      = 11
+    SETTING     = 12
+    ENERGY      = 13
+    LINKQUAL    = 14
+    LINKPATTERN = 15
+    PUMP_STATE  = 16
+    PUMP_EFFIC  = 17
+    PUMP_POWER  = 18
+    PUMP_HCURVE = 19
+    PUMP_ECURVE = 20
+    PUMP_ECOST  = 21
+    PUMP_EPAT   = 22
 
 
-class TimeParameter(Enum, start=0):
-    DURATION
-    HYDSTEP
-    QUALSTEP
-    PATTERNSTEP
-    PATTERNSTART
-    REPORTSTEP
-    REPORTSTART
-    RULESTEP
-    STATISTIC
-    PERIODS
-    STARTTIME
-    HTIME
-    QTIME
-    HALTFLAG
-    NEXTEVENT
-    NEXTEVENTTANK
+class TimeParameter(Enum):
+    DURATION      = 0
+    HYDSTEP       = 1
+    QUALSTEP      = 2
+    PATTERNSTEP   = 3
+    PATTERNSTART  = 4
+    REPORTSTEP    = 5
+    REPORTSTART   = 6
+    RULESTEP      = 7
+    STATISTIC     = 8
+    PERIODS       = 9
+    STARTTIME     = 10
+    HTIME         = 11
+    QTIME         = 12
+    HALTFLAG      = 13
+    NEXTEVENT     = 14
+    NEXTEVENTTANK = 15
 
 
-class AnalysisStatistic(Enum, start=0):
-    ITERATIONS
-    RELATIVEERROR
-    MAXHEADERROR
-    MAXFLOWCHANGE
-    MASSBALANCE
-    DEFICIENTNODES
-    DEMANDREDUCTION
+class AnalysisStatistic(Enum):
+    ITERATIONS      = 0
+    RELATIVEERROR   = 1
+    MAXHEADERROR    = 2
+    MAXFLOWCHANGE   = 3
+    MASSBALANCE     = 4
+    DEFICIENTNODES  = 5
+    DEMANDREDUCTION = 6
 
 
-class ObjectType(Enum, start=0):
-    NODE
-    LINK
-    TIMEPAT
-    CURVE
-    CONTROL
-    RULE
+class ObjectType(Enum):
+    NODE    = 0
+    LINK    = 1
+    TIMEPAT = 2
+    CURVE   = 3
+    CONTROL = 4
+    RULE    = 5
 
 
-class CountType(Enum, start=0):
-    NODECOUNT
-    TANKCOUNT
-    LINKCOUNT
-    PATCOUNT
-    CURVECOUNT
-    CONTROLCOUNT
-    RULECOUNT
+class CountType(Enum):
+    NODECOUNT    = 0
+    TANKCOUNT    = 1
+    LINKCOUNT    = 2
+    PATCOUNT     = 3
+    CURVECOUNT   = 4
+    CONTROLCOUNT = 5
+    RULECOUNT    = 6
 
 
-class NodeType(Enum, start=0):
-    JUNCTION
-    RESERVOIR
-    TANK
+class NodeType(Enum):
+    JUNCTION  = 0
+    RESERVOIR = 1
+    TANK      = 2
 
 
-class LinkType(Enum, start=0):
-    CVPIPE
-    PIPE
-    PUMP
-    PRV
-    PSV
-    PBV
-    FCV
-    TCV
-    GPV
+class LinkType(Enum):
+    CVPIPE = 0
+    PIPE   = 1
+    PUMP   = 2
+    PRV    = 3
+    PSV    = 4
+    PBV    = 5
+    FCV    = 6
+    TCV    = 7
+    GPV    = 8
 
 
-class LinkStatusType(Enum, start=0):
-    CLOSED
-    OPEN
+class LinkStatusType(Enum):
+    CLOSED = 0
+    OPEN   = 1
 
 
 class PumpStatusType(Enum):
-    PUMP_XHEAD = 0
+    PUMP_XHEAD  = 0
     PUMP_CLOSED = 2
-    PUMP_OPEN = 3
-    PUMP_XFLOW = 5
+    PUMP_OPEN   = 3
+    PUMP_XFLOW  = 5
 
 
-class QualityType(Enum, start=0):
-    NONE
-    CHEM
-    AGE
-    TRACE
+class QualityType(Enum):
+    NONE  = 0
+    CHEM  = 1
+    AGE   = 2
+    TRACE = 3
 
 
-class SourceType(Enum, start=0):
-    CONCEN
-    MASS
-    SETPOINT
-    FLOWPACED
+class SourceType(Enum):
+    CONCEN    = 1
+    MASS      = 2
+    SETPOINT  = 3 
+    FLOWPACED = 4
 
 
-class HeadLossType(Enum, start=0):
-    HW
-    DW
-    CM
+class HeadLossType(Enum):
+    HW = 0
+    DW = 1
+    CM = 2
 
 
-class FlowUnits(Enum, start=0):
-    CFS
-    GPM
-    MGD
-    IMGD
-    AFD
-    LPS
-    LPM
-    MLD
-    CMH
-    CMD
+class FlowUnits(Enum):
+    CFS  = 0
+    GPM  = 1
+    MGD  = 2
+    IMGD = 3
+    AFD  = 4
+    LPS  = 5
+    LPM  = 6
+    MLD  = 7
+    CMH  = 8
+    CMD  = 9
 
 
-class DemandModel(Enum, start=0):
-    DDA
-    PDA
+class DemandModel(Enum):
+    DDA = 0
+    PDA = 1
 
 
-class Option(Enum, start=0):
-    TRIALS
-    ACCURACY
-    TOLERANCE
-    EMITEXPON
-    DEMANDMULT
-    HEADERROR
-    FLOWCHANGE
-    HEADLOSSFORM
-    GLOBALEFFIC
-    GLOBALPRICE
-    GLOBALPATTERN
-    DEMANDCHARGE
-    SP_GRAVITY
-    SP_VISCOS
-    UNBALANCED
-    CHECKFREQ
-    MAXCHECK
-    DAMPLIMIT
-    SP_DIFFUS
-    BULKORDER
-    WALLORDER
-    TANKORDER
-    CONCENLIMIT
+class Option(Enum):
+    TRIALS        = 0
+    ACCURACY      = 1
+    TOLERANCE     = 2
+    EMITEXPON     = 3
+    DEMANDMULT    = 4
+    HEADERROR     = 5
+    FLOWCHANGE    = 6
+    HEADLOSSFORM  = 7
+    GLOBALEFFIC   = 8
+    GLOBALPRICE   = 9
+    GLOBALPATTERN = 10
+    DEMANDCHARGE  = 11
+    SP_GRAVITY    = 12
+    SP_VISCOS     = 13
+    UNBALANCED    = 14
+    CHECKFREQ     = 15
+    MAXCHECK      = 16
+    DAMPLIMIT     = 17
+    SP_DIFFUS     = 18
+    BULKORDER     = 19
+    WALLORDER     = 20
+    TANKORDER     = 21
+    CONCENLIMIT   = 22
 
 
-class ControlType(Enum, start=0):
-    LOWLEVEL
-    HILEVEL
-    TIMER
-    TIMEOFDAY
+class ControlType(Enum):
+    LOWLEVEL  = 0
+    HILEVEL   = 1
+    TIMER     = 2
+    TIMEOFDAY = 3
 
 
-class StatisticType(Enum, start=0):
-    SERIES
-    AVERAGE
-    MINIMUM
-    MAXIMUM
-    RANGE
+class StatisticType(Enum):
+    SERIES  = 0
+    AVERAGE = 1
+    MINIMUM = 2
+    MAXIMUM = 3
+    RANGE   = 4
 
 
-class MixingModel(Enum, start=0):
-    MIX1
-    MIX2
-    FIFO
-    LIFO
+class MixingModel(Enum):
+    MIX1 = 0
+    MIX2 = 1
+    FIFO = 2
+    LIFO = 3
 
 
 class SaveInitOptions(Enum):
-    NOSAVE = 0
-    SAVE = 1
-    INITFLOW = 10
+    NOSAVE        = 0
+    SAVE          = 1
+    INITFLOW      = 10
     SAVE_AND_INIT = 11
 
 
-class PumpType(Enum, start=0):
-    CONST_HP
-    POWER_FUNC
-    CUSTOM
-    NOCURVE
+class PumpType(Enum):
+    CONST_HP   = 0
+    POWER_FUNC = 1
+    CUSTOM     = 2
+    NOCURVE    = 3
 
 
-class CurveType(Enum, start=0):
-    VOLUME_CURVE
-    PUMP_CURVE
-    EFFIC_CURVE
-    HLOSS_CURVE
-    GENERIC_CURVE
+class CurveType(Enum):
+    VOLUME_CURVE  = 0
+    PUMP_CURVE    = 1
+    EFFIC_CURVE   = 2
+    HLOSS_CURVE   = 3
+    GENERIC_CURVE = 4
 
 
-class ActionCodeType(Enum, start=0):
-    UNCONDITIONAL
-    CONDITIONAL
+class ActionCodeType(Enum):
+    UNCONDITIONAL = 0
+    CONDITIONAL   = 1
 
 
-class StatusReport(Enum, start=0):
-    NO_REPORT
-    NORMAL_REPORT
-    FULL_REPORT
+class StatusReport(Enum):
+    NO_REPORT     = 0
+    NORMAL_REPORT = 1
+    FULL_REPORT   = 2
 
 
 class RuleObject(Enum):
-    R_NODE = 6
-    R_LINK = 7
+    R_NODE   = 6
+    R_LINK   = 7
     R_SYSTEM = 8
 
 
-class RuleVariable(Enum, start=0):
-    R_DEMAND
-    R_HEAD
-    R_GRADE
-    R_LEVEL
-    R_PRESSURE
-    R_FLOW
-    R_STATUS
-    R_SETTING
-    R_POWER
-    R_TIME
-    R_CLOCKTIME
-    R_FILLTIME
-    R_DRAINTIME
+class RuleVariable(Enum):
+    R_DEMAND    = 0
+    R_HEAD      = 1
+    R_GRADE     = 2
+    R_LEVEL     = 3
+    R_PRESSURE  = 4
+    R_FLOW      = 5
+    R_STATUS    = 6
+    R_SETTING   = 7
+    R_POWER     = 8
+    R_TIME      = 9
+    R_CLOCKTIME = 10
+    R_FILLTIME  = 11
+    R_DRAINTIME = 12
 
 
-class RuleOperator(Enum, start=0):
-    R_EQ
-    R_NE
-    R_LE
-    R_GE
-    R_LT
-    R_GT
-    R_IS
-    R_NOT
-    R_BELOW
-    R_ABOVE
+class RuleOperator(Enum):
+    R_EQ    = 0
+    R_NE    = 1
+    R_LE    = 2
+    R_GE    = 3
+    R_LT    = 4
+    R_GT    = 5
+    R_IS    = 6
+    R_NOT   = 7
+    R_BELOW = 8
+    R_ABOVE = 9
 
 
-class RuleStatus(Enum, start=1):
-    R_IS_OPEN
-    R_IS_CLOSED
-    R_IS_ACTIVE
+class RuleStatus(Enum):
+    R_IS_OPEN   = 1
+    R_IS_CLOSED = 2
+    R_IS_ACTIVE = 3
