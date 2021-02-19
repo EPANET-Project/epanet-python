@@ -9,14 +9,18 @@
 #
 
 
-cmake_minimum_required (VERSION 3.13)
+cmake_minimum_required (VERSION 3.17)
 
-project(epanet-toolkit)
+project(epanet-toolkit
+    VERSION
+        0.5.0
+)
 
 
-set(Python_FIND_VIRTUALENV FIRST)
-set(Python_ROOT_DIR "/usr/local/anaconda3")
-find_package(Python 3.7 COMPONENTS Development Interpreter)
+set(Python_EXECUTABLE ${PYTHON_EXECUTABLE})
+set(Python_INCLUDE_DIRS ${PYTHON_INCLUDE_DIR})
+set(Python_LIBRARY ${PYTHON_LIBRARY})
+find_package (Python ${PYTHON_VERSION_STRING} COMPONENTS Interpreter Development)
 
 
 find_package(SWIG REQUIRED)
