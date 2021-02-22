@@ -24,3 +24,17 @@ __date__ = "February 20, 2020"
 __maintainer__ = "Michael E. Tryby"
 __email__ = "tryby.michael@epa.gov"
 __status__ = "Development"
+
+
+import os
+import platform
+
+
+# Adds directory containing epanet libraries to path
+if platform.system() == "Windows":
+    libdir = os.path.join(os.path.dirname(__file__), "../../../../bin")
+
+    if hasattr(os, 'add_dll_directory'):
+        os.add_dll_directory(libdir)
+    else:
+        os.environ["PATH"] = libdir + ";" + os.environ["PATH"]
