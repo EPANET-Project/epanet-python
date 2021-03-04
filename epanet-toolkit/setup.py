@@ -15,6 +15,7 @@
 
 import platform
 import subprocess
+import pathlib
 
 from skbuild import setup
 from setuptools import Command
@@ -56,6 +57,13 @@ class CleanCommand(Command):
         p.wait()
 
 
+# Set up location of wheel libraries depending on build platform
+if platform_system == "Windows":
+    package_dir = {"epanet_toolkit":"bin", "epanet.toolkit": "src/epanet/toolkit"}
+else:
+    package_dir = {"epanet_toolkit":"lib", "epanet.toolkit": "src/epanet/toolkit"}
+
+
 # Set platform specific cmake args here
 if platform_system == "Windows":
     cmake_args = ["-GVisual Studio 15 2017 Win64"]
@@ -75,20 +83,46 @@ def exclude_files(cmake_manifest):
     return list(filter(lambda name: not (name.endswith(exclude_pats)), cmake_manifest))
 
 
+# Get the long description from the README file
+here = pathlib.Path(__file__).parent.resolve()
+long_description = (here / 'README.md').read_text(encoding='utf-8')
+
+
 setup(
-    name = "epanet-toolkit",
+    name = "epanet_toolkit",
     version = "0.5.0",
 
-    cmake_args = cmake_args,
-
-    packages = ["epanet.toolkit"],
-    package_dir = {"": "src"},
+    packages = ["epanet_toolkit", "epanet.toolkit"],
+    package_dir = package_dir,
 
     zip_safe = False,
-
-    install_requires = ["aenum"],
+    install_requires = ["aenum==3.0.0"],
 
     cmdclass = {"clean": CleanCommand},
+    cmake_args = cmake_args,
+    cmake_process_manifest_hook = exclude_files,
 
-    cmake_process_manifest_hook = exclude_files
+    description='EPANET Project Python Toolkit',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
+    url='https://github.com/EPANET-Project/epanet-python',
+
+    author='Michael E. Tryby',
+    maintainer_email='tryby.michael@epa.gov',
+    license='CC0',
+
+    keywords="epanet, water distribution, hydraulics, water quality, ",
+    classifiers=[
+        "Topic :: Scientific/Engineering",
+        "Operating System :: Microsoft :: Windows",
+        "Operating System :: POSIX :: Linux",
+        "Operating System :: MacOS",
+        "License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: C",
+        "Development Status :: 4 - Beta",
+    ]
 )
