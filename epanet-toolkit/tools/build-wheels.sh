@@ -8,7 +8,7 @@ sudo yum install -y swig
 
 # Setup and build in swmm-toolkit dir
 mkdir -p ./dist
-cd swmm-toolkit
+cd epanet-toolkit
 
 # Build wheels
 for PYBIN in /opt/python/*/bin; do
