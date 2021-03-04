@@ -78,7 +78,7 @@ set_target_properties(output
         MACOSX_RPATH TRUE
         SKIP_BUILD_RPATH FALSE
         BUILD_WITH_INSTALL_RPATH FALSE
-        INSTALL_RPATH ${PACKAGE_RPATH}
+        INSTALL_RPATH "${PACKAGE_RPATH}"
         INSTALL_RPATH_USE_LINK_PATH TRUE
 )
 
@@ -122,25 +122,24 @@ target_link_options(solver
         $<$<BOOL:${APPLE}>:-undefineddynamic_lookup>
 )
 
+target_include_directories(solver
+    PUBLIC
+        ${Python3_INCLUDE_DIRS}
+)
+
 target_link_libraries(solver
     PUBLIC
         $<$<BOOL:$<C_COMPILER_ID:MSVC>>:Python3::Module>
         epanet2
 )
 
-target_include_directories(solver
-    PUBLIC
-        ${Python3_INCLUDE_DIRS}
-)
-
 set_target_properties(solver
     PROPERTIES
         SUFFIX ${PYTHON_SUFFIX}
-        SWIG_COMPILE_DEFINITIONS EXPORT_OUT_API
         MACOSX_RPATH TRUE
         SKIP_BUILD_RPATH FALSE
         BUILD_WITH_INSTALL_RPATH FALSE
-        INSTALL_RPATH ${PACKAGE_RPATH}
+        INSTALL_RPATH "${PACKAGE_RPATH}"
         INSTALL_RPATH_USE_LINK_PATH TRUE
 )
 
