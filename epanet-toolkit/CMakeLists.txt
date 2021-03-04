@@ -2,12 +2,15 @@
 # CMakeLists.txt - CMake configuration file for epanet-toolkit python package
 #
 # Created:   Feb 6, 2020
-# Modified:  Feb 20, 2020
+# Modified:  March 4, 2021
 #
 # Author: Michael E. Tryby
 #         US EPA ORD/CESER
 #
 
+################################################################################
+#################    CMAKELISTS FOR EPANET-TOOLKIT PROJECT    ##################
+################################################################################
 
 cmake_minimum_required (VERSION 3.17)
 
@@ -17,10 +20,15 @@ project(epanet-toolkit
 )
 
 
-set(Python_EXECUTABLE ${PYTHON_EXECUTABLE})
-set(Python_INCLUDE_DIRS ${PYTHON_INCLUDE_DIR})
-set(Python_LIBRARY ${PYTHON_LIBRARY})
-find_package (Python ${PYTHON_VERSION_STRING} COMPONENTS Interpreter Development)
+# Trick here is to perform build in a python virtual environment
+set(Python_FIND_VIRTUALENV FIRST)
+set(CMAKE_FIND_DEBUG_MODE TRUE)
+if(NOT MSVC)
+    find_package (Python3 ${PYTHON_VERSION_STRING} COMPONENTS Interpreter Development.Module REQUIRED)
+else()
+    find_package (Python3 ${PYTHON_VERSION_STRING} COMPONENTS Interpreter Development REQUIRED)
+endif()
+set(CMAKE_FIND_DEBUG_MODE FALSE)
 
 
 find_package(SWIG REQUIRED)

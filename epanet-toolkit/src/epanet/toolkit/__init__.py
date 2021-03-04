@@ -32,7 +32,7 @@ import platform
 
 # Adds directory containing epanet libraries to path
 if platform.system() == "Windows":
-    libdir = os.path.join(os.path.dirname(__file__), "../../../../bin")
+    libdir = os.path.join(os.path.dirname(__file__), "../../epanet_toolkit")
 
     if hasattr(os, 'add_dll_directory'):
         os.add_dll_directory(libdir)
