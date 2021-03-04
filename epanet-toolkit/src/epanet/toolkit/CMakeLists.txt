@@ -35,7 +35,7 @@ endif()
 # Set up rpath on MacOS and Linux
 set(PACKAGE_RPATH
     "${LIB_ROOT}/../../epanet_toolkit/;${LIB_ROOT}/../../epanet_toolkit.libs/"
-
+)
 
 #############################################################
 ####################    OUTPUT TARGET    ####################
