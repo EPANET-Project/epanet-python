@@ -8,26 +8,38 @@
 #         US EPA ORD/CESER
 #
 
+################################################################################
+################    CMAKELISTS FOR EPANET-TOOLKIT EXT BUILD    #################
+################################################################################
+
 
 set(CMAKE_SWIG_FLAGS -py3)
 
 # Determine filename suffix for python extension
 if(WIN32)
-    set(Python_EXTENSION ".${Python_SOABI}.pyd")
+    set(LIB_EXT "pyd")
 else()
-    set(Python_EXTENSION ".${Python_SOABI}.so")
+    set(LIB_EXT "so")
 endif()
+set(PYTHON_SUFFIX ".${Python3_SOABI}.${LIB_EXT}")
 
 
-# Location of package at runtime on Linux/MacOS
+
+# Location of package at runtime on MacOS/Linux
 if(APPLE)
-    set(PACKAGE_RPATH "@loader_path/../../../..")
+    set(LIB_ROOT "@loader_path")
 else()
-    set(PACKAGE_RPATH "$ORIGIN/../../../..")
+    set(LIB_ROOT "$ORIGIN")
 endif()
 
+# Set up rpath on MacOS and Linux
+set(PACKAGE_RPATH
+    "${LIB_ROOT}/../../epanet_toolkit/;${LIB_ROOT}/../../epanet_toolkit.libs/"
 
-#######   OUTPUT TARGET   #######
+
+#############################################################
+####################    OUTPUT TARGET    ####################
+#############################################################
 
 set_property(SOURCE output.i
     PROPERTY
@@ -48,15 +60,20 @@ target_link_options(output
         $<$<BOOL:${APPLE}>:-undefineddynamic_lookup>
 )
 
+target_include_directories(output
+    PUBLIC
+        ${Python3_INCLUDE_DIRS}
+)
+
 target_link_libraries(output
     PUBLIC
-        Python::Module
+        $<$<BOOL:$<C_COMPILER_ID:MSVC>>:Python3::Module>
         epanet-output
 )
 
 set_target_properties(output
     PROPERTIES
-        SUFFIX ${Python_EXTENSION}
+        SUFFIX ${PYTHON_SUFFIX}
         SWIG_COMPILE_DEFINITIONS EXPORT_OUT_API
         MACOSX_RPATH TRUE
         SKIP_BUILD_RPATH FALSE
@@ -83,7 +100,10 @@ install(
 )
 
 
-#######   SOLVER TARGET   #######
+#############################################################
+####################    SOLVER TARGET    ####################
+#############################################################
+
 
 set_property(SOURCE solver.i
     PROPERTY
@@ -104,13 +124,18 @@ target_link_options(solver
 
 target_link_libraries(solver
     PUBLIC
-        Python::Module
+        $<$<BOOL:$<C_COMPILER_ID:MSVC>>:Python3::Module>
         epanet2
+)
+
+target_include_directories(solver
+    PUBLIC
+        ${Python3_INCLUDE_DIRS}
 )
 
 set_target_properties(solver
     PROPERTIES
-        SUFFIX ${Python_EXTENSION}
+        SUFFIX ${PYTHON_SUFFIX}
         SWIG_COMPILE_DEFINITIONS EXPORT_OUT_API
         MACOSX_RPATH TRUE
         SKIP_BUILD_RPATH FALSE
