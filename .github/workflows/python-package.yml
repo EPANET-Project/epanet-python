@@ -32,7 +32,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          path: epanet-toolkit/dist/*.whl
+          path: nrtest-epanet/dist/*.whl
 
 
 
