@@ -7,7 +7,36 @@ env:
 
 
 jobs:
-  build_linux_wheels:
+  build_nrtest_plugin:
+    name: Build nrtest-epanet plugin
+    runs-on: macos-10.15
+    defaults:
+      run:
+        working-directory: ./nrtest-epanet
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+
+      - name: Build wheel
+        run: |
+            pip install wheel
+            python setup.py bdist_wheel
+
+      - uses: actions/upload-artifact@v2
+        with:
+          path: nrtest-epanet/dist/*.whl
+
+
+
+  build_toolkit_linux:
     name: Build wheels on linux
     runs-on: ubuntu-18.04
 
@@ -32,8 +61,8 @@ jobs:
 
 
 
-  build_win-mac_wheels:
-    name: Build wheels on ${{ matrix.os }}
+  build_toolkit_win-mac:
+    name: Build ${{ matrix.os }} python ${{ matrix.py }}
     runs-on: ${{ matrix.os }}
     defaults:
       run:
