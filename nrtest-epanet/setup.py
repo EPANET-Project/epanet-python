@@ -45,7 +45,7 @@ setup(
         'header_detail_footer>=2.3',
         'nrtest>=0.2.4',
         'numpy>=1.7.0',
-        'epanet.output'
+        'epanet_toolkit'
     ],
     keywords='nrtest_epanet',
     classifiers=[

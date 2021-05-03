@@ -15,7 +15,7 @@ generator.
 '''
 
 # project import
-from epanet.output import output as oapi
+from epanet_toolkit import output as oapi
 
 
 def output_generator(path_ref):
