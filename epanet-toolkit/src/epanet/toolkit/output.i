@@ -125,6 +125,7 @@ and return a (possibly) different pointer */
 /* TYPEMAP FOR INTEGER OUTPUT */
 %apply int *OUTPUT {
     int *version,
+    int *time,
     int *link_index
 }
 

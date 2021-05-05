@@ -51,33 +51,6 @@ def handle(request):
     return _handle
 
 
-def test_output_metadata(handle):
-    om = output_metadata.OutputMetadata(handle)
-
-    ref = {
-        output_enum.NodeAttribute.DEMAND:      ("Demand",          "gal/min"),
-        output_enum.NodeAttribute.HEAD:        ("Head",            "ft"),
-        output_enum.NodeAttribute.PRESSURE:    ("Pressure",        "psi"),
-        output_enum.NodeAttribute.QUALITY:     ("Quality",         "mg/L"),
-
-        output_enum.LinkAttribute.FLOW:        ("Flow",            "gal/min"),
-        output_enum.LinkAttribute.VELOCITY:    ("Velocity",        "ft/sec"),
-        output_enum.LinkAttribute.HEADLOSS:    ("Unit Headloss",   "ft/1000ft"),
-        output_enum.LinkAttribute.AVG_QUALITY: ("Quality",         "mg/L"),
-        output_enum.LinkAttribute.STATUS:      ("Status",          ""),
-        output_enum.LinkAttribute.SETTING:     ("Setting",         ""),
-        output_enum.LinkAttribute.RX_RATE:     ("Reaction Rate",   "mg/hr"),
-        output_enum.LinkAttribute.FRCTN_FCTR:  ("Friction Factor", "unitless")}
-
-    for attr in output_enum.NodeAttribute:
-        temp = om.get_attribute_metadata(attr)
-        assert temp == ref[attr]
-
-    for attr in output_enum.LinkAttribute:
-        temp = om.get_attribute_metadata(attr)
-        assert temp == ref[attr]
-
-
 def test_getnetsize(handle):
     # node, tank, link, pump, valve
     ref_array = np.array([11, 2, 13, 1, 0])
@@ -97,6 +70,11 @@ def test_getunits(handle):
 
     qual_units = output.get_units(handle, output_enum.UnitTypes.QUAL)
     assert qual_units == output_enum.QualUnits.MGL
+
+
+def test_gettimes(handle):
+    assert output.get_times(handle, output_enum.Time.REPORT_STEP) == 3600
+    assert output.get_times(handle, output_enum.Time.NUM_PERIODS) == 25
 
 
 def test_getelementname(handle):
