@@ -15,7 +15,7 @@ generator.
 '''
 
 # project import
-from epanet_toolkit import output as oapi
+from epanet.toolkit import output, output_enum
 
 
 def output_generator(path_ref):
@@ -37,7 +37,7 @@ def output_generator(path_ref):
     with OutputReader(path_ref) as br:
 
         for period_index in range(0, br.report_periods()):
-            for element_type in oapi.ElementType:
+            for element_type in output_enum.ElementType:
                 for attribute in br.elementAttributes[element_type]:
 
                     yield (br.element_attribute(element_type, period_index, attribute),
@@ -51,22 +51,23 @@ class OutputReader(object):
     def __init__(self, filename):
         self.filepath = filename
         self.handle = None
-        self.elementAttributes = {oapi.ElementType.NODE: oapi.NodeAttribute,
-                                 oapi.ElementType.LINK: oapi.LinkAttribute}
+        self.elementAttributes = {output_enum.ElementType.NODE: output_enum.NodeAttribute,
+                                 output_enum.ElementType.LINK: output_enum.LinkAttribute}
 
-        self.getElementAttribute = {oapi.ElementType.NODE: oapi.getnodeattribute,
-                                    oapi.ElementType.LINK: oapi.getlinkattribute}
+        self.getElementAttribute = {output_enum.ElementType.NODE: output.get_node_attribute,
+                                    output_enum.ElementType.LINK: output.get_link_attribute}
 
     def __enter__(self):
-        self.handle = oapi.init()
-        oapi.open(self.handle, self.filepath)
+        self.handle = output.create_handle()
+        output.open_file(self.handle, self.filepath)
         return self
 
     def __exit__(self, type, value, traceback):
-        oapi.close(self.handle)
+        output.close_file(self.handle)
+        output.delete_handle(self.handle)
 
     def report_periods(self):
-        return oapi.gettimes(self.handle, oapi.Time.NUM_PERIODS)
+        return output.get_times(self.handle, output_enum.Time.NUM_PERIODS)
 
     def element_attribute(self, element_type, time_index, attribute):
         return self.getElementAttribute[element_type](self.handle, time_index, attribute)
