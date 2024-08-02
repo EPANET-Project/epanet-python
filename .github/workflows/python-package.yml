@@ -1,6 +1,6 @@
 name: Build Wheels
 
-on: [push, pull_request]
+on: [push, pull_request, workflow_dispatch]
 
 env:
   DOCKER_IMAGE: dockcross/manylinux2014-x64
