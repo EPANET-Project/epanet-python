@@ -13,7 +13,7 @@
 ################################################################################
 
 
-set(CMAKE_SWIG_FLAGS -py3)
+# set(CMAKE_SWIG_FLAGS -python)
 
 # Determine filename suffix for python extension
 if(WIN32)
@@ -71,10 +71,11 @@ target_link_libraries(output
         epanet-output
 )
 
+
 set_target_properties(output
     PROPERTIES
         SUFFIX ${PYTHON_SUFFIX}
-        SWIG_COMPILE_DEFINITIONS EXPORT_OUT_API
+        SWIG_COMPILE_DEFINITIONS EXPORT_OUT_API=
         MACOSX_RPATH TRUE
         SKIP_BUILD_RPATH FALSE
         BUILD_WITH_INSTALL_RPATH FALSE

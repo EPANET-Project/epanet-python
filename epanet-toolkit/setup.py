@@ -2,17 +2,18 @@
 # setup.py - Setup script for epanet-toolkit python package
 #
 # Created:    Jul 2, 2018
-# Modified:   May 4, 2020
+# Modified:   Jan 7, 2025
 #
 # Author:     Michael E. Tryby
 #             US EPA - ORD/NRMRL
 #
 # Suggested Usage:
-#   python setup.py build
-#   python setup.py bdist_wheel
-#   python setup.py clean
+#   python -m build
+#   python -m build --wheel
 #
 
+
+import sys
 import platform
 import subprocess
 import pathlib
@@ -48,7 +49,7 @@ class CleanCommand(Command):
             **/*.egg-info **/data/temp_*.* **/data/en* **/.DS_Store MANIFEST"]
             exe = "/bin/bash"
 
-        elif platform_system == "Darwin":
+        else: # platform_system == "Darwin"
             cmd = ['setopt extended_glob nullglob; rm -vrf _skbuild dist **/build .pytest_cache \
             **/__pycache__ **/*.egg-info **/data/(^test_*).* **/data/en* **/.DS_Store MANIFEST']
             exe = '/bin/zsh'
@@ -57,11 +58,26 @@ class CleanCommand(Command):
         p.wait()
 
 
-# Set up location of wheel libraries depending on build platform
-if platform_system == "Windows":
-    package_dir = {"epanet_toolkit":"bin", "epanet.toolkit": "src/epanet/toolkit"}
+# Set up location of wheel libraries depending on build platform and command
+# commands that trigger cmake from skbuild.setuptools_wrap._should_run_cmake
+commands_that_trigger_cmake = {
+        "build"
+    }
+command = sys.argv[1] if len(sys.argv) > 1 else None
+
+if command in commands_that_trigger_cmake:
+    epanet_toolkit_dir= "bin" if platform_system == "Windows" else "lib"
 else:
-    package_dir = {"epanet_toolkit":"lib", "epanet.toolkit": "src/epanet/toolkit"}
+    epanet_toolkit_dir= "epanet-solver"
+
+package_dir = {"epanet_toolkit" : epanet_toolkit_dir, "epanet.toolkit": "src/epanet/toolkit"}
+
+
+# Set up location of wheel libraries depending on build platform
+# if platform_system == "Windows":
+#    package_dir = {"epanet_toolkit":"bin", "epanet.toolkit": "src/epanet/toolkit"}
+# else:
+#    package_dir = {"epanet_toolkit":"lib", "epanet.toolkit": "src/epanet/toolkit"}
 
 
 # Set platform specific cmake args here

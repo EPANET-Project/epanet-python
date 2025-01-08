@@ -1,0 +1,19 @@
+
+#
+# pyproject.toml
+#
+# Usage:
+#   python -m build --wheel
+#   python -m build --sdist
+#
+
+
+[build-system]
+requires = [
+    "wheel>=0.38.1",
+    "setuptools>=42",
+    "scikit-build>=0.13",
+    "cmake>=3.21",
+    "swig==4.2.1"
+]
+build-backend = "setuptools.build_meta"
