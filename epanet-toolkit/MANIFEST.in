@@ -4,3 +4,4 @@ graft tests
 include CMakeLists.txt
 include README.md
 include setup.py
+exclude MANIFEST.in

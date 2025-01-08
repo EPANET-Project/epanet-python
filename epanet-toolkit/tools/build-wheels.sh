@@ -2,16 +2,16 @@
 set -e -x
 
 
-# Install a system package required by our library
-sudo yum install -y swig
-
-
-# Setup and build in swmm-toolkit dir
+# Setup and build in epanet-toolkit dir
 mkdir -p ./dist
 cd epanet-toolkit
 
 # Build wheels
-for PYBIN in /opt/python/cp{36,37,38,39}*/bin; do
+for PYBIN in /opt/python/cp{311,312}*/bin; do
+
+    PYVERSION=$(${PYBIN}/python --version)
+    echo "====================== BUILDING FOR $PYVERSION ======================"
+
     # Setup python virtual environment for build
     ${PYBIN}/python -m venv --clear ./build-env
     source ./build-env/bin/activate
@@ -33,17 +33,24 @@ done
 rm -rf ./build-env
 
 
-# Repairing and testing from swmm-python directory
+# Repairing and testing from epanet-python directory
 cd ..
 
 # Bundle external shared libraries into the wheels
 for whl in ./dist/*-linux_x86_64.whl; do
+
+    echo "=== REPAIRING WHEEL: $whl ==="
+
     auditwheel repair $whl -w ./dist
 done
 
 
 # Install packages and test
-for PYBIN in /opt/python/cp{36,37,38,39}*/bin; do
+for PYBIN in /opt/python/cp{311,312}*/bin; do
+
+    PYVERSION=$(${PYBIN}/python --version)
+    echo "====================== TESTING FOR $PYVERSION ======================="
+
     # Setup python virtual environment for test
     ${PYBIN}/python -m venv --clear ./test-env
     source ./test-env/bin/activate
