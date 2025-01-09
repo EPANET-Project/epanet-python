@@ -3,9 +3,11 @@
 # pyproject.toml
 #
 # Usage:
+#   python -m build
 #   python -m build --wheel
 #   python -m build --sdist
 #
+
 
 
 [build-system]
@@ -17,3 +19,37 @@ requires = [
     "swig==4.2.1"
 ]
 build-backend = "setuptools.build_meta"
+
+
+# [tool.tox]
+# envlist = ["py311", "py312", "build"]
+# isolated_build = true
+
+
+# [tool.tox.env.py311]
+# description = "Run tests with pytest on Python 3.11"
+# package = "wheel"
+# deps = [
+#     "pytest",
+#     "numpy",
+#     "aenum==3.0.0",
+# ]
+# commands = [["pytest"]]
+
+
+# [tool.tox.env.py312]
+# description = "Run tests with pytest on Python 3.12"
+# package = "wheel"
+# deps = [
+#     "pytest",
+#     "numpy",
+#     "aenum==3.0.0",
+# ]
+# commands = [["pytest"]]
+
+
+# [tool.tox.env.build]
+# description = "Build the project as a wheel and sdist"
+# package = "skip"
+# deps = ["build"]
+# commands = [["python", "-m", "build", "--outdir", "dist"]]
