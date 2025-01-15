@@ -9,7 +9,7 @@ env:
 jobs:
   build_nrtest_plugin:
     name: Build nrtest-epanet plugin
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./nrtest-epanet
