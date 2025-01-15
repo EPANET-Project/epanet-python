@@ -82,7 +82,7 @@ package_dir = {"epanet_toolkit" : epanet_toolkit_dir, "epanet.toolkit": "src/epa
 
 # Set platform specific cmake args here
 if platform_system == "Windows":
-    cmake_args = ["-GVisual Studio 15 2017 Win64"]
+    cmake_args = ["-GVisual Studio 17 2022"]
 
 elif platform_system == "Darwin":
     cmake_args = ["-GXcode", "-DCMAKE_OSX_DEPLOYMENT_TARGET:STRING=10.13"]
