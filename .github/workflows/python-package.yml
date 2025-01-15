@@ -73,22 +73,22 @@ jobs:
         os: [windows-2016, macos-10.15]
         py: [3.6, 3.7, 3.8, 3.9]
         include:
-          - os: windows-2016
+          - os: windows-latest
             sys_pkgs: choco install swig
             activate: ./build-env/Scripts/activate
 
-          - os: macos-10.15
+          - os: macos-latest
             sys_pkgs: brew install libomp swig
             activate: source ./build-env/bin/activate
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: true
 
       - name: Install Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.py }}
 
@@ -110,6 +110,6 @@ jobs:
           pytest
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           path: epanet-toolkit/dist/*.whl
