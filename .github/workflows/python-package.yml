@@ -38,11 +38,11 @@ jobs:
 
   build_toolkit_linux:
     name: Build wheels on linux
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: true
 
@@ -55,7 +55,7 @@ jobs:
       - name: Script
         run: ./dockcross epanet-toolkit/tools/build-wheels.sh
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           path: ./dist/*.manylinux2014_x86_64.whl
 
