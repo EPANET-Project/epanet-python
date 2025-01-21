@@ -61,7 +61,18 @@ class CleanCommand(Command):
 # Set up location of wheel libraries depending on build platform and command
 # commands that trigger cmake from skbuild.setuptools_wrap._should_run_cmake
 commands_that_trigger_cmake = {
-        "build"
+        "build",
+        "build_ext",
+        "develop",
+        "install",
+        "install_lib",
+        "bdist",
+        "bdist_dumb",
+        "bdist_egg",
+        "bdist_rpm",
+        "bdist_wininst",
+        "bdist_wheel",
+        "test"
     }
 command = sys.argv[1] if len(sys.argv) > 1 else None
 
@@ -72,12 +83,6 @@ else:
 
 package_dir = {"epanet_toolkit" : epanet_toolkit_dir, "epanet.toolkit": "src/epanet/toolkit"}
 
-
-# Set up location of wheel libraries depending on build platform
-# if platform_system == "Windows":
-#    package_dir = {"epanet_toolkit":"bin", "epanet.toolkit": "src/epanet/toolkit"}
-# else:
-#    package_dir = {"epanet_toolkit":"lib", "epanet.toolkit": "src/epanet/toolkit"}
 
 
 # Set platform specific cmake args here
