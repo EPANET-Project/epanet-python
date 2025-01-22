@@ -2,9 +2,6 @@ name: Build Wheels
 
 on: [push, pull_request]
 
-env:
-  DOCKER_IMAGE: dockcross/manylinux2014-x64
-
 jobs:
   build_nrtest_plugin:
     name: Build nrtest-epanet plugin
@@ -31,6 +28,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
+          name: nrtest-epanet-wheel
           path: nrtest-epanet/dist/*.whl
 
   build_toolkit_linux:
@@ -44,6 +42,8 @@ jobs:
           submodules: true
 
       - name: Install
+        env:
+          DOCKER_IMAGE: dockcross/manylinux2014-x64
         run: |
           docker pull $DOCKER_IMAGE
           docker run --rm $DOCKER_IMAGE > ./dockcross
@@ -54,7 +54,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: nrtest-epanet-wheel
+          name: manylinux-wheels
           path: ./dist/*.manylinux2014_x86_64.whl
 
   build_toolkit_win-mac:
@@ -108,6 +108,5 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: epanet-toolkit-wheels
-          path: epanet-toolkit/dist/
-          overwrite: true
+          name: win-mac-wheels
+          path: epanet-toolkit/dist/*{win_amd64,macosx_10_13_x86_64}.whl
