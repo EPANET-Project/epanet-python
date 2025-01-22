@@ -75,7 +75,7 @@ target_link_libraries(output
 set_target_properties(output
     PROPERTIES
         SUFFIX ${PYTHON_SUFFIX}
-        SWIG_COMPILE_DEFINITIONS EXPORT_OUT_API=
+        SWIG_COMPILE_DEFINITIONS EXPORT_OUTPUT=
         MACOSX_RPATH TRUE
         SKIP_BUILD_RPATH FALSE
         BUILD_WITH_INSTALL_RPATH FALSE
@@ -137,6 +137,7 @@ target_link_libraries(solver
 set_target_properties(solver
     PROPERTIES
         SUFFIX ${PYTHON_SUFFIX}
+        SWIG_COMPILE_DEFINITIONS EXPORT_SOLVER=
         MACOSX_RPATH TRUE
         SKIP_BUILD_RPATH FALSE
         BUILD_WITH_INSTALL_RPATH FALSE
