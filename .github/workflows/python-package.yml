@@ -108,6 +108,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: epanet-toolkit-wheels
-          path: epanet-toolkit/dist/
+          path: epanet-toolkit/dist
           pattern: "epanet_toolkit-*.whl"
-          merge-numtiple: true
+          merge-multiple: true
