@@ -107,4 +107,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          path: epanet-toolkit/dist/*.whl
+          name: epanet-toolkit-wheels
+          path: epanet-toolkit/dist/
+          pattern: "epanet_toolkit-*.whl"
+          merge-numtiple: true
