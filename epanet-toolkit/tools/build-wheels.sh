@@ -7,7 +7,7 @@ mkdir -p ./dist
 cd epanet-toolkit
 
 # Build wheels
-for PYBIN in /opt/python/cp{311,312}*/bin; do
+for PYBIN in /opt/python/cp{38,39,310,311,312}*/bin; do
 
     PYVERSION=$(${PYBIN}/python --version)
     echo "====================== BUILDING FOR $PYVERSION ======================"
@@ -46,7 +46,7 @@ done
 
 
 # Install packages and test
-for PYBIN in /opt/python/cp{311,312}*/bin; do
+for PYBIN in /opt/python/cp{38,39,310,311,312}*/bin; do
 
     PYVERSION=$(${PYBIN}/python --version)
     echo "====================== TESTING FOR $PYVERSION ======================="
