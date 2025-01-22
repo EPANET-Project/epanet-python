@@ -109,4 +109,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: win-mac-wheels
-          path: epanet-toolkit/dist/*{win_amd64,macosx_10_13_x86_64}.whl
+          path: |
+            epanet-toolkit/dist/*-win_amd64.whl
+            epanet-toolkit/dist/*-macosx_10_13_x86_64.whl
