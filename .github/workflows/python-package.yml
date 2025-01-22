@@ -108,7 +108,5 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: win-mac-wheels
-          path: |
-            epanet-toolkit/dist/*-win_amd64.whl
-            epanet-toolkit/dist/*-macosx_10_13_x86_64.whl
+          name: win-mac-wheels-${{ matrix.runs-on }}-${{ matrix.py }}
+          path: epanet-toolkit/dist/*.whl
