@@ -1,11 +1,8 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 #
 #  report_diff.py
 #
 #  Date Created: July 11, 2018
-#  Date Modified: Aug 28, 2019
+#  Date Modified: Jan 23, 2025
 #
 #  Author:     Michael E. Tryby
 #              US EPA - ORD/NRMRL
@@ -83,21 +80,37 @@ def _print_diff(idx, lre, test, ref):
           % (idx_val, test_val, ref_val, diff_val, lre_val))
 
 
-def report(args):
-    _binary_diff(args.test, args.ref, args.mincdd)
+def report_diff(test, ref, mincdd=3):
+    """
+    Executes the binary diff logic with given parameters.
+    """
+    _binary_diff(test, ref, mincdd)
 
 
-if __name__ == '__main__':
-
+def parse_args(args=None):
+    """
+    Parse command-line arguments for the CLI.
+    """
     parser = argparse.ArgumentParser(description='EPANET benchmark difference reporting')
-    parser.set_defaults(func=report)
 
-    parser.add_argument('-t', '--test', default=None,
+    parser.add_argument('-t', '--test', required=True,
                         help='Path to test benchmark')
-    parser.add_argument('-r', '--ref', default=None,
+    parser.add_argument('-r', '--ref', required=True,
                         help='Path to reference benchmark')
     parser.add_argument('-mc', '--mincdd', type=int, default=3,
                         help='Minimum correct decimal digits')
 
-    args = parser.parse_args()
-    args.func(args)
+    return parser.parse_args(args)
+
+
+def main():
+    """
+    Main entry point for the CLI.
+    """
+    args = parse_args()
+    report_diff(args.test, args.ref, args.mincdd)
+
+
+# If this module is executed directly
+if __name__ == "__main__":
+    main()
