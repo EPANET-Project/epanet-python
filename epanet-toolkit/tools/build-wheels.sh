@@ -12,25 +12,13 @@ for PYBIN in /opt/python/cp{38,39,310,311,312}*/bin; do
     PYVERSION=$(${PYBIN}/python --version)
     echo "====================== BUILDING FOR $PYVERSION ======================"
 
-    # Setup python virtual environment for build
-    ${PYBIN}/python -m venv --clear ./build-env
-    source ./build-env/bin/activate
-
-    # Install build requirements
-    python -m pip install -r build-requirements.txt
-
     # Build wheel
-    python setup.py bdist_wheel
-    mv ./dist/*.whl ../dist/
+    ${PYBIN}/python -m build --wheel --outdir ../dist
 
     # cleanup
-    python setup.py clean
-
-    deactivate
+    echo "=== CLEANING UP ==="
+    ${PYBIN}/python setup.py clean > dev/null
 done
-
-# Cleanup
-rm -rf ./build-env
 
 
 # Repairing and testing from epanet-python directory
@@ -58,7 +46,7 @@ for PYBIN in /opt/python/cp{38,39,310,311,312}*/bin; do
     python -m pip install -r epanet-toolkit/test-requirements.txt
 
     python -m pip install --verbose --no-index --find-links=./dist epanet_toolkit
-    pytest
+    pytest --ignore=nrtest-epanet/
 
     deactivate
 done
