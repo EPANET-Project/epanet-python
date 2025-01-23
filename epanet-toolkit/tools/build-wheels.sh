@@ -17,7 +17,7 @@ for PYBIN in /opt/python/cp{38,39,310,311,312}*/bin; do
 
     # cleanup
     echo "=== CLEANING UP ==="
-    ${PYBIN}/python setup.py clean > dev/null
+    ${PYBIN}/python setup.py clean > /dev/null
 done
 
 
