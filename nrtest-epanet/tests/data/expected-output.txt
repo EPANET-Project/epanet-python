@@ -1,0 +1,10 @@
+usage: report-diff [-h] -t TEST -r REF [-mc MINCDD]
+
+EPANET benchmark difference reporting
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -t TEST, --test TEST  Path to test benchmark
+  -r REF, --ref REF     Path to reference benchmark
+  -mc MINCDD, --mincdd MINCDD
+                        Minimum correct decimal digits
