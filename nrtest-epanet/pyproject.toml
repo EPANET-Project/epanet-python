@@ -1,0 +1,58 @@
+
+#
+# pyproject.toml
+#
+#  Project Created on  Aug 30, 2016
+#  Last Modified on Jan 23, 2025
+#
+#  Author:     Michael E. Tryby
+#              US EPA - ORD/NRMRL
+#
+# Usage:
+#   python -m build
+#   python -m build --wheel
+#   python -m build --sdist
+#
+
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "nrtest-epanet"
+version = "0.6.0"
+description = "EPANET extension for nrtest"
+authors = [
+    { name = "Michael E. Tryby", email = "tryby.michael@epa.gov" }
+]
+keywords = ["nrtest_epanet"]
+classifiers = [
+    "Programming Language :: Python :: 3"
+]
+dependencies = [
+    "header_detail_footer>=2.3",
+    "nrtest>=0.2.4",
+    "numpy>=1.7.0",
+    "epanet_toolkit"
+]
+
+
+[project.urls]
+"Source" = "https://github.com/USEPA"
+
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["nrtest_epanet"]
+
+
+[project.scripts]
+report-diff = "nrtest_epanet.cli:main"
+
+
+[project.entry-points."nrtest.compare"]
+epanet_allclose = "nrtest_epanet:epanet_allclose_compare"
+epanet_mincdd = "nrtest_epanet:epanet_mincdd_compare"
+epanet_report = "nrtest_epanet:epanet_report_compare"
