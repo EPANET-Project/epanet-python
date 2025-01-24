@@ -1,51 +1,46 @@
-
-#
-# pyproject.toml
-#
-# Project Created on  Aug 30, 2016
-# Last Modified on Jan 23, 2025
-#
-#  Author:     Michael E. Tryby
-#              US EPA - ORD/NRMRL
-#
-# Usage:
-#   python -m build
-#   python -m build --wheel
-#   python -m build --sdist
-#
-
-
 [build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 
 [project]
 name = "nrtest-epanet"
-version = "0.6.0"
-description = "EPANET extension for nrtest"
+# version = "0.1.0"
+description = "A brief description of your project."
+# sreadme = "README.md"
 authors = [
-    { name = "Michael E. Tryby", email = "tryby.michael@epa.gov" }
+  { name = "Your Name", email = "your.email@example.com" }
 ]
-keywords = ["nrtest_epanet"]
 classifiers = [
-    "Programming Language :: Python :: 3"
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
 ]
+requires-python = ">=3.7"
+dynamic = ["version"]
 dependencies = [
     "header_detail_footer>=2.3",
     "nrtest>=0.2.4",
     "numpy>=1.7.0",
-    "epanet_toolkit"
+#    "epanet_toolkit"
 ]
 
 
-[project.urls]
-"Source" = "https://github.com/USEPA"
+[tool.hatch.dependencies]
+# Specify the local wheel file (path to the .whl file)
+epanet_toolkit = { path = "../epanet-toolkit/epanet_toolkit-0.5.0-cp39-cp39-macosx_10_13_x86_64.whl" }
 
 
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["nrtest_epanet"]
+[tool.hatch.build.targets.wheel]
+packages = ["nrtest_epanet"]
+
+
+[tool.hatch.metadata]
+allow-dynamic = ["version"]
+
+
+[tool.hatch.version]
+path = "nrtest_epanet/__init__.py"
 
 
 [project.scripts]
@@ -56,3 +51,12 @@ report-diff = "nrtest_epanet.cli:main"
 epanet_allclose = "nrtest_epanet:epanet_allclose_compare"
 epanet_mincdd = "nrtest_epanet:epanet_mincdd_compare"
 epanet_report = "nrtest_epanet:epanet_report_compare"
+
+
+[tool.hatch.envs.default]
+dependencies = [
+  "pytest"
+]
+
+[tool.hatch.envs.default.scripts]
+test = "pytest"
