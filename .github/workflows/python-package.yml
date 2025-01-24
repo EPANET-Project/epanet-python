@@ -70,11 +70,9 @@ jobs:
         py: ["3.8", "3.9", "3.10", "3.11", "3.12"]
         include:
           - os: windows-latest
-            sys_pkgs: choco install swig
             activate: ./build-env/Scripts/activate
 
           - os: macos-latest
-            sys_pkgs: brew install libomp swig
             activate: source ./build-env/bin/activate
 
     steps:
@@ -87,9 +85,6 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.py }}
-
-      #- name: Install required system packages
-      #  run: ${{matrix.sys_pkgs}}
 
       - name: Build wheel in virtual env
         run: |
