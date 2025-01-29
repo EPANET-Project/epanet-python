@@ -4,52 +4,73 @@
 #
 # Usage:
 #   python -m build
-#   python -m build --wheel
-#   python -m build --sdist
+#   hatch run test:pytest
 #
-
 
 
 [build-system]
 requires = [
-    "wheel>=0.38.1",
-    "setuptools>=42",
-    "scikit-build>=0.13",
-    "cmake>=3.21",
-    "swig==4.2.1"
+    "scikit-build-core",
+    "swig == 4.2.1"
 ]
-build-backend = "setuptools.build_meta"
+build-backend = "scikit_build_core.build"
 
 
-# [tool.tox]
-# envlist = ["py311", "py312", "build"]
-# isolated_build = true
+[tool.scikit-build]
+minimum-version = "0.10"
+build.verbose = true
+logging.level = "INFO"
 
 
-# [tool.tox.env.py311]
-# description = "Run tests with pytest on Python 3.11"
-# package = "wheel"
-# deps = [
-#     "pytest",
-#     "numpy",
-#     "aenum==3.0.0",
-# ]
-# commands = [["pytest"]]
+[tool.scikit-build.wheel]
+exclude = [
+    "/bin",
+    "/bindings",
+    "/cmake",
+    "/include",
+    "/libs",
+    "*.i",
+    "AUTHORS",
+    "CMakeLists.txt",
+    "LICENSE.txt",
+    "ReleaseNotes.md"
+]
 
 
-# [tool.tox.env.py312]
-# description = "Run tests with pytest on Python 3.12"
-# package = "wheel"
-# deps = [
-#     "pytest",
-#     "numpy",
-#     "aenum==3.0.0",
-# ]
-# commands = [["pytest"]]
+[project]
+name = "epanet-toolkit"
+version = "0.5.0"
+description = "Python bindings for the EPANET Toolkit"
+readme = { file = "README.md", content-type = "text/markdown" }
+url = "https://github.com/EPANET-Project/epanet-python"
+authors = [
+    { name = "Michael E. Tryby", email = "tryby.michael@epa.gov"}
+]
+license = {text = "CC0-1.0"}
+requires-python = ">=3.7"
+dependencies = [
+    "aenum==3.0.0"
+]
+classifiers=[
+    "Topic :: Scientific/Engineering",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
+    "License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: C",
+    "Development Status :: 4 - Beta",
+]
 
 
-# [tool.tox.env.build]
-# description = "Build the project as a wheel and sdist"
-# package = "skip"
-# deps = ["build"]
-# commands = [["python", "-m", "build", "--outdir", "dist"]]
+
+[tool.hatch.envs.test]
+dependencies = [
+   "pytest",
+   "numpy",
+   "epanet-toolkit @ {root:uri}"
+]

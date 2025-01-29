@@ -90,14 +90,14 @@ install(
         "output_metadata.py"
         "${CMAKE_CURRENT_BINARY_DIR}/output.py"
     DESTINATION
-        "src/epanet/toolkit"
+        "epanet/toolkit"
 )
 
 install(
     TARGETS
         output
     DESTINATION
-        "src/epanet/toolkit"
+        "epanet/toolkit"
 )
 
 
@@ -150,12 +150,12 @@ install(
         "solver_enum.py"
         "${CMAKE_CURRENT_BINARY_DIR}/solver.py"
     DESTINATION
-        "src/epanet/toolkit"
+        "epanet/toolkit"
 )
 
 install(
     TARGETS
         solver
     DESTINATION
-        "src/epanet/toolkit"
+        "epanet/toolkit"
 )
