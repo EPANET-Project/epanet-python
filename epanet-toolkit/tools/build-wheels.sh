@@ -16,8 +16,8 @@ for PYBIN in /opt/python/cp{38,39,310,311,312}*/bin; do
     ${PYBIN}/python -m build --wheel --outdir ../dist
 
     # cleanup
-    echo "=== CLEANING UP ==="
-    ${PYBIN}/python setup.py clean > /dev/null
+    # echo "=== CLEANING UP ==="
+    # ${PYBIN}/python setup.py clean > /dev/null
 done
 
 
