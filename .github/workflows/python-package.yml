@@ -66,7 +66,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, macos-latest]
+        os: [windows-latest, macos-13, macos-latest]
         py: ["3.8", "3.9", "3.10", "3.11", "3.12"]
 
     steps:
@@ -81,7 +81,7 @@ jobs:
           python-version: ${{ matrix.py }}
 
       - name: Build wheel in virtual env
-        env: 
+        env:
           MACOSX_DEPLOYMENT_TARGET: 11.0
         run: |
           python -m pip install build
