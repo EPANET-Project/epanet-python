@@ -1,3 +1,16 @@
+#
+# pyproject.toml
+#
+# Usage:
+#   python -m build
+#   python -m build --wheel
+#   python -m build --sdist
+#
+#   hatch build
+#   hatch run test:pytest
+#
+
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
@@ -13,7 +26,7 @@ authors = [
 ]
 classifiers = [
   "Programming Language :: Python :: 3",
-  "License :: OSI Approved :: MIT License",
+  "License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
   "Operating System :: OS Independent",
 ]
 requires-python = ">=3.7"
@@ -22,13 +35,8 @@ dependencies = [
     "header_detail_footer>=2.3",
     "nrtest>=0.2.4",
     "numpy>=1.7.0",
-#    "epanet_toolkit"
+    "epanet-toolkit"
 ]
-
-
-[tool.hatch.dependencies]
-# Specify the local wheel file (path to the .whl file)
-epanet_toolkit = { path = "../epanet-toolkit/epanet_toolkit-0.5.0-cp39-cp39-macosx_10_13_x86_64.whl" }
 
 
 [tool.hatch.build.targets.wheel]
@@ -37,6 +45,7 @@ packages = ["nrtest_epanet"]
 
 [tool.hatch.metadata]
 allow-dynamic = ["version"]
+allow-direct-references = true
 
 
 [tool.hatch.version]
@@ -53,10 +62,10 @@ epanet_mincdd = "nrtest_epanet:epanet_mincdd_compare"
 epanet_report = "nrtest_epanet:epanet_report_compare"
 
 
-[tool.hatch.envs.default]
+# TODO: To work, this needs to run twice for some reason?
+[tool.hatch.envs.test]
 dependencies = [
+  "epanet-toolkit @ {root:parent:uri}/epanet-toolkit/",
+  "nrtest-epanet @ {root:uri}",
   "pytest"
 ]
-
-[tool.hatch.envs.default.scripts]
-test = "pytest"
